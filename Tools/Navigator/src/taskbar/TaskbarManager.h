@@ -1,7 +1,6 @@
 #ifndef __TASKBARMANAGER_H__
 #define __TASKBARMANAGER_H__
 
-#include "wxconfig.h"
 
 #include "TaskbarManagerRes.h"
 

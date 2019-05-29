@@ -1,3 +1,4 @@
+#include "wxconfig.h"
 
 #include <wx/menu.h>
 

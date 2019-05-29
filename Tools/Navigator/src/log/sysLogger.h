@@ -3,9 +3,6 @@
 
 
 
-// wxWindows headers
-#include <wx/wx.h>
-
 // App headers
 #include "sysLoggerLevel.h"
 
@@ -13,7 +10,8 @@
 class sysLogger : public wxLog
 {
 public:
-#if wxCHECK_VERSION(2, 9, 0)
+#if wxCHECK_VERSION(2, 9, 0)// wxWindows headers
+
 	void DoLogTextAtLevel(wxLogLevel level, const wxString &msg);
 #else
 	virtual void DoLog(wxLogLevel level, const wxChar *msg, time_t timestamp);

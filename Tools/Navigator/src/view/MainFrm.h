@@ -1,7 +1,6 @@
 #ifndef __MAINFRM_H__
 #define __MAINFRM_H__
 
-#include "wxconfig.h"
 
 
 #include <wx/aui/auibook.h>

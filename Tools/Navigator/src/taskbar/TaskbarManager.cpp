@@ -1,3 +1,5 @@
+#include "wxconfig.h"
+
 #include "TaskbarManager.h"
 #include "../Navigator.h"
 

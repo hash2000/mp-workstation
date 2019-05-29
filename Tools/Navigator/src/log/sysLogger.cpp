@@ -1,4 +1,5 @@
 
+#include "wxconfig.h"
 
 #include <wx/wx.h>
 #include <wx/ffile.h>

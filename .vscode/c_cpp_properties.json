@@ -1,0 +1,30 @@
+{
+    "env": {
+        "pocopatch": "/usr/include",
+        "wxpath": "/usr/include/wx-3.0",
+        "wxpathdeps": "/usr/lib/x86_64-linux-gnu/wx/include/gtk2-unicode-3.0"
+    },
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${pocopatch}/*",
+                "${wxpath}/*",
+                "${wxpathdeps}/*",
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/include/*"
+            ],
+            "defines": [
+                "__WXDEBUG__",
+                "_DEBUG"
+            ],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64",
+            "configurationProvider": "go2sh.cmake-integration",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+        }
+    ],
+    "version": 4
+}

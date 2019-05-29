@@ -30,7 +30,7 @@ _ReSharper*/
 *.VC.db
 *.VC.VC.opendb
 Tools/Navigator/.vscode/ipch/*
-*.ipch
+.vscode/ipch/*
 /.vs/
 *.opendb
 thread_party/*

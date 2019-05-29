@@ -1,3 +1,4 @@
+#include "wxconfig.h"
 
 #include "TextLogView.h"
 

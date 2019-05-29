@@ -2,9 +2,7 @@
 #define __NAVIGATOR_H__
 
 
-#include "wxconfig.h"
 
-#include <wx/setup.h>
 
 class MainFrm;
 class TaskbarManager;
