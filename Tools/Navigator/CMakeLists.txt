@@ -30,18 +30,14 @@ file(GLOB SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/src/view/*.cpp
   )
 
-add_executable(Navigator ${SOURCE_FILES})
+
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 
-# Note that for MinGW users the order of libs is important!
-find_package(wxWidgets COMPONENTS net gl core base adv)
-if(wxWidgets_FOUND)
-  include(${wxWidgets_USE_FILE})
-  # and for each of your dependent executable/library targets:
-  target_link_libraries(Navigator ${wxWidgets_LIBRARIES})
-endif()
-
-find_package(wxWidgets REQUIRED net gl core base)
+find_package(wxWidgets REQUIRED net gl core base adv aui) 
 include(${wxWidgets_USE_FILE})
+
+
+
 # and for each of your dependent executable/library targets:
-target_link_libraries(Navigator ${wxWidgets_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${wxWidgets_LIBRARIES})
