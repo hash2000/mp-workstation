@@ -9,7 +9,7 @@ message(${CMAKE_INSTALL_PREFIX})
 
 set(COMPILER_FLAGS -Wall -Wextra -Wunused-parameter -ggdb)
 
-set(wxWidgets_CONFIG_OPTIONS --toolkit=gtk2)
-
+set(wxWidgets_CONFIG_OPTIONS --toolkit=gtk2 --version=3.0 --unicode=yes --static=no)
+message(${wxWidgets_CONFIG_OPTIONS})
 
 add_subdirectory(Tools/Navigator)

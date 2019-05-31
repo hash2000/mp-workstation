@@ -11,7 +11,7 @@
 #include "NavigatorRes.h"
 #include "taskbar/TaskbarManager.h"
 #include "log/sysLogger.h"
-
+#include "view/MainFrm.h"
 
 
 
@@ -108,20 +108,14 @@ bool mpNavigator::OnInit()
 
 	}
 
+	_MainFrame = new MainFrm(nullptr, wxT("Navigator"));
+	if (!_MainFrame) {
+		wxLogFatalError(wxT("Couldn't create the main window!"));
+		return false;
+	}
 
-
-
-
-
-
-// 	_MainFrame = new MainFrm(nullptr, wxT("Navigator"));
-// 	if (!_MainFrame) {
-// 		wxLogFatalError(wxT("Couldn't create the main window!"));
-// 		return false;
-// 	}
-
-// 	_MainFrame->Show();
-// 	SetTopWindow(_MainFrame);
+	_MainFrame->Show();
+	SetTopWindow(_MainFrame);
 
 
 // 	//sysLogger::logFile = settings->GetLogFile();
@@ -163,10 +157,9 @@ void mpNavigator::CleanUp()
 
 int mpNavigator::OnExit()
 {
-	// if (_TaskbarManager) {
-        
-	// 	_TaskbarManager->RemoveIcon();
-	// }
+	if (_TaskbarManager) {        
+		_TaskbarManager->RemoveIcon();
+	}
 
 	return wxApp::OnExit();
 }
