@@ -4,6 +4,7 @@
 
 
 #include "MainFrm.h"
+#include "MainFrmRes.h"
 
 #include "../taskbar/TaskbarManagerRes.h"
 #include "../log/sysLogPanel.h"
@@ -35,8 +36,8 @@ MainFrm::MainFrm(wxFrame *parent, const wxString &title,
 		wxAUI_MGR_ALLOW_ACTIVE_PANE);
 
 
-	// _LogPanel = new sysLogPanel(this, CTL_LOGPANE,
-	// 	wxDefaultPosition, wxDefaultSize, wxSIMPLE_BORDER);
+	_LogPanel = new sysLogPanel(this, CTL_LOGPANE,
+	 	wxDefaultPosition, wxDefaultSize, wxSIMPLE_BORDER);
 
 	// // панель атрибутов должна быть загружена раньше чем панель навигации, 
 	// //	потому что она используется при выборе объекта в дереве объектов
@@ -77,15 +78,15 @@ MainFrm::MainFrm(wxFrame *parent, const wxString &title,
 	// );
 
 
-	// _Manager.AddPane(_LogPanel, wxAuiPaneInfo()
-	// 	.Name(wxT("logPane"))
-	// 	.Caption(_("Log pane"))
-	// 	.Bottom()
-	// 	.MaximizeButton()
-	// 	.MinimizeButton()
-	// 	.MinSize(wxSize(100, 100))
-	// 	.BestSize(wxSize(400, 200))
-	// );
+	_Manager.AddPane(_LogPanel, wxAuiPaneInfo()
+		.Name(wxT("logPane"))
+		.Caption(_("Log pane"))
+		.Bottom()
+		.MaximizeButton()
+		.MinimizeButton()
+		.MinSize(wxSize(100, 100))
+		.BestSize(wxSize(400, 200))
+	);
 
 	_Manager.Update();
 
