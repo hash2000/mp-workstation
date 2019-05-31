@@ -27,6 +27,7 @@ file(GLOB SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/src/taskbar/*.cpp
 
     ## program views
+    ${PROJECT_SOURCE_DIR}/src/view/panel/*.cpp
     ${PROJECT_SOURCE_DIR}/src/view/*.cpp
   )
 

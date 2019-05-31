@@ -12,7 +12,7 @@
 
 
 class sysLogPanel;
-class CenterControl;
+class BaseViewPanel;
 class AttributeControl;
 class ConnectionsTree;
 
@@ -50,7 +50,7 @@ protected:
 	wxAuiManager _Manager;
 public:
 	sysLogPanel * _LogPanel = nullptr;
-	CenterControl * _CenterPanel = nullptr;
+	BaseViewPanel * _BaseViewPanel = nullptr;
 	AttributeControl * _AttributePanel = nullptr;
 	ConnectionsTree * _ConnectionsTree = nullptr;
 

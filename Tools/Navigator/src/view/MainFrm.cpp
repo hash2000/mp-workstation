@@ -6,6 +6,8 @@
 #include "MainFrm.h"
 #include "MainFrmRes.h"
 
+#include "panel/BaseViewPanel.h"
+
 #include "../taskbar/TaskbarManagerRes.h"
 #include "../log/sysLogPanel.h"
 
@@ -53,17 +55,17 @@ MainFrm::MainFrm(wxFrame *parent, const wxString &title,
 	// 	.BestSize(wxSize(400, 200))
 	// );
 
-	// _CenterPanel = new CenterControl(this);
+	_BaseViewPanel = new BaseViewPanel(this);
 
-	// _Manager.AddPane(_CenterPanel, wxAuiPaneInfo()
-	// 	.Name(wxT("objectBrowser"))
-	// 	.Caption(_("Object browser"))
-	// 	.Center()
-	// 	.CaptionVisible(false)
-	// 	.CloseButton(false)
-	// 	.MinSize(wxSize(100, 100))
-	// 	.BestSize(wxSize(800, 600))
-	// );
+	_Manager.AddPane(_BaseViewPanel, wxAuiPaneInfo()
+		.Name(wxT("objectBrowser"))
+		.Caption(_("Object browser"))
+		.Center()
+		.CaptionVisible(false)
+		.CloseButton(false)
+		.MinSize(wxSize(100, 100))
+		.BestSize(wxSize(800, 600))
+	);
 
 	// _ConnectionsTree = new ConnectionsTree(this, CTL_CONNECTIONS);
 
