@@ -31,6 +31,8 @@ MainFrm::MainFrm(wxFrame *parent, const wxString &title,
 	const wxPoint &pos, const wxSize &size, long flags)
 	: wxFrame(parent, -1, title, pos, size, flags)
 {
+	SetSize(wxSize(800, 600));
+
 	LoadMenuBar();
 
 	_Manager.SetManagedWindow(this);
@@ -121,11 +123,11 @@ void MainFrm::LoadMenuBar()
 void MainFrm::LoadMenuView() 
 {
 	_MenuView = new wxMenu;
-	_MenuViewu2Pane.push_back(std::make_pair(MENU_VIEW_ATTRIBUTES, PaneHandler(wxT("attributePane"), wxT("Attributes"))));
-	_MenuViewu2Pane.push_back(std::make_pair(MENU_VIEW_LOGGER, PaneHandler(wxT("logPane"), wxT("Logger"))));
-	_MenuViewu2Pane.push_back(std::make_pair(MENU_VIEW_CONNECTIONS, PaneHandler(wxT("connectionsPane"), wxT("Connections"))));
+	_MenuView2Pane.push_back(std::make_pair(MENU_VIEW_ATTRIBUTES, PaneHandler(wxT("attributePane"), wxT("Attributes"))));
+	_MenuView2Pane.push_back(std::make_pair(MENU_VIEW_LOGGER, PaneHandler(wxT("logPane"), wxT("Logger"))));
+	_MenuView2Pane.push_back(std::make_pair(MENU_VIEW_CONNECTIONS, PaneHandler(wxT("connectionsPane"), wxT("Connections"))));
 	
-	for (auto i : _MenuViewu2Pane) {
+	for (auto i : _MenuView2Pane) {
 		_MenuView->Append(i.first, i.second.title, wxEmptyString, true);
 	}
 
@@ -138,7 +140,7 @@ void MainFrm::LoadMenuView()
 
 void MainFrm::CheckMenuViews()
 {
-	for (auto i : _MenuViewu2Pane) {
+	for (auto i : _MenuView2Pane) {
 		_MenuView->Check(i.first, _Manager.GetPane(i.second.name).IsShown());
 	}
 }
@@ -151,8 +153,8 @@ void MainFrm::OnClose(wxCloseEvent& evt)
 
 void MainFrm::ToggleMenuPane(int menuId)
 {
-	std::list<std::pair<int, PaneHandler>>::iterator i = _MenuViewu2Pane.begin(),
-		_end = _MenuViewu2Pane.end();
+	std::list<std::pair<int, PaneHandler>>::iterator i = _MenuView2Pane.begin(),
+		_end = _MenuView2Pane.end();
 	for (; i != _end; i++) {
 		if (i->first == menuId)
 			break;
@@ -170,8 +172,8 @@ void MainFrm::ToggleMenuPane(int menuId)
 
 void MainFrm::ToggleMenuCheck(const wxString & name)
 {
-	std::list<std::pair<int, PaneHandler>>::iterator i = _MenuViewu2Pane.begin(),
-		_end = _MenuViewu2Pane.end();
+	std::list<std::pair<int, PaneHandler>>::iterator i = _MenuView2Pane.begin(),
+		_end = _MenuView2Pane.end();
 	for (; i != _end; i++) {
 		if (i->second.name == name)
 			break;

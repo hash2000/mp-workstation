@@ -69,7 +69,7 @@ private:
 		wxString title;
 	};
 
-	std::list<std::pair<int, PaneHandler>> _MenuViewu2Pane;
+	std::list<std::pair<int, PaneHandler>> _MenuView2Pane;
 };
 
 #endif
