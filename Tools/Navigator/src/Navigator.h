@@ -16,7 +16,8 @@ public:
 	virtual void OnInitCmdLine(wxCmdLineParser& parser) override;
 	virtual bool OnCmdLineParsed(wxCmdLineParser& parser) override;
 
-
+	void DoExitApplication();
+	
 public:
 	MainFrm * _MainFrame = nullptr;
 	TaskbarManager * _TaskbarManager = nullptr;

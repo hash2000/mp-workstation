@@ -33,6 +33,7 @@ public:
 	void OnViewLogger(wxCommandEvent& evt);
 	void OnViewConnections(wxCommandEvent& evt);
 	void OnViewTopmost(wxCommandEvent& evt);
+	void OnApplicationExit(wxCommandEvent& evt);
 	void OnAuiPaneClose(wxAuiManagerEvent& evt);
 
 public:

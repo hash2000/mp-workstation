@@ -5,6 +5,7 @@
 
 #include "MainFrm.h"
 #include "MainFrmRes.h"
+#include "../Navigator.h"
 
 #include "panel/BaseViewPanel.h"
 
@@ -20,6 +21,7 @@ BEGIN_EVENT_TABLE(MainFrm, wxFrame)
     EVT_MENU(MENU_VIEW_LOGGER, MainFrm::OnViewLogger)
     EVT_MENU(MENU_VIEW_CONNECTIONS, MainFrm::OnViewConnections)
     EVT_MENU(MENU_VIEW_TOPMOST, MainFrm::OnViewTopmost)
+    EVT_MENU(MENU_APPLICATION_EXIT, MainFrm::OnApplicationExit)
     EVT_AUI_PANE_CLOSE(MainFrm::OnAuiPaneClose)
 /*{ End }*/
 END_EVENT_TABLE()
@@ -109,8 +111,8 @@ void MainFrm::LoadMenuBar()
 	auto _MenuFile = new wxMenu;
 	menuBar->Append(_MenuFile, wxT("File"));
 
-	_MenuFile->Append(PU_EXIT, wxT("Exit"));
-	// Connect(PU_EXIT, wxEVT_COMMAND_MENU_SELECTED,
+	_MenuFile->Append(MENU_APPLICATION_EXIT, wxT("Exit"));
+	// Connect(MENU_APPLICATION, wxEVT_COMMAND_MENU_SELECTED,
 	// 	wxCommandEventHandler(TaskbarManager::OnMenuExit));
 
 	LoadMenuView();
@@ -118,6 +120,10 @@ void MainFrm::LoadMenuBar()
 
 
 	SetMenuBar(menuBar);
+}
+void MainFrm::OnApplicationExit(wxCommandEvent& evt)
+{
+	wxGetApp().DoExitApplication();
 }
 
 void MainFrm::LoadMenuView() 
@@ -147,7 +153,12 @@ void MainFrm::CheckMenuViews()
 
 void MainFrm::OnClose(wxCloseEvent& evt)
 {
-	Hide();
+	if(wxGetApp()._TaskbarManager != nullptr) {
+		Hide();
+	}
+	else {
+		wxGetApp().DoExitApplication();
+	}
 	evt.Veto();
 }
 

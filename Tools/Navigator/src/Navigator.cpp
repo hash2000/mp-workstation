@@ -95,13 +95,13 @@ bool mpNavigator::OnInit()
 
 	if (wxTaskBarIcon::IsAvailable())
 	{
-		wxMessageBox
-		(
-			wxT("There appears to be no system tray support in your current environment. ")
-			wxT("This sample may not behave as expected."),
-			"Warning",
-			wxOK | wxICON_EXCLAMATION
-		);
+		// wxMessageBox
+		// (
+		// 	wxT("There appears to be no system tray support in your current environment. ")
+		// 	wxT("This sample may not behave as expected."),
+		// 	"Warning",
+		// 	wxOK | wxICON_EXCLAMATION
+		// );
 
 		_TaskbarManager = new TaskbarManager;
 		_TaskbarManager->SetIcon(*box_open_png_ico);
@@ -162,4 +162,12 @@ int mpNavigator::OnExit()
 	}
 
 	return wxApp::OnExit();
+}
+
+void mpNavigator::DoExitApplication()
+{
+	if (wxMessageBox(wxT("Close application ?"), wxT("Close"), wxOK | wxCANCEL | wxCENTRE) == wxOK) {
+		wxExit();
+	}
+
 }

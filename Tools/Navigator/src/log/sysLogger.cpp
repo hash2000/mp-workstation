@@ -9,7 +9,8 @@
 #include "sysLogger.h"
 #include "sysLogPanel.h"
 
-
+#include "../Navigator.h"
+#include "../view/MainFrm.h"
 
 
 wxLogLevel sysLogger::logLevel = LOG_ERRORS;
@@ -261,10 +262,10 @@ void sysLogger::DoLog(wxLogLevel level, const wxChar *msg, time_t timestamp)
 #endif // PGSCLI
 
 // TODO: fix
-	// auto logPanel = wxGetApp()._MainFrame->_LogPanel;
-	// if (logPanel) {
-	// 	logPanel->DoLogMessage(displayMsg, icon);
-	// }
+	auto logPanel = wxGetApp()._MainFrame->_LogPanel;
+	if (logPanel) {
+		logPanel->DoLogMessage(displayMsg, icon);
+	}
 
 }
 
