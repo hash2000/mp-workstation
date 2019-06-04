@@ -35,8 +35,6 @@ MainFrm::MainFrm(wxFrame *parent, const wxString &title,
 {
 	SetSize(wxSize(800, 600));
 
-	LoadMenuBar();
-
 	_Manager.SetManagedWindow(this);
 	_Manager.SetFlags(wxAUI_MGR_DEFAULT | wxAUI_MGR_TRANSPARENT_DRAG |
 		wxAUI_MGR_ALLOW_ACTIVE_PANE);
@@ -96,7 +94,7 @@ MainFrm::MainFrm(wxFrame *parent, const wxString &title,
 
 	_Manager.Update();
 
-
+	LoadMenuBar();
 }
 
 MainFrm::~MainFrm()
@@ -112,8 +110,6 @@ void MainFrm::LoadMenuBar()
 	menuBar->Append(_MenuFile, wxT("File"));
 
 	_MenuFile->Append(MENU_APPLICATION_EXIT, wxT("Exit"));
-	// Connect(MENU_APPLICATION, wxEVT_COMMAND_MENU_SELECTED,
-	// 	wxCommandEventHandler(TaskbarManager::OnMenuExit));
 
 	LoadMenuView();
 	menuBar->Append(_MenuView, wxT("View"));
@@ -217,16 +213,20 @@ void MainFrm::OnAuiPaneClose(wxAuiManagerEvent& evt)
 }
 
 bool MainFrm::IsWindowTopmost() const {
-	return false;// (::GetWindowLong(GetHwnd(), GWL_EXSTYLE) & WS_EX_TOPMOST) == WS_EX_TOPMOST;
+	return (GetWindowStyle() & wxSTAY_ON_TOP) == wxSTAY_ON_TOP;
 }
 
 void MainFrm::OnViewTopmost(wxCommandEvent& evt)
 {
-	// HWND parent = HWND_TOPMOST;
-	// if (IsWindowTopmost()) {
-	// 	parent = HWND_NOTOPMOST;
-	// }
-	// SetWindowPos(GetHwnd(), parent, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	auto style = GetWindowStyle();
+	if((style & wxSTAY_ON_TOP) != wxSTAY_ON_TOP) {
+		style |= wxSTAY_ON_TOP;
+	}
+	else {
+		style &= ~wxSTAY_ON_TOP;
+	}
 
-	// _MenuView->Check(MENU_VIEW_TOPMOST, parent == HWND_TOPMOST);
+	SetWindowStyle(style);
+
+	_MenuView->Check(MENU_VIEW_TOPMOST, IsWindowTopmost());
 }
