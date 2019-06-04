@@ -1,4 +1,5 @@
-#include "wxconfig.h"
+#include <stdafx.h>
+
 #include "BaseViewPanel.h"
 
 #include <wx/sizer.h>

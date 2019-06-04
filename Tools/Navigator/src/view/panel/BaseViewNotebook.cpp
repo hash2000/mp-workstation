@@ -1,4 +1,4 @@
-#include "wxconfig.h"
+#include <stdafx.h>
 #include "BaseViewNotebook.h"
 
 

@@ -1,16 +1,11 @@
 
-project(Navigator)
+project(NavigatorServer)
 
 set_target_properties(${TARGET} PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED YES
     CXX_EXTENSIONS NO
   ) 
-
-  include_directories(
-    "${PROJECT_SOURCE_DIR}/images/"
-    "${PROJECT_SOURCE_DIR}/include/"
-  )
 
 
 file(GLOB SOURCE_FILES
