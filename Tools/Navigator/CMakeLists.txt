@@ -1,15 +1,12 @@
 
 project(Navigator)
 
-set_target_properties(${TARGET} PROPERTIES
-    CXX_STANDARD 17
-    CXX_STANDARD_REQUIRED YES
-    CXX_EXTENSIONS NO
-  ) 
+message("Generate project ${PROJECT_NAME}...")
 
-  include_directories(
-    "${PROJECT_SOURCE_DIR}/images/"
-    "${PROJECT_SOURCE_DIR}/include/"
+
+include_directories(
+    ${PROJECT_SOURCE_DIR}/images/
+    ${PROJECT_SOURCE_DIR}/include/
   )
 
 
@@ -29,13 +26,11 @@ file(GLOB SOURCE_FILES
   )
 
 
+# Сборка проекта
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
-
-find_package(wxWidgets REQUIRED net gl core base adv aui) 
 include(${wxWidgets_USE_FILE})
 
-
-
-# and for each of your dependent executable/library targets:
 target_link_libraries(${PROJECT_NAME} ${wxWidgets_LIBRARIES})
+
+message("Generate project ${PROJECT_NAME} Done")
