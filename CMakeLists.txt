@@ -5,6 +5,9 @@ cmake_minimum_required(VERSION 3.0.0)
 # Модули CMake
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
 
+# Подключение макросов CMake
+include(Utils)
+
 # Версия приложения
 set(NAVIGATOR_VERSION_MAJOR 1)
 set(NAVIGATOR_VERSION_MINOR 0)
@@ -50,6 +53,12 @@ if (WIN32)
 else ()
   find_package(Poco REQUIRED Foundation SQLPostgreSQL Net NetSSL Crypto CONFIG)  
 endif ()
+
+# Поиск библиотек LevelDB
+find_package(LevelDB REQUIRED)
+message("LevelDB Files = " ${LevelDB_INCLUDE})
+message("LevelDB Libs = " ${LevelDB_LIBRARY})
+
 
 # папки с подключаемыми заголовочными файлыми
 include_directories(

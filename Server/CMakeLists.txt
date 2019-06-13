@@ -5,6 +5,7 @@ message("Generate project ${PROJECT_NAME}...")
 include_directories(
   ${PROJECT_SOURCE_DIR}/include/
   PRIVATE ${PostgreSQL_INCLUDE_DIRS}
+  PRIVATE ${LevelDB_INCLUDE}
 )
  
 file(GLOB SOURCE_FILES
@@ -23,6 +24,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
   Poco::Crypto
   OpenSSL::SSL 
   OpenSSL::Crypto
+  ${LevelDB_LIBRARY}
 )
 
 message("Generate project ${PROJECT_NAME} Done")
