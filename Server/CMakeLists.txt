@@ -17,13 +17,12 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries(${PROJECT_NAME} PUBLIC
   Poco::Foundation
   Poco::SQL
-  #Poco::SQLPostgreSQL
+  Poco::SQLPostgreSQL
   Poco::Net 
   Poco::NetSSL 
   Poco::Crypto
   OpenSSL::SSL 
   OpenSSL::Crypto
-  #PostgreSQL::client
 )
 
 message("Generate project ${PROJECT_NAME} Done")
