@@ -5,9 +5,9 @@ message("Generate project ${PROJECT_NAME}...")
 
 
 include_directories(
-    ${PROJECT_SOURCE_DIR}/images/
-    ${PROJECT_SOURCE_DIR}/include/
-  )
+  ${PROJECT_SOURCE_DIR}/images/
+  ${PROJECT_SOURCE_DIR}/include/
+)
 
 
 file(GLOB SOURCE_FILES

@@ -9,8 +9,10 @@ include_directories(
 )
  
 file(GLOB SOURCE_FILES
-    ${PROJECT_SOURCE_DIR}/src/Server.cpp
-  )
+  ${PROJECT_SOURCE_DIR}/src/Server.cpp
+
+  ${PROJECT_SOURCE_DIR}/src/db/model/*.cpp
+)
 
 # Сборка проекта
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
@@ -25,6 +27,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
   OpenSSL::SSL 
   OpenSSL::Crypto
   ${LevelDB_LIBRARY}
+  snappy
 )
 
 message("Generate project ${PROJECT_NAME} Done")

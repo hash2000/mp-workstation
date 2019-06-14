@@ -7,6 +7,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
 
 # Подключение макросов CMake
 include(Utils)
+# include(CheckLibraryExists)
 
 # Версия приложения
 set(NAVIGATOR_VERSION_MAJOR 1)
@@ -26,6 +27,10 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 message("Dependent libraries")
+
+# check_library_exists(crc32c crc32c_value "" HAVE_CRC32C)
+# check_library_exists(snappy snappy_compress "" HAVE_SNAPPY)
+# check_library_exists(tcmalloc malloc "" HAVE_TCMALLOC)
 
 # Поиск библиотек OpenSSL
 find_package(OpenSSL REQUIRED)

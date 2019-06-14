@@ -11,7 +11,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "command": "make",
+            "command": "clear; make",
             // "args": [
             //     "-C ${workspaceFolder}/build/Makefile",
             //     "-f Makefile",
