@@ -5,7 +5,7 @@
             "name": "C++ Debug (gdb)",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/Tools/Navigator/Navigator",
+            "program": "${workspaceFolder}/build/bin/Navigator",
             "preLaunchTask": "Build C++ project",
             "args": [],
             "stopAtEntry": false,
