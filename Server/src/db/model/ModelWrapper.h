@@ -7,18 +7,16 @@
 
 #include <memory>
 #include <string>
-#include <atomic>
 
 class ModelWrapper
 {
 public:
-    bool Initialize(const std::string & path);
-    bool Add();
-private:
+    virtual bool Initialize(const std::string &path);
+    virtual void Shutdown();
+
+protected:
     std::shared_ptr<leveldb::Cache> _cache;
     std::shared_ptr<leveldb::DB> _store;
-    std::atomic<std::size_t> _identity;
 };
-
 
 #endif
