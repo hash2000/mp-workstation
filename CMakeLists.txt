@@ -7,7 +7,13 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
 
 # Подключение макросов CMake
 include(Utils)
+include(CheckCXXSymbolExists)
 # include(CheckLibraryExists)
+
+
+check_cxx_symbol_exists(fdatasync "unistd.h" HAVE_FDATASYNC)
+check_cxx_symbol_exists(F_FULLFSYNC "fcntl.h" HAVE_FULLFSYNC)
+check_cxx_symbol_exists(O_CLOEXEC "fcntl.h" HAVE_O_CLOEXEC)
 
 # Версия приложения
 set(NAVIGATOR_VERSION_MAJOR 1)
@@ -16,11 +22,11 @@ set(NAVIGATOR_VERSION_MINOR 0)
 # Параметры компилятора
 set_target_properties(${TARGET} PROPERTIES
   CXX_STANDARD 17
-  CXX_STANDARD_REQUIRED YES
-  CXX_EXTENSIONS NO
+  CXX_STANDARD_REQUIRED ON
+  CXX_EXTENSIONS OFF
 ) 
 
-set(COMPILER_FLAGS -Wall -Wextra -Wunused-parameter -ggdb)
+set(COMPILER_FLAGS -Wall -Wextra -Wunused-parameter -Werror -Wthread-safety -O3 -ggdb)
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)

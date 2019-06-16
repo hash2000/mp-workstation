@@ -8,6 +8,9 @@
 class ListModel : public ModelWrapper
 {
 public:
+    virtual ~ListModel() {
+    }  
+    
     virtual bool Initialize(const std::string &path) override;
 
 protected:

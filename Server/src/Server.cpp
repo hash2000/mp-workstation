@@ -1,15 +1,15 @@
 #include <stdafx.h>
 #include "Server.h"
 
-#include "db/model/ListModel.h"
-
-//#include <Poco/SQL/PostgreSQL/Connector.h>
-
-
+#include "app/appInstance.h"
 
 int main()
 {
-    //Poco::SQL::PostgreSQL::Connector::registerConnector();
+    auto instance = appInstance::get();
+    if (!instance->Initialize())
+        return 1L;
+    instance->Process();
+    instance->Shutdown();
 
     return 0L;
 }

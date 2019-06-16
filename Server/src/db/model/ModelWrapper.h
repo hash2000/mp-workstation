@@ -11,11 +11,11 @@
 class ModelWrapper
 {
 public:
+    virtual ~ModelWrapper();
     virtual bool Initialize(const std::string &path);
     virtual void Shutdown();
 
 protected:
-    std::shared_ptr<leveldb::Cache> _cache;
     std::shared_ptr<leveldb::DB> _store;
 };
 
