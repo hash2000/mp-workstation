@@ -16,7 +16,14 @@ bool OptionsModel::Set(const std::string & name, const std::string & value)
 
 std::string OptionsModel::GetString(const std::string & name) const
 {
-    return std::string();
+    std::string value;
+    leveldb::Slice key(name);
+
+    auto status = _store->Get(leveldb::ReadOptions(), key, &value);
+    if(!status.ok()) {
+        return std::string();
+    }
+    return value;
 }
 
 bool OptionsModel::GetBoolean(const std::string & name) const
