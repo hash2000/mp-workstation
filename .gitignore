@@ -36,4 +36,5 @@ Tools/Navigator/.vscode/ipch/*
 thread_party/*
 packages/*
 build/*
+AppData/Database/*
 __pycache__
