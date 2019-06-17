@@ -42,8 +42,15 @@ bool appInstance::Initialize()
     Poco::File masterPath(_DbPath._Master);
     masterPath.createDirectory();
 
-    _MasterData = new ListModel;
-    if (!_MasterData->Initialize(_DbPath._Master.toString()))
+    _Options.reset(new OptionsModel);
+    if (!_Options->Initialize(_DbPath._Options.toString()))
+    {
+        printf("Error: Database/Options::Initialize\n");
+        return false;
+    }
+
+    _Master.reset(new ListModel);
+    if (!_Master->Initialize(_DbPath._Master.toString()))
     {
         printf("Error: Database/Master::Initialize\n");
         return false;

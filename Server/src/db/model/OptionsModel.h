@@ -14,8 +14,8 @@ public:
     bool Set(const std::string & name, const std::string & value);
     std::string GetString(const std::string & name) const;
     bool GetBoolean(const std::string & name) const;
-    int GetInteger(const std::string & name) const;
-    double GetDouble(const std::string & name) const;
+    int GetInteger(const std::string & name, int defaultValue = 0) const;
+    double GetDouble(const std::string & name, double defaultValue = 0.) const;
 };
 
 #endif // !__OPTIONSMODEL_H__

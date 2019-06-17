@@ -3,6 +3,7 @@
 
 #include <Poco/Path.h>
 #include "../db/model/ListModel.h"
+#include "../db/model/OptionsModel.h"
 
 
 class appInstance
@@ -25,7 +26,8 @@ public:
     } _DbPath;
 
 private:
-    ListModel * _MasterData;
+    std::shared_ptr<ListModel> _Master;
+    std::shared_ptr<OptionsModel> _Options;
 };
 
 #endif // !__APPINSTANCE_H__
