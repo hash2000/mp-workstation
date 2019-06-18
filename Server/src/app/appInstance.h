@@ -5,6 +5,9 @@
 #include "../db/model/ListModel.h"
 #include "../db/model/OptionsModel.h"
 
+#include <list>
+#include <thread>
+
 
 class appInstance
 {
@@ -28,6 +31,7 @@ public:
 private:
     std::shared_ptr<ListModel> _Master;
     std::shared_ptr<OptionsModel> _Options;
+    std::list<std::thread> _Services;
 };
 
 #endif // !__APPINSTANCE_H__

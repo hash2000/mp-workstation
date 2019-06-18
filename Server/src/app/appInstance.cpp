@@ -2,8 +2,12 @@
 #include "appInstance.h"
 
 #include "../db/log/DatabaseLogger.h"
+#include "../con/WorkServer.h"
+
 #include <Poco/File.h>
 #include <Poco/Exception.h>
+
+#include <functional>
 
 //#include <Poco/SQL/PostgreSQL/Connector.h>
 
@@ -56,6 +60,9 @@ bool appInstance::Initialize()
         return false;
     }
 
+
+    _Services.push_back(WorkServer::Start());
+
     return true;
 }
 
@@ -65,5 +72,6 @@ void appInstance::Shutdown()
 
 void appInstance::Process()
 {
-    
+    std::for_each(_Services.begin(), _Services.end(),
+		std::mem_fn(&std::thread::join));
 }
