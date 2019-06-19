@@ -12,6 +12,7 @@ public:
     }
 
     bool Set(const std::string & name, const std::string & value);
+    bool Setup(const std::string & name, const std::string & value);
     std::string GetString(const std::string & name) const;
     bool GetBoolean(const std::string & name) const;
     int GetInteger(const std::string & name, int defaultValue = 0) const;

@@ -14,6 +14,24 @@ bool OptionsModel::Set(const std::string &name, const std::string &value)
     return status.ok();
 }
 
+bool OptionsModel::Setup(const std::string &name, const std::string &value)
+{
+    leveldb::Slice key(name);
+    std::string valueCheck;
+    auto status = _store->Get(leveldb::ReadOptions(), key, &valueCheck);
+    if (status.IsNotFound())
+    {
+        leveldb::Slice val(value);
+        status = _store->Put(leveldb::WriteOptions(), key, val);
+        return status.ok();
+    }
+    else if (status.ok())
+    {
+        return true;
+    }
+    return true;
+}
+
 std::string OptionsModel::GetString(const std::string &name) const
 {
     std::string value;

@@ -2,7 +2,7 @@
 #include "appInstance.h"
 
 #include "../db/log/DatabaseLogger.h"
-#include "../con/WorkServer.h"
+#include "../request/WorkServer.h"
 
 #include <Poco/File.h>
 #include <Poco/Exception.h>
