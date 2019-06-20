@@ -47,22 +47,25 @@ void WorkstationServerApp::handleOption(const std::string &name, const std::stri
 
 int WorkstationServerApp::main(const std::vector<std::string> &args)
 {
-    // get parameters from configuration file
-    unsigned short port = (unsigned short)config().getInt("WorkstationServer.port", 9980);
+    // Получение параметров из конфигурационного файла
+    auto port = (unsigned short)config().getInt("WorkstationServer.port", 9980);
+    auto threadCount = (int)config().getInt("WorkstationServer.thread.count", 6);
 
     auto parameters = new Poco::Net::HTTPServerParams;
     parameters->setKeepAlive(true);
-    parameters->setMaxThreads(6);
+    parameters->setMaxThreads(threadCount);
 
+    // Создание незащищённого сокета для прослушивания подключений
     Poco::Net::ServerSocket srvSocket(port);
-
+    // Создание сервера
     Poco::Net::HTTPServer server(new WorkServerRequestFactory,
         srvSocket, parameters);
-    server.start();
 
-    // wait for CTRL-C or kill
+    // Запуск сервера
+    server.start();
+    // ожидание сигнала остановки CTRL-C или kill
     waitForTerminationRequest();
-    // Stop the HTTPServer
+    // Остановка сервера
     server.stop();
 
 
@@ -71,11 +74,6 @@ int WorkstationServerApp::main(const std::vector<std::string> &args)
 
 int main(int argc, char **argv)
 {
-    // auto instance = appInstance::get();
-    // if (!instance->Initialize())
-    //     return 1L;
-    // instance->Process();
-    // instance->Shutdown();
     WorkstationServerApp app;
     return app.run(argc, argv);
 }
