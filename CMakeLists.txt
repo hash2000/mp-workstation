@@ -59,11 +59,14 @@ message("wxWidgets Libs = " ${wxWidgets_LIBRARIES})
 message("wxWidgets Options = " ${wxWidgets_CONFIG_OPTIONS})
 
 # Поиск библиотек Poco Project
+
+
 if (WIN32)
-  find_package(Poco REQUIRED Foundation SQLPostgreSQL Net NetSSLWin CONFIG)
+  find_package(Poco REQUIRED Foundation SQLPostgreSQL Net NetSSLWin Crypto XML JSON)
 else ()
-  find_package(Poco REQUIRED Foundation SQLPostgreSQL Net NetSSL Crypto CONFIG)  
+  find_package(Poco REQUIRED Foundation SQLPostgreSQL Net NetSSL Crypto XML JSON)  
 endif ()
+
 
 # Поиск библиотек LevelDB
 find_package(LevelDB REQUIRED)

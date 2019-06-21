@@ -37,4 +37,5 @@ thread_party/*
 packages/*
 build/*
 AppData/Database/*
+AppData/Web/Content/Scripts/Libs/*
 __pycache__

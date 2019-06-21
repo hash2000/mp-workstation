@@ -15,6 +15,7 @@ file(GLOB SOURCE_FILES
   ${PROJECT_SOURCE_DIR}/src/db/log/*.cpp
   ${PROJECT_SOURCE_DIR}/src/request/*.cpp
   ${PROJECT_SOURCE_DIR}/src/request/controller/*.cpp
+  ${PROJECT_SOURCE_DIR}/src/request/layout/*.cpp
   ${PROJECT_SOURCE_DIR}/src/app/*.cpp
 
 )
@@ -29,6 +30,8 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
   Poco::Net 
   Poco::NetSSL 
   Poco::Crypto
+  Poco::JSON
+  Poco::XML
   OpenSSL::SSL 
   OpenSSL::Crypto
   ${LevelDB_LIBRARY}
