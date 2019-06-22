@@ -1,0 +1,25 @@
+﻿
+
+/*Popup*/
+@import "Popup.css";
+
+/*стили для форм, рапортов АРМ диспетчера*/
+@import "Dispatcher.css"; 
+
+
+
+
+
+/*.x-webkit.x-form-text {
+    height: calc(100% + 0px) !important;
+}*/
+
+
+/*.disable-textbox input[type="text"] {
+    background-color: #f6f6f6;
+}
+
+.disable-textbox textarea {
+    background-color: #f6f6f6;
+}*/
+

@@ -33,3 +33,21 @@ void LayoutBuilder::AddMeta(const AttributeList & attributes)
         _Head->appendChild(meta);
     }
 }
+
+void LayoutBuilder::AddScriptLink(const XString & relativePath)
+{
+    ElementPtr script = _Document->createElement("script");
+    script->setAttribute("src", relativePath + ".js");
+    script->setAttribute("type", "text/javascript");
+    _Head->appendChild(script);
+}
+
+void LayoutBuilder::AddCSSLink(const XString & relativePath)
+{
+    ElementPtr link = _Document->createElement("link");
+    link->setAttribute("href", relativePath + ".css");
+    link->setAttribute("rel", "stylesheet");
+    link->setAttribute("type", "text/css");
+    _Head->appendChild(link);
+
+}

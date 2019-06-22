@@ -16,14 +16,16 @@ public:
     using DocPtr = Poco::XML::AutoPtr<Poco::XML::Document>;
     using ElementPtr = Poco::XML::AutoPtr<Poco::XML::Element>;
     using AttrPtr = Poco::XML::AutoPtr<Poco::XML::Attr>;
+    using XString = Poco::XML::XMLString;
 
-    using AttributeList = std::map<Poco::XML::XMLString, Poco::XML::XMLString>;
+    using AttributeList = std::map<XString, XString>;
 
 public:
     void Initialize();
     void AddMeta(const AttributeList & attributes);
+    void AddScriptLink(const XString & relativePath);
+    void AddCSSLink(const XString & relativePath);
 
-    
 
 private:
     DocPtr _Document;
