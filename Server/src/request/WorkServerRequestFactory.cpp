@@ -5,12 +5,17 @@
 
 #include "controller/HomeController.h"
 
+WorkServerRequestFactory::WorkServerRequestFactory(WorkContext * context) 
+    : _Context(context) {
+
+}
+
 Poco::Net::HTTPRequestHandler* WorkServerRequestFactory::createRequestHandler(
     const Poco::Net::HTTPServerRequest& request)
 {
     if (request.getURI() == "/Home/Index" && 
         request.getMethod() == Poco::Net::HTTPRequest::HTTP_GET) {
-        return new HomeController;
+        return new HomeController(_Context);
     }
     return nullptr;
 }

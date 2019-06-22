@@ -4,7 +4,12 @@
 #include <Poco/StreamCopier.h>
 
 #include "HomeController.h"
+#include "../WorkContext.h"
 
+HomeController::HomeController(WorkContext * context) 
+    : _Context(context) {
+
+}
 
 void HomeController::handleRequest(
     Poco::Net::HTTPServerRequest& request, 
@@ -19,10 +24,6 @@ void HomeController::handleRequest(
 	
 	//std::istream& istr = request.stream();
 	auto& ostr = response.send();
-    ostr << "<html>";
-    ostr << "<body>";
-    ostr << "<h3>тестовая строка</h3>";  
-    ostr << "</body>";
-    ostr << "</html>";
+    _Context->Layout->WriteStream(ostr);
     //Poco::StreamCopier::copyStream(istr, ostr);
 }

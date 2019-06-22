@@ -8,12 +8,12 @@ void LayoutBuilder::Initialize()
     _Head = _Document->createElement("head");
     _Body = _Document->createElement("body");
 
-    AddMeta(AttributeList {
+    AddTag("meta", AttributeList {
         { "http-equiv", "X-UA-Compatible" },
         { "content", "IE=edge" },
     });
 
-    AddMeta(AttributeList {
+    AddTag("meta", AttributeList {
         { "name", "viewport" },
         { "content", "width=device-width, initial-scale=1, maximum-scale=10, user-scalable=yes" },
     });
@@ -25,12 +25,12 @@ void LayoutBuilder::Initialize()
 
 }
 
-void LayoutBuilder::AddMeta(const AttributeList & attributes)
+void LayoutBuilder::AddTag(const XString & name, const AttributeList & attributes)
 {
+    ElementPtr tag = _Document->createElement(name);
+    _Head->appendChild(tag);
     for(auto it = attributes.begin(), _end = attributes.end(); it != _end; it++) {
-        ElementPtr meta = _Document->createElement("meta");
-        meta->setAttribute(it->first, it->second);
-        _Head->appendChild(meta);
+        tag->setAttribute(it->first, it->second);
     }
 }
 
@@ -42,6 +42,15 @@ void LayoutBuilder::AddScriptLink(const XString & relativePath)
     _Head->appendChild(script);
 }
 
+void LayoutBuilder::AddScriptText(const XString & text)
+{
+    ElementPtr script = _Document->createElement("script");
+    XTextPtr textData = _Document->createTextNode(text);
+    script->setAttribute("type", "text/javascript");
+    script->appendChild(textData);
+    _Body->appendChild(script); 
+}
+
 void LayoutBuilder::AddCSSLink(const XString & relativePath)
 {
     ElementPtr link = _Document->createElement("link");
@@ -49,5 +58,12 @@ void LayoutBuilder::AddCSSLink(const XString & relativePath)
     link->setAttribute("rel", "stylesheet");
     link->setAttribute("type", "text/css");
     _Head->appendChild(link);
+}
 
+void LayoutBuilder::WriteStream(XOStream & ostream) const
+{
+    Poco::XML::DOMWriter writer;
+	writer.setNewLine("\n");
+	writer.setOptions(Poco::XML::XMLWriter::PRETTY_PRINT);
+	writer.writeNode(ostream, _Document);
 }

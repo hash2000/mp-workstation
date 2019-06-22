@@ -4,6 +4,7 @@
 #include "app/appInstance.h"
 
 #include "request/WorkServerRequestFactory.h"
+#include "request/WorkContext.h"
 
 #include <Poco/Net/HTTPServerParams.h>
 #include <Poco/Net/HTTPServer.h>
@@ -21,7 +22,8 @@ WorkstationServerApp::~WorkstationServerApp()
 
 void WorkstationServerApp::initialize(Poco::Util::Application &self)
 {
-    loadConfiguration(); // load default configuration files, if present
+    // load default configuration files, if present
+    loadConfiguration(); 
     ServerApplication::initialize(self);
 }
 
@@ -51,6 +53,10 @@ int WorkstationServerApp::main(const std::vector<std::string> &args)
     auto port = (unsigned short)config().getInt("WorkstationServer.port", 9980);
     auto threadCount = (int)config().getInt("WorkstationServer.thread.count", 6);
 
+    _Context = new WorkContext;
+    _Context->Layout = new LayoutBuilder;
+    _Context->Layout->Initialize();
+
     auto parameters = new Poco::Net::HTTPServerParams;
     parameters->setKeepAlive(true);
     parameters->setMaxThreads(threadCount);
@@ -58,7 +64,7 @@ int WorkstationServerApp::main(const std::vector<std::string> &args)
     // Создание незащищённого сокета для прослушивания подключений
     Poco::Net::ServerSocket srvSocket(port);
     // Создание сервера
-    Poco::Net::HTTPServer server(new WorkServerRequestFactory,
+    Poco::Net::HTTPServer server(new WorkServerRequestFactory(_Context),
         srvSocket, parameters);
 
     // Запуск сервера
@@ -68,6 +74,8 @@ int WorkstationServerApp::main(const std::vector<std::string> &args)
     // Остановка сервера
     server.stop();
 
+    delete _Context->Layout;
+    delete _Context;
 
     return Application::EXIT_OK;
 }
