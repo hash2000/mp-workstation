@@ -4,7 +4,7 @@
 #include "app/appInstance.h"
 
 #include "request/WorkServerRequestFactory.h"
-#include "request/WorkContext.h"
+#include "request/RouteMap.h"
 
 #include <Poco/Net/HTTPServerParams.h>
 #include <Poco/Net/HTTPServer.h>
@@ -47,24 +47,24 @@ void WorkstationServerApp::handleOption(const std::string &name, const std::stri
     ServerApplication::handleOption(name, value);
 }
 
+
 int WorkstationServerApp::main(const std::vector<std::string> &args)
 {
     // Получение параметров из конфигурационного файла
     auto port = (unsigned short)config().getInt("WorkstationServer.port", 9980);
     auto threadCount = (int)config().getInt("WorkstationServer.thread.count", 6);
-
-    _Context = new WorkContext;
-    _Context->Layout = new LayoutBuilder;
-    _Context->Layout->Initialize();
-
     auto parameters = new Poco::Net::HTTPServerParams;
+
     parameters->setKeepAlive(true);
     parameters->setMaxThreads(threadCount);
+
+    _RouteMap = new RouteMap; 
+    _RouteMap->Initialize();
 
     // Создание незащищённого сокета для прослушивания подключений
     Poco::Net::ServerSocket srvSocket(port);
     // Создание сервера
-    Poco::Net::HTTPServer server(new WorkServerRequestFactory(_Context),
+    Poco::Net::HTTPServer server(new WorkServerRequestFactory(_RouteMap),
         srvSocket, parameters);
 
     // Запуск сервера
@@ -74,8 +74,9 @@ int WorkstationServerApp::main(const std::vector<std::string> &args)
     // Остановка сервера
     server.stop();
 
-    delete _Context->Layout;
-    delete _Context;
+
+    delete _RouteMap;
+
 
     return Application::EXIT_OK;
 }

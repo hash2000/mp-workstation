@@ -2,9 +2,7 @@
 #define __SERVER_H__
 
 #include <Poco/Util/ServerApplication.h>
-
-
-class WorkContext;
+#include "request/RouteMap.h"
 
 class WorkstationServerApp: public Poco::Util::ServerApplication
 {
@@ -19,8 +17,9 @@ protected:
 	void handleOption(const std::string& name, const std::string& value) override;
 
 	int main(const std::vector<std::string>& args) override;
+
 private:
-	WorkContext* _Context;
+	RouteMap * _RouteMap;
 };
 
 

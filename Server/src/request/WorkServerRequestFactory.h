@@ -4,16 +4,16 @@
 #include <Poco/Net/HTTPRequestHandlerFactory.h>
 
 
-class WorkContext;
+class RouteMap;
 
 class WorkServerRequestFactory: public Poco::Net::HTTPRequestHandlerFactory
 {
 public:
-        WorkServerRequestFactory(WorkContext * context);
+        WorkServerRequestFactory(RouteMap * routeMap);
         Poco::Net::HTTPRequestHandler* createRequestHandler(
                 const Poco::Net::HTTPServerRequest& request) override;
 private:
-        WorkContext * _Context;
+        RouteMap * _RouteMap;
 };
 
 

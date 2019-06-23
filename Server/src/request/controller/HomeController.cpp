@@ -24,6 +24,6 @@ void HomeController::handleRequest(
 	
 	//std::istream& istr = request.stream();
 	auto& ostr = response.send();
-    _Context->Layout->WriteStream(ostr);
+    // _Context->Layout->WriteStream(ostr);
     //Poco::StreamCopier::copyStream(istr, ostr);
 }
