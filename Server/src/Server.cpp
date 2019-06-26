@@ -58,13 +58,10 @@ int WorkstationServerApp::main(const std::vector<std::string> &args)
     _RouteMap = new RouteMap; 
     _RouteMap->Initialize();
 
-    _Content = new ContentManager;
-    _Content->Initialize();
-
     // Создание незащищённого сокета для прослушивания подключений
     Poco::Net::ServerSocket srvSocket(port);
     // Создание сервера
-    Poco::Net::HTTPServer server(new WorkServerRequestFactory(_RouteMap, _Content),
+    Poco::Net::HTTPServer server(new WorkServerRequestFactory(_RouteMap),
         srvSocket, parameters);
 
     // Запуск сервера
@@ -75,7 +72,6 @@ int WorkstationServerApp::main(const std::vector<std::string> &args)
     server.stop();
 
 
-    delete _Content;
     delete _RouteMap;
 
 

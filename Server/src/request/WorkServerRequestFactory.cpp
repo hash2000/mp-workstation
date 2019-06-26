@@ -4,14 +4,10 @@
 #include "WorkServerRequestFactory.h"
 
 #include "route/RouteMap.h"
-#include "content/ContentManager.h"
 
 
-WorkServerRequestFactory::WorkServerRequestFactory(
-    RouteMap * routeMap, 
-    ContentManager * content) 
-    : _RouteMap(routeMap)
-    , _Content(content) {
+WorkServerRequestFactory::WorkServerRequestFactory(RouteMap * routeMap) 
+    : _RouteMap(routeMap) {
 }
 
 Poco::Net::HTTPRequestHandler* WorkServerRequestFactory::createRequestHandler(

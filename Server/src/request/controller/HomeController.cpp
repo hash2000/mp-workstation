@@ -4,7 +4,7 @@
 #include <Poco/StreamCopier.h>
 
 #include "HomeController.h"
-#include "../WorkContext.h"
+#include "../route/context/WorkContext.h"
 
 HomeController::HomeController(WorkContext * context) 
     : BaseController(context) {

@@ -11,6 +11,8 @@ void RouteMap::Initialize()
     RegisterRoute("Home", "Index", "GET", [] (WorkContext* context) {
         return new HomeController(context);
     });
+
+
 }
 
 WorkContext * RouteMap::GetWorkContext(

@@ -2,8 +2,8 @@
 #define __WORKCONTEXT_H__
 
 
-#include "controller/BaseController.h"
-#include "layout/LayoutBuilder.h"
+#include "../../controller/BaseController.h"
+#include "../../layout/LayoutBuilder.h"
 #include <functional>
 #include <string>
 
