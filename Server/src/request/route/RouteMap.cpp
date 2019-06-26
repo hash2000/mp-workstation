@@ -5,10 +5,11 @@
 #include <Poco/DirectoryIterator.h>
 #include <list>
 #include <string>
+#include <sstream>
 
 void RouteMap::Initialize()
 {
-    RegisterRoute("Home", "Index", "GET", [] (WorkContext* context) {
+    RegisterAreaViewRoute("Home", "Index", "GET", [] (WorkContext* context) {
         return new AreaViewController(context);
     });
 
@@ -20,31 +21,33 @@ WorkContext * RouteMap::GetWorkContext(
     const std::string & method) const
 {
     auto route = method + ":" + uri;
-    auto it = _Routes.find(route);
-    if (it == _Routes.end())
+    auto it = _AreaViewRoutes.find(route);
+    if (it == _AreaViewRoutes.end())
         return nullptr;
     return it->second;
 }
 
-void RouteMap::RegisterRoute(
+void RouteMap::RegisterAreaViewRoute(
     const std::string & controller,
     const std::string & action,
     const std::string & method,
     WorkContext::ControllerFactoryHandler handler)
 {
     auto route = method + ":/" + controller + "/" + action;
-    if(_Routes.find(route) != _Routes.end()) {
+    if(_AreaViewRoutes.find(route) != _AreaViewRoutes.end()) {
         throw new Poco::Exception("RouteMap::RegisterRoute [" + route + " ] allready defined");
         return;
     }
 
+    std::stringstream path;
+    path << "/Web/Areas/" << controller 
+        << "/Views/" << method << "/" << action << ".html";
+
     auto context = new WorkContext;
-    context->_Controller = controller;
-    context->_Action = action;
-    context->_Method = method;
+    context->_relativePath = path.str();
     context->_ControllerFactory = handler;
     context->_Layout = new LayoutBuilder;
     context->_Layout->Initialize();
 
-    _Routes[route] = context;
+    _AreaViewRoutes[route] = context;
 }

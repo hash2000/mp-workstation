@@ -16,14 +16,14 @@ public:
         const std::string & method) const;     
 
 private:
-    void RegisterRoute(
+    void RegisterAreaViewRoute(
         const std::string & controller,
         const std::string & action,
         const std::string & method,
         WorkContext::ControllerFactoryHandler handler);
 
 private:
-    std::map<std::string, WorkContext*> _Routes;
+    std::map<std::string, WorkContext*> _AreaViewRoutes;
 };
 
 #endif // !__ROUTEMAP_H__
