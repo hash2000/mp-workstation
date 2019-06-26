@@ -1,8 +1,6 @@
 #include <stdafx.h>
 #include "Server.h"
 
-#include "app/appInstance.h"
-
 #include "request/WorkServerRequestFactory.h"
 #include "request/RouteMap.h"
 
