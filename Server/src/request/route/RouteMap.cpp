@@ -1,6 +1,6 @@
 #include <stdafx.h>
 #include "RouteMap.h"
-#include "../controller/HomeController.h"
+#include "../controller/AreaViewController.h"
 
 #include <Poco/DirectoryIterator.h>
 #include <list>
@@ -9,7 +9,7 @@
 void RouteMap::Initialize()
 {
     RegisterRoute("Home", "Index", "GET", [] (WorkContext* context) {
-        return new HomeController(context);
+        return new AreaViewController(context);
     });
 
 

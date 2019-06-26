@@ -3,15 +3,15 @@
 #include <Poco/Net/HTTPServerResponse.h>
 #include <Poco/StreamCopier.h>
 
-#include "HomeController.h"
+#include "AreaViewController.h"
 #include "../route/context/WorkContext.h"
 
-HomeController::HomeController(WorkContext * context) 
+AreaViewController::AreaViewController(WorkContext * context) 
     : BaseController(context) {
 
 }
 
-void HomeController::handleRequest(
+void AreaViewController::handleRequest(
     Poco::Net::HTTPServerRequest& request, 
     Poco::Net::HTTPServerResponse& response)
 {

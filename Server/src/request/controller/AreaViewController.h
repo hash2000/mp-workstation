@@ -1,14 +1,14 @@
-#ifndef __HOMECONTROLLER_H__
-#define __HOMECONTROLLER_H__
+#ifndef __AREAVIEWCONTROLLER_H__
+#define __AREAVIEWCONTROLLER_H__
 
 #include "BaseController.h"
 
 class WorkContext;
 
-class HomeController: public BaseController
+class AreaViewController: public BaseController
 {
 public:
-    HomeController(WorkContext * context);
+    AreaViewController(WorkContext * context);
 
     void handleRequest(
         Poco::Net::HTTPServerRequest& request, 
@@ -17,4 +17,4 @@ public:
 };
 
 
-#endif // !__HOMECONTROLLER_H__
+#endif // !__AREAVIEWCONTROLLER_H__
