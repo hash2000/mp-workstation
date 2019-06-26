@@ -3,6 +3,7 @@
 
 #include <Poco/Util/ServerApplication.h>
 #include "request/RouteMap.h"
+#include "request/content/ContentManager.h"
 
 class WorkstationServerApp: public Poco::Util::ServerApplication
 {
@@ -20,6 +21,7 @@ protected:
 
 private:
 	RouteMap * _RouteMap;
+	ContentManager * _Content;
 };
 
 
