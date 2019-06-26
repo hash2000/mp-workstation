@@ -1,11 +1,11 @@
 #ifndef __HOMECONTROLLER_H__
 #define __HOMECONTROLLER_H__
 
-#include <Poco/Net/HTTPRequestHandler.h>
+#include "BaseController.h"
 
 class WorkContext;
 
-class HomeController: public Poco::Net::HTTPRequestHandler
+class HomeController: public BaseController
 {
 public:
     HomeController(WorkContext * context);
@@ -14,8 +14,6 @@ public:
         Poco::Net::HTTPServerRequest& request, 
         Poco::Net::HTTPServerResponse& response) override;
 
-private:
-    WorkContext * _Context;
 };
 
 

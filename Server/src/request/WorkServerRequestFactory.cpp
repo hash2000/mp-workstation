@@ -2,7 +2,6 @@
 #include <Poco/Net/HTTPServerRequest.h>
 
 #include "WorkServerRequestFactory.h"
-#include "controller/HomeController.h"
 #include "RouteMap.h"
 
 WorkServerRequestFactory::WorkServerRequestFactory(RouteMap * routeMap) 
@@ -12,17 +11,16 @@ WorkServerRequestFactory::WorkServerRequestFactory(RouteMap * routeMap)
 Poco::Net::HTTPRequestHandler* WorkServerRequestFactory::createRequestHandler(
     const Poco::Net::HTTPServerRequest& request)
 {
-    auto context = _RouteMap->GetWorkContext(
-        request.getURI(),
-        request.getMethod()
-    );
-
-    if(!context)
+    auto uri = request.getURI();
+    auto method = request.getMethod();
+    auto context = _RouteMap->GetWorkContext(uri, method);
+    if(!context) {
+        printf("Error: WorkServerRequestFactory::createRequestHandler %s %s undefined\n",
+            method.c_str(), uri.c_str());
         return nullptr;
+    }
 
-    // if (request.getURI() == "/Home/Index" && 
-    //     request.getMethod() == Poco::Net::HTTPRequest::HTTP_GET) {
-    //     return new HomeController(_Context);
-    // }
-    return nullptr;
+    printf("%s %s undefined\n", method.c_str(), uri.c_str());
+
+    return context->_ControllerFactory(context);
 }

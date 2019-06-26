@@ -11,12 +11,16 @@ class RouteMap
 {
 public:
     void Initialize();
-    const WorkContext * GetWorkContext(
-        const std::string & uri, const std::string & method) const;     
+    WorkContext * GetWorkContext(
+        const std::string & uri, 
+        const std::string & method) const;     
 
 private:
     void RegisterRoute(
-        const std::string & uri, const std::string & method);
+        const std::string & controller,
+        const std::string & action,
+        const std::string & method,
+        WorkContext::ControllerFactoryHandler handler);
 
 private:
     std::map<std::string, WorkContext*> _Routes;
