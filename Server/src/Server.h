@@ -2,7 +2,7 @@
 #define __SERVER_H__
 
 #include <Poco/Util/ServerApplication.h>
-#include "request/RouteMap.h"
+#include "request/route/RouteMap.h"
 #include "request/content/ContentManager.h"
 
 class WorkstationServerApp: public Poco::Util::ServerApplication

@@ -1,6 +1,6 @@
 #include <stdafx.h>
 #include "RouteMap.h"
-#include "controller/HomeController.h"
+#include "../controller/HomeController.h"
 
 #include <Poco/DirectoryIterator.h>
 #include <list>

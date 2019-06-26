@@ -2,7 +2,6 @@
 #include "Server.h"
 
 #include "request/WorkServerRequestFactory.h"
-#include "request/RouteMap.h"
 
 #include <Poco/Net/HTTPServerParams.h>
 #include <Poco/Net/HTTPServer.h>

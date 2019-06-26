@@ -13,10 +13,13 @@ file(GLOB SOURCE_FILES
 
   ${PROJECT_SOURCE_DIR}/src/db/model/*.cpp
   ${PROJECT_SOURCE_DIR}/src/db/log/*.cpp
+
   ${PROJECT_SOURCE_DIR}/src/request/*.cpp
   ${PROJECT_SOURCE_DIR}/src/request/content/*.cpp
   ${PROJECT_SOURCE_DIR}/src/request/controller/*.cpp
   ${PROJECT_SOURCE_DIR}/src/request/layout/*.cpp
+  ${PROJECT_SOURCE_DIR}/src/request/route/*.cpp
+
   ${PROJECT_SOURCE_DIR}/src/app/*.cpp
 
 )
