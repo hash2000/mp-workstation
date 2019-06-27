@@ -15,7 +15,7 @@ public:
         ControllerFactoryHandler;
 
 public:
-    std::string _relativePath;
+    std::string _RelativePath;
     LayoutBuilder * _Layout;
     ControllerFactoryHandler _ControllerFactory;
 };
