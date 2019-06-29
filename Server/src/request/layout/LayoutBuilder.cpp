@@ -5,6 +5,7 @@
 #include <Poco/DOM/Document.h>
 #include <Poco/DOM/NodeIterator.h>
 #include <Poco/DOM/NodeFilter.h>
+#include <Poco/DOM/NodeList.h>
 #include <Poco/Exception.h>
 
 #include "LayoutBuilder.h"
@@ -49,16 +50,22 @@ void LayoutBuilder::AddViewContent(WorkContext * context)
 		Poco::AutoPtr<Poco::XML::Document> pDoc = parser.parse(&source);
 	
         auto clonedNode = _Document->importNode(pDoc->documentElement(), true);   
-        auto partialViewNode = clonedNode->getNodeByPath("/partialView");
-        if (!partialViewNode) {
+        auto rootNode = clonedNode->getNodeByPath("/");
+        if (!rootNode) {
             printf("Error LayoutBuilder::AddViewContent partialView nodes not found\n");
             return;
         }
-        Poco::XML::NodeIterator it(partialViewNode, Poco::XML::NodeFilter::SHOW_ALL);
-        auto pNode = it.nextNode();
-        while(pNode) {
+
+        if(rootNode->nodeName() != "partialView") {
+            printf("Error LayoutBuilder::AddViewContent the root node must have a name \'partialView\'");
+        }
+
+        auto nodes = rootNode->childNodes();
+        for(unsigned long i = 0, _end = nodes->length(); i < _end; i++) {
+            auto pNode = nodes->item(i);
+            if (!pNode || pNode->nodeType() != Poco::XML::Node::ELEMENT_NODE)
+                continue;
             _Body->appendChild(pNode);
-            pNode = it.nextNode();
         }
 
     }
