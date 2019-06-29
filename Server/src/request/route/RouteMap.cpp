@@ -92,23 +92,8 @@ WorkContext * RouteMap::GetAreaViewWorkContext(
     }
 
     std::stringstream path;
-    path << "Web/Areas/";
-    path << area;
-    path << "/Views/";
-    path << controller;
-    path << "/";
-    path << method;
-    path << "/";
-    path << action;
-
-    Poco::StringTokenizer actionTokens(action, ".", Poco::StringTokenizer::TOK_IGNORE_EMPTY);
-    auto actionTokensCount = actionTokens.count();
-    if (actionTokensCount == 1) {
-        path << DefaultActionExtension;
-    }
-    else {
-        path << "." << actionTokens[actionTokensCount - 1];
-    }
+    path << "Web/Areas/" << area << "/Views/" << controller 
+        << "/" << method << "/" << action << DefaultActionExtension;
 
     auto filePath = path.str();
     auto file = Poco::File(filePath);
@@ -119,11 +104,11 @@ WorkContext * RouteMap::GetAreaViewWorkContext(
 
     auto context = new WorkContext;
     context->_RelativePath = file.path();
-    context->_Layout = new LayoutBuilder;
-    context->_Layout->Initialize();
     context->_ControllerFactory = [] (WorkContext * context) {
         return new AreaViewController(context);
     };
+    context->_Layout = new LayoutBuilder;
+    context->_Layout->Initialize(context);
 
     _AreaViewRoutes[route] = context;
 

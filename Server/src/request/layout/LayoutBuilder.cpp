@@ -1,8 +1,20 @@
 #include <stdafx.h>
-#include "LayoutBuilder.h"
 
-void LayoutBuilder::Initialize()
+#include <Poco/SAX/InputSource.h>
+#include <Poco/DOM/DOMParser.h>
+#include <Poco/DOM/Document.h>
+#include <Poco/DOM/NodeIterator.h>
+#include <Poco/DOM/NodeFilter.h>
+#include <Poco/Exception.h>
+
+#include "LayoutBuilder.h"
+#include "../route/context/WorkContext.h"
+
+void LayoutBuilder::Initialize(WorkContext * context)
 {
+    if (_Document)
+        _Document->release();
+
     _Document = new Poco::XML::Document;
     _Html = _Document->createElement("html");
     _Head = _Document->createElement("head");
@@ -22,7 +34,40 @@ void LayoutBuilder::Initialize()
     _Html->appendChild(_Head);
     _Html->appendChild(_Body);
 
+    AddViewContent(context);
 
+}
+
+void LayoutBuilder::AddViewContent(WorkContext * context)
+{
+    Poco::XML::InputSource source(context->_RelativePath);    
+    
+    try{
+        Poco::XML::DOMParser parser;
+        // parser.setFeature(Poco::XML::DOMParser::FEATURE_FILTER_WHITESPACE, false);
+	    // parser.setFeature(Poco::XML::XMLReader::FEATURE_NAMESPACE_PREFIXES, false);
+		Poco::AutoPtr<Poco::XML::Document> pDoc = parser.parse(&source);
+	
+        auto clonedNode = _Document->importNode(pDoc->documentElement(), true);   
+        auto partialViewNode = clonedNode->getNodeByPath("/partialView");
+        if (!partialViewNode) {
+            printf("Error LayoutBuilder::AddViewContent partialView nodes not found\n");
+            return;
+        }
+        Poco::XML::NodeIterator it(partialViewNode, Poco::XML::NodeFilter::SHOW_ALL);
+        auto pNode = it.nextNode();
+        while(pNode) {
+            _Body->appendChild(pNode);
+            pNode = it.nextNode();
+        }
+
+    }
+    catch(Poco::Exception & exception) {
+        printf("Error LayoutBuilder::AddViewContent: %s\n", exception.displayText().c_str());
+        return;
+    }
+
+    //_Body->appendChild(contentNode);
 }
 
 void LayoutBuilder::AddTag(const XString & name, const AttributeList & attributes)

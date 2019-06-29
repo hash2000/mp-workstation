@@ -11,6 +11,8 @@
 
 #include <map>
 
+class WorkContext;
+
 class LayoutBuilder
 {
 public:
@@ -24,17 +26,18 @@ public:
     using AttributeList = std::map<XString, XString>;
 
 public:
-    void Initialize();
+    void Initialize(WorkContext * context);
     void AddTag(const XString & name, const AttributeList & attributes);
     void AddScriptLink(const XString & relativePath);
     void AddScriptText(const XString & text);
     void AddCSSLink(const XString & relativePath);
+    void AddViewContent(WorkContext * context);
 
 public:
     void WriteStream(XOStream & ostream) const;
 
 private:
-    DocPtr _Document;
+    DocPtr _Document = nullptr;
     ElementPtr _Html;
     ElementPtr  _Head;
     ElementPtr  _Body;
