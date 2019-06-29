@@ -6,6 +6,7 @@
 #include <Poco/Path.h>
 #include <Poco/File.h>
 #include <Poco/StringTokenizer.h>
+#include <Poco/FileStream.h>
 
 #include <list>
 #include <string>
