@@ -19,6 +19,7 @@ public:
 
 
     void Initialize();
+    
     WorkContext * GetWorkContext(
         const std::string & uri, 
         const std::string & method);     

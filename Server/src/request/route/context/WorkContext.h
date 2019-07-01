@@ -17,6 +17,7 @@ public:
 
 public:
     std::string _RelativePath;
+    std::string _ContentType;
     LayoutBuilder * _Layout;
     ControllerFactoryHandler _ControllerFactory;
 };
