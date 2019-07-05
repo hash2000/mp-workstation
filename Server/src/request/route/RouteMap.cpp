@@ -23,6 +23,10 @@ void RouteMap::Initialize()
 {
     Poco::Mutex::ScopedLock lockScope(_RoutesLock);
 
+    _DefaultRoute = "Areas/Default/Home/Index";
+
+    InitializeContentTypes();
+
     auto basePath = Poco::Path("Web/Areas/");
     std::list<Poco::Path> paths;
     paths.push_back(basePath);
@@ -35,7 +39,6 @@ void RouteMap::Initialize()
                 // если это директория, то сохраняю путь и уровень относительно 
                 //  базовой папки
                 paths.push_back(pathinfo);
-                continue;
             }
             else {
                 // путь относительно базовой папки может содержать файлы 
@@ -67,102 +70,27 @@ void RouteMap::Initialize()
 
                 route += "/" + fileName;
 
-            }
-        }
-    }
+                auto context = new WorkContext;
+                context->_Path = pathinfo;
+                context->_Layout = new LayoutBuilder;
+                context->_Layout->Initialize(context);
+                //MakeContentType(context);
+
+                _Routes[route] = context;
+
+
+            } // !if
+        } // !for(DirectoryIterator)
+    } // !for(path)
 }
 
-WorkContext * RouteMap::GetContentWorkContext(
-        const std::string & uri, 
-        const std::string & method)
-{    
-    auto route = method + ":" + uri;
-    auto it = _ContentRoutes.find(route);
-    if (it != _ContentRoutes.end())
-        return it->second;
-
-    auto filePath = "Web/Content" + uri;
-    auto file = Poco::File(filePath);
-    if (!file.exists())
-        return nullptr;
-    if (!file.canRead() || file.isHidden())
-        return nullptr;
-
-    auto context = new WorkContext;
-    context->_RelativePath = file.path();
-    context->_Layout = nullptr;
-    context->_ControllerFactory = [] (WorkContext * context) {
-        return new ContentController(context);
-    };
-
-    _ContentRoutes[route] = context;
-
-    return context;
-}
-
-WorkContext * RouteMap::GetAreaViewWorkContext(
-        const std::string & uri, 
-        const std::string & method)
+void RouteMap::InitializeContentTypes()
 {
-    auto route = method + ":" + uri;
-    auto it = _AreaViewRoutes.find(route);
-    if (it != _AreaViewRoutes.end())
-        return it->second;
-
-    Poco::StringTokenizer routeTokens(uri, "/", Poco::StringTokenizer::TOK_IGNORE_EMPTY);
-    auto routeTokensCount = routeTokens.count();
-    if (routeTokensCount > 3) {
-        return nullptr;
-    }
-
-    std::string area, controller,
-        action;
-
-    switch(routeTokensCount) {
-        case 3:
-            area = routeTokens[0];
-            controller = routeTokens[1];
-            action = routeTokens[2];
-            break;
-        case 2:
-            area = DefaultArea;
-            controller = routeTokens[0];
-            action = routeTokens[1];
-            break;
-        case 1:
-            area = DefaultArea;
-            controller = DefaultController;
-            action = routeTokens[0];
-            break;
-        case 0:
-            area = DefaultArea;
-            controller = DefaultController;
-            action = DefaultAction;
-            break;
-    }
-
-    std::stringstream path;
-    path << "Web/Areas/" << area << "/Views/" << controller 
-        << "/" << method << "/" << action << DefaultActionExtension;
-
-    auto filePath = path.str();
-    auto file = Poco::File(filePath);
-    if (!file.exists())
-        return nullptr;
-    if (!file.canRead() && !file.isHidden())
-        return nullptr;
-
-    auto context = new WorkContext;
-    context->_RelativePath = file.path();
-    context->_ControllerFactory = [] (WorkContext * context) {
-        return new AreaViewController(context);
-    };
-    context->_Layout = new LayoutBuilder;
-    context->_Layout->Initialize(context);
-
-    _AreaViewRoutes[route] = context;
-
-    return context;
+    _ContentTypesByExtensions["ico"] = "image/x-icon";
+    _ContentTypesByExtensions["gif"] = "image/gif";
+    _ContentTypesByExtensions["jpeg"] = "image/jpeg";
+    _ContentTypesByExtensions["png"] = "image/png";
+    _ContentTypesByExtensions["svg"] = "image/svg+xml";
 }
 
 WorkContext * RouteMap::GetWorkContext(
@@ -170,23 +98,37 @@ WorkContext * RouteMap::GetWorkContext(
     const std::string & method)
 {
     Poco::Mutex::ScopedLock lockScope(_RoutesLock);
-
-    // auto context = GetContentWorkContext(uri, method);
-    // if (context)
-    //     return context;
-
-    // context = GetAreaViewWorkContext(uri, method);
-    // if (context)
-    //     return context;
     
-    Poco::StringTokenizer routeTokens(uri, "/", Poco::StringTokenizer::TOK_IGNORE_EMPTY);
-    auto routeTokensCount = routeTokens.count();
-    if (routeTokensCount == 0) {
-        // стандартный путь Areas/Home/Views/Home/GET/Index.html
+    std::string route = method + ":";
+    std::string routeUri;
 
+    if (uri.empty() || uri == "/") {
+        routeUri = _DefaultRoute;
+    }
+    else {
+        routeUri = uri;
     }
 
+    route += routeUri;
 
-    return nullptr;
+    auto routeIterator = _Routes.find(route);
+    if (routeIterator != _Routes.end())
+        return routeIterator->second;
+
+    Poco::Path pathinfo(routeUri);
+    pathinfo = pathinfo.makeAbsolute();
+
+    auto context = new WorkContext;
+    context->_Path = pathinfo;
+    context->_Layout = new LayoutBuilder;
+    context->_Layout->Initialize(context);
+
+    auto extension = context->_Path.getExtension();
+    auto contentTypeIterator = _ContentTypesByExtensions.find(extension);
+    if (contentTypeIterator != _ContentTypesByExtensions.end()) {
+	    context->_ContentType = contentTypeIterator->second;
+    }
+
+    return context;
 }
 

@@ -19,24 +19,19 @@ public:
 
 
     void Initialize();
-    
+
     WorkContext * GetWorkContext(
         const std::string & uri, 
         const std::string & method);     
 
 private:
-    WorkContext * GetContentWorkContext(
-        const std::string & uri, 
-        const std::string & method);
-    WorkContext * GetAreaViewWorkContext(
-        const std::string & uri, 
-        const std::string & method);
-
+    void InitializeContentTypes();
 
 private:
     Poco::Mutex _RoutesLock;
-    std::map<std::string, WorkContext*> _ContentRoutes;
-    std::map<std::string, WorkContext*> _AreaViewRoutes;
+    std::map<std::string, WorkContext*> _Routes;
+    std::map<std::string, std::string> _ContentTypesByExtensions;
+    std::string _DefaultRoute;
 };
 
 #endif // !__ROUTEMAP_H__

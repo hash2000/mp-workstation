@@ -41,7 +41,7 @@ void LayoutBuilder::Initialize(WorkContext * context)
 
 void LayoutBuilder::AddViewContent(WorkContext * context)
 {
-    Poco::XML::InputSource source(context->_RelativePath);    
+    Poco::XML::InputSource source(context->_Path.toString());    
     
     try{
         Poco::XML::DOMParser parser;

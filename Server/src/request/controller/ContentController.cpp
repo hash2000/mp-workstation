@@ -21,13 +21,13 @@ void ContentController::handleRequest(
 	else if (request.getContentLength() != Poco::Net::HTTPMessage::UNKNOWN_CONTENT_LENGTH)
 		response.setContentLength(request.getContentLength());
 	
-	auto contentType = request.getContentType();
-	if (contentType.length() == 0) {
-		Poco::Path path(_Context->_RelativePath);
-		auto extension = path.getExtension();
-		if (extension == "ico") {
-			contentType = "image/x-icon";
-		}
-	}
-	response.sendFile(_Context->_RelativePath, contentType);  
+	// auto contentType = request.getContentType();
+	// if (contentType.length() == 0) {
+	// 	Poco::Path path(_Context->_RelativePath);
+	// 	auto extension = path.getExtension();
+	// 	if (extension == "ico") {
+	// 		contentType = "image/x-icon";
+	// 	}
+	// }
+	// response.sendFile(_Context->_RelativePath, contentType);  
 }

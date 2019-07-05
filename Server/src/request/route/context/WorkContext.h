@@ -4,6 +4,9 @@
 
 #include "../../controller/BaseController.h"
 #include "../../layout/LayoutBuilder.h"
+
+#include <Poco/Path.h>
+
 #include <functional>
 #include <string>
 
@@ -12,14 +15,9 @@
 class WorkContext
 {
 public:
-    typedef std::function<BaseController*(WorkContext*)> 
-        ControllerFactoryHandler;
-
-public:
-    std::string _RelativePath;
     std::string _ContentType;
+    Poco::Path _Path;
     LayoutBuilder * _Layout;
-    ControllerFactoryHandler _ControllerFactory;
 };
 
 

@@ -24,5 +24,6 @@ Poco::Net::HTTPRequestHandler* WorkServerRequestFactory::createRequestHandler(
 
     printf("%s %s undefined\n", method.c_str(), uri.c_str());
 
-    return context->_ControllerFactory(context);
+    //return new AreaViewController(context);
+    return nullptr;
 }
