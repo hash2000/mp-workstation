@@ -12,11 +12,6 @@
 class RouteMap
 {
 public:
-    static const std::string DefaultArea;
-    static const std::string DefaultController;
-    static const std::string DefaultAction;
-    static const std::string DefaultActionExtension;
-
 
     void Initialize();
 

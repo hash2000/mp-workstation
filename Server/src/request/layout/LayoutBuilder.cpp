@@ -31,6 +31,12 @@ void LayoutBuilder::Initialize(WorkContext * context)
         { "content", "width=device-width, initial-scale=1, maximum-scale=10, user-scalable=yes" },
     });
 
+    AddTag("link", AttributeList {
+        { "href", "/Content/favicon.ico" },
+        { "rel", "shortcut icon" },
+        { "type", "image/x-icon" },
+    });
+
     _Document->appendChild(_Html);
     _Html->appendChild(_Head);
     _Html->appendChild(_Body);

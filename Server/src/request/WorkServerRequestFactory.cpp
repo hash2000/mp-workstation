@@ -4,6 +4,7 @@
 #include "WorkServerRequestFactory.h"
 
 #include "route/RouteMap.h"
+#include "controller/WorkContextController.h"
 
 
 WorkServerRequestFactory::WorkServerRequestFactory(RouteMap * routeMap) 
@@ -22,8 +23,7 @@ Poco::Net::HTTPRequestHandler* WorkServerRequestFactory::createRequestHandler(
         return nullptr;
     }
 
-    printf("%s %s undefined\n", method.c_str(), uri.c_str());
+    printf("%s %s required\n", method.c_str(), uri.c_str());
 
-    //return new AreaViewController(context);
-    return nullptr;
+    return new WorkContextController(context);
 }
