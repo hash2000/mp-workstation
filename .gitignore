@@ -38,4 +38,7 @@ packages/*
 build/*
 AppData/Database/*
 AppData/Web/Content/Scripts/Libs/*
+AppData/Web/Content/Scripts/Common/*
+AppData/Web/Content/Scripts/CommonReports/*
+AppData/Web/Content/Scripts/Ext/*
 __pycache__
