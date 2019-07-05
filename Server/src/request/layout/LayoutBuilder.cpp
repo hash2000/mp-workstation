@@ -21,6 +21,10 @@ void LayoutBuilder::Initialize(WorkContext * context)
     _Head = _Document->createElement("head");
     _Body = _Document->createElement("body");
 
+    _Document->appendChild(_Html);
+    _Html->appendChild(_Head);
+    _Html->appendChild(_Body);
+
     AddTag("meta", AttributeList {
         { "http-equiv", "X-UA-Compatible" },
         { "content", "IE=edge" },
@@ -36,10 +40,52 @@ void LayoutBuilder::Initialize(WorkContext * context)
         { "rel", "shortcut icon" },
         { "type", "image/x-icon" },
     });
+    
+    // AddTag("script", AttributeList {
+    //     {"src", "/Content/Scripts/Libs/ExtJs/6.2.1/build/ext-all-debug.js" },
+    //     {"type", "text/javascript" }
+    // });
 
-    _Document->appendChild(_Html);
-    _Html->appendChild(_Head);
-    _Html->appendChild(_Body);
+    // AddTag("link", AttributeList {
+    //     {"href", "/Content/ExtJsThemes/theme2019/Theme.css" },
+    //     {"rel", "stylesheet" },
+    //     {"type", "text/css" },
+    // });
+
+    // AddTag("script", AttributeList {
+    //     {"src", "/Content/Scripts/Libs/ExtJs/6.2.1/build/classic/theme-triton/theme-triton.js" },
+    //     {"type", "text/javascript" }
+    // });
+
+    // AddTag("script", AttributeList {
+    //     {"src", "/Content/Scripts/Libs/ExtJs/6.2.1/packages/exporter/build/classic/exporter-debug.js" },
+    //     {"type", "text/javascript" }
+    // });
+
+    AddScriptLink(
+        "/Content/Scripts/Libs/ExtJs/6.2.1/build/ext-all-debug.js"
+    );
+
+    AddCSSLink(
+        "/Content/Scripts/Libs/ExtJsThemes/theme2019/Theme.css"
+    );
+
+    AddScriptLink(
+        "/Content/Scripts/Libs/ExtJs/6.2.1/build/classic/theme-triton/theme-triton.js"
+    );
+
+    AddScriptLink(
+        "/Content/Scripts/Libs/ExtJs/6.2.1/packages/exporter/build/classic/exporter-debug.js"
+    );
+
+    AddScriptLink(
+        "/Content/Scripts/Libs/ExtJs/6.2.1/build/classic/locale/locale-ru.js"
+    );
+
+
+    AddCSSLink(
+        "/Content/Styles/Site.css"
+    );
 
     AddViewContent(context);
 
@@ -95,33 +141,33 @@ void LayoutBuilder::AddTag(const XString & name, const AttributeList & attribute
 void LayoutBuilder::AddScriptLink(const XString & relativePath)
 {
     ElementPtr script = _Document->createElement("script");
-    script->setAttribute("src", relativePath + ".js");
-    script->setAttribute("type", "text/javascript");
     _Head->appendChild(script);
+    script->setAttribute("src", relativePath);
+    script->setAttribute("type", "text/javascript");
 }
 
 void LayoutBuilder::AddScriptText(const XString & text)
 {
     ElementPtr script = _Document->createElement("script");
     XTextPtr textData = _Document->createTextNode(text);
+    _Body->appendChild(script); 
     script->setAttribute("type", "text/javascript");
     script->appendChild(textData);
-    _Body->appendChild(script); 
 }
 
 void LayoutBuilder::AddCSSLink(const XString & relativePath)
 {
     ElementPtr link = _Document->createElement("link");
-    link->setAttribute("href", relativePath + ".css");
+    _Head->appendChild(link);
+    link->setAttribute("href", relativePath);
     link->setAttribute("rel", "stylesheet");
     link->setAttribute("type", "text/css");
-    _Head->appendChild(link);
 }
 
 void LayoutBuilder::WriteStream(XOStream & ostream) const
 {
     Poco::XML::DOMWriter writer;
 	writer.setNewLine("\n");
-	writer.setOptions(Poco::XML::XMLWriter::PRETTY_PRINT);
+	writer.setOptions(Poco::XML::XMLWriter::PRETTY_PRINT | Poco::XML::XMLWriter::CANONICAL_XML);
 	writer.writeNode(ostream, _Document);
 }
