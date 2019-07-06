@@ -8,16 +8,19 @@
 
 #include <functional>
 #include <string>
-
+#include <vector>
+#include <atomic>
 
 
 class WorkContext
 {
 public:
     LayoutBuilder * _Layout;
+    std::vector<char> _Buffer;
     std::string _ContentType;
+    std::atomic_uint32_t _UseCount;
     Poco::Path _Path;
-    Poco::LocalDateTime _PathReadTime;
+    Poco::LocalDateTime _ReadTime;
 };
 
 

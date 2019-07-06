@@ -6,28 +6,41 @@
 #include "WorkContextController.h"
 #include "../route/context/WorkContext.h"
 
+WorkContextController::WorkContextController(WorkContext *context)
+    : _Context(context)
+{
+    _Context->_UseCount ++;
+}
+
+WorkContextController::~WorkContextController()
+{
+    if (_Context->_UseCount > 0)
+        _Context->_UseCount --;
+}
 
 void WorkContextController::handleRequest(
-    Poco::Net::HTTPServerRequest& request, 
-    Poco::Net::HTTPServerResponse& response) 
+    Poco::Net::HTTPServerRequest &request,
+    Poco::Net::HTTPServerResponse &response)
 {
     if (request.getChunkedTransferEncoding())
-		response.setChunkedTransferEncoding(true);
-	else if (request.getContentLength() != Poco::Net::HTTPMessage::UNKNOWN_CONTENT_LENGTH)
-		response.setContentLength(request.getContentLength());
+        response.setChunkedTransferEncoding(true);
+    else if (request.getContentLength() != Poco::Net::HTTPMessage::UNKNOWN_CONTENT_LENGTH)
+        response.setContentLength(request.getContentLength());
 
     auto contentType = request.getContentType();
-    if (contentType.empty()) {
+    if (contentType.empty())
+    {
         contentType = _Context->_ContentType;
     }
-	
-    response.setContentType(contentType);
-    auto& responseStream = response.send();
 
-    if (_Context->_Layout) {
+    response.setContentType(contentType);
+    auto &responseStream = response.send();
+
+    if (_Context->_Layout)
+    {
         _Context->_Layout->WriteStream(responseStream);
         return;
     }
 
-    response.sendFile(_Context->_Path.toString(), contentType);  
+    response.sendFile(_Context->_Path.toString(), contentType);
 }

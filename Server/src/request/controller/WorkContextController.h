@@ -8,9 +8,8 @@ class WorkContext;
 class WorkContextController: public Poco::Net::HTTPRequestHandler
 {
 public:
-    WorkContextController(WorkContext * context)
-        : _Context(context) {
-    }
+    WorkContextController(WorkContext * context);
+    virtual ~WorkContextController() ;
 
     void handleRequest(
         Poco::Net::HTTPServerRequest& request, 

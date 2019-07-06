@@ -11,6 +11,7 @@
 
 class RouteMap
 {
+    friend class WorkContextScope;
 public:
 
     void Initialize();

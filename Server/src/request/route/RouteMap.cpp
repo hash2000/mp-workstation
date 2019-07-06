@@ -72,16 +72,20 @@ WorkContext * RouteMap::GetWorkContext(
     //  тогда его требуется перезагрузить
     auto routeIterator = _Routes.find(route);
     if (routeIterator != _Routes.end()) {
-        if (routeIterator->second->_Layout && routeIterator->second->_PathReadTime < lastFileModified) {
-            routeIterator->second->_Layout->Initialize(routeIterator->second);
+        // перезагрузить данные можно только если контекст никемне занят
+        if (routeIterator->second->_UseCount == 0) {
+            if (routeIterator->second->_Layout && routeIterator->second->_ReadTime < lastFileModified) {
+                routeIterator->second->_Layout->Initialize(routeIterator->second);
+            }
         }
         return routeIterator->second;
     }
 
     auto context = new WorkContext;
     context->_Path = pathinfo;
-    context->_PathReadTime = lastFileModified;
+    context->_ReadTime = lastFileModified;
     context->_Layout = nullptr;
+    context->_UseCount = 0;
     if (isAreaView) {
         context->_Layout = new LayoutBuilder;
         context->_Layout->Initialize(context);
