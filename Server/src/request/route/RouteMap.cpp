@@ -51,7 +51,7 @@ WorkContext * RouteMap::GetWorkContext(
 
     route += routeUri;
 
-    Poco::Path pathinfo("Web" + routeUri);
+    Poco::Path pathinfo("Web/www" + routeUri);
     pathinfo = pathinfo.makeAbsolute();
     auto isAreaView = false;
     auto extension = pathinfo.getExtension();

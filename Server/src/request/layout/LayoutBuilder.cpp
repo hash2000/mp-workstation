@@ -41,26 +41,6 @@ void LayoutBuilder::Initialize(WorkContext * context)
         { "type", "image/x-icon" },
     });
     
-    // AddTag("script", AttributeList {
-    //     {"src", "/Content/Scripts/Libs/ExtJs/6.2.1/build/ext-all-debug.js" },
-    //     {"type", "text/javascript" }
-    // });
-
-    // AddTag("link", AttributeList {
-    //     {"href", "/Content/ExtJsThemes/theme2019/Theme.css" },
-    //     {"rel", "stylesheet" },
-    //     {"type", "text/css" },
-    // });
-
-    // AddTag("script", AttributeList {
-    //     {"src", "/Content/Scripts/Libs/ExtJs/6.2.1/build/classic/theme-triton/theme-triton.js" },
-    //     {"type", "text/javascript" }
-    // });
-
-    // AddTag("script", AttributeList {
-    //     {"src", "/Content/Scripts/Libs/ExtJs/6.2.1/packages/exporter/build/classic/exporter-debug.js" },
-    //     {"type", "text/javascript" }
-    // });
 
     AddScriptLink(
         "/Content/Scripts/Libs/ExtJs/6.2.1/build/ext-all-debug.js"

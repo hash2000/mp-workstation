@@ -37,8 +37,8 @@ thread_party/*
 packages/*
 build/*
 AppData/Database/*
-AppData/Web/Content/Scripts/Libs/*
-AppData/Web/Content/Scripts/Common/*
-AppData/Web/Content/Scripts/CommonReports/*
-AppData/Web/Content/Scripts/Ext/*
+AppData/Web/www/Content/Scripts/Libs/*
+AppData/Web/www/Content/Scripts/Common/*
+AppData/Web/www/Content/Scripts/CommonReports/*
+AppData/Web/www/Content/Scripts/Ext/*
 __pycache__
