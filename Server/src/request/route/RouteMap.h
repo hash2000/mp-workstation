@@ -7,6 +7,7 @@
 #include <map>
 
 #include "context/WorkContext.h"
+#include "../layout/LayoutTemplate.h"
 
 
 class RouteMap
@@ -25,6 +26,7 @@ private:
 
 private:
     Poco::Mutex _RoutesLock;
+    LayoutTemplate _LayoutTemplates;
     std::map<std::string, WorkContext*> _Routes;
     std::map<std::string, std::string> _ContentTypesByExtensions;
     std::string _DefaultRoute;

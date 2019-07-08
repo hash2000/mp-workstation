@@ -6,6 +6,7 @@
 #include <Poco/DOM/NodeIterator.h>
 #include <Poco/DOM/NodeFilter.h>
 #include <Poco/DOM/NodeList.h>
+#include <Poco/DOM/NamedNodeMap.h>
 #include <Poco/Exception.h>
 
 #include "LayoutBuilder.h"
@@ -25,50 +26,17 @@ void LayoutBuilder::Initialize(WorkContext * context)
     _Html->appendChild(_Head);
     _Html->appendChild(_Body);
 
-    AddTag("meta", AttributeList {
-        { "http-equiv", "X-UA-Compatible" },
-        { "content", "IE=edge" },
-    });
-
-    AddTag("meta", AttributeList {
-        { "name", "viewport" },
-        { "content", "width=device-width, initial-scale=1, maximum-scale=10, user-scalable=yes" },
-    });
-
-    AddTag("link", AttributeList {
-        { "href", "/Content/favicon.ico" },
-        { "rel", "shortcut icon" },
-        { "type", "image/x-icon" },
-    });
-    
-
-    AddScriptLink(
-        "/Content/Scripts/Libs/ExtJs/6.2.1/build/ext-all-debug.js"
-    );
-
-    AddCSSLink(
-        "/Content/Scripts/Libs/ExtJsThemes/theme2019/Theme.css"
-    );
-
-    AddScriptLink(
-        "/Content/Scripts/Libs/ExtJs/6.2.1/build/classic/theme-triton/theme-triton.js"
-    );
-
-    AddScriptLink(
-        "/Content/Scripts/Libs/ExtJs/6.2.1/packages/exporter/build/classic/exporter-debug.js"
-    );
-
-    AddScriptLink(
-        "/Content/Scripts/Libs/ExtJs/6.2.1/build/classic/locale/locale-ru.js"
-    );
-
-
-    AddCSSLink(
-        "/Content/Styles/Site.css"
-    );
-
     AddViewContent(context);
 
+}
+
+std::string LayoutBuilder::ReadAttribute(Poco::XML::Node * node, const std::string & name) const
+{
+    auto attributes = node->attributes();
+    auto attrib = attributes->getNamedItem(name);
+    if (!attrib) 
+        return std::string();
+    return attrib->getNodeValue();
 }
 
 void LayoutBuilder::AddViewContent(WorkContext * context)
@@ -90,6 +58,20 @@ void LayoutBuilder::AddViewContent(WorkContext * context)
 
         if(rootNode->nodeName() != "partialView") {
             printf("Error LayoutBuilder::AddViewContent the root node must have a name \'partialView\'");
+            return;
+        }
+
+        auto title = ReadAttribute(rootNode, "title");
+        auto layout = ReadAttribute(rootNode, "layout");
+
+        if (title.empty()) {
+            printf("Error LayoutBuilder::AddViewContent can\' find attribute [title]'");
+            return;
+        }
+
+        if (layout.empty()) {
+            printf("Error LayoutBuilder::AddViewContent can\' find attribute [layout]'");
+            return;
         }
 
         auto nodes = rootNode->childNodes();

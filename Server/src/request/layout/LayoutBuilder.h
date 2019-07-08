@@ -33,6 +33,8 @@ public:
     void AddCSSLink(const XString & relativePath);
     void AddViewContent(WorkContext * context);
 
+    std::string ReadAttribute(Poco::XML::Node * node, const std::string & name) const;
+
 public:
     void WriteStream(XOStream & ostream) const;
 

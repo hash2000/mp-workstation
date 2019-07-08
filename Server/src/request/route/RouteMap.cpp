@@ -20,6 +20,8 @@ void RouteMap::Initialize()
 
     _DefaultRoute = "/Areas/Default/Home/Index";
 
+    _LayoutTemplates.Initialize();
+
     InitializeContentTypes();
 
 }
@@ -91,10 +93,12 @@ WorkContext * RouteMap::GetWorkContext(
     context->_Path = pathinfo;
     context->_ReadTime = lastFileModified;
     context->_Layout = nullptr;
+    context->_LayoutTemplates = nullptr;
     context->_UseCount = 1;
     if (isAreaView) {
         context->_Layout = new LayoutBuilder;
         context->_Layout->Initialize(context);
+        context->_LayoutTemplates = &_LayoutTemplates;
     }
 
     auto contentTypeIterator = _ContentTypesByExtensions.find(extension);
