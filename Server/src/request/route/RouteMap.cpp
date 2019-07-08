@@ -38,6 +38,11 @@ WorkContext * RouteMap::GetWorkContext(
     const std::string & method)
 {
     Poco::Mutex::ScopedLock lockScope(_RoutesLock);
+
+    // Параметр context->_UseCount, при создании должен быть равен 1, или 
+    //  при повторном использовании должен быть увеличен на единицу.
+    // Это нужно сделать внутри критической секции, а уменьшение счётчика,
+    //  можно вызвать за вне критической секции
     
     std::string route = method + ":";
     std::string routeUri;
@@ -78,6 +83,7 @@ WorkContext * RouteMap::GetWorkContext(
                 routeIterator->second->_Layout->Initialize(routeIterator->second);
             }
         }
+        routeIterator->second->_UseCount ++;
         return routeIterator->second;
     }
 
@@ -85,7 +91,7 @@ WorkContext * RouteMap::GetWorkContext(
     context->_Path = pathinfo;
     context->_ReadTime = lastFileModified;
     context->_Layout = nullptr;
-    context->_UseCount = 0;
+    context->_UseCount = 1;
     if (isAreaView) {
         context->_Layout = new LayoutBuilder;
         context->_Layout->Initialize(context);

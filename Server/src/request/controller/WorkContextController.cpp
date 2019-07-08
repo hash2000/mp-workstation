@@ -9,7 +9,6 @@
 WorkContextController::WorkContextController(WorkContext *context)
     : _Context(context)
 {
-    _Context->_UseCount ++;
 }
 
 WorkContextController::~WorkContextController()
