@@ -6,7 +6,7 @@
 #define wxUSE_UNICODE 1
 // #define WXUSINGDLL 
 // #define WX_PRECOMP 
-#define __WXGTK__
+// #define __WXGTK__
 
 
 #include <wx/wx.h>
