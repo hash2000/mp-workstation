@@ -62,9 +62,9 @@ message("wxWidgets Options = " ${wxWidgets_CONFIG_OPTIONS})
 
 
 if (WIN32)
-  find_package(Poco REQUIRED Foundation SQLPostgreSQL Net NetSSLWin Crypto XML JSON)
+  find_package(Poco REQUIRED Foundation DataPostgreSQL Net NetSSLWin Crypto XML JSON)
 else ()
-  find_package(Poco REQUIRED Foundation SQLPostgreSQL Net NetSSL Crypto XML JSON)  
+  find_package(Poco REQUIRED Foundation DataPostgreSQL Net NetSSL Crypto XML JSON)  
 endif ()
 
 

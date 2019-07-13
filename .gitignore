@@ -36,6 +36,8 @@ Tools/Navigator/.vscode/ipch/*
 thread_party/*
 packages/*
 build/*
+CMakeCache.txt
+CMakeFiles/*
 AppData/Database/*
 AppData/Web/www/Content/Scripts/Libs/*
 AppData/Web/www/Content/Scripts/Common/*

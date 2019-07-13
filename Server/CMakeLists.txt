@@ -29,8 +29,8 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
   Poco::Foundation
-  Poco::SQL
-  Poco::SQLPostgreSQL
+  Poco::Data
+  Poco::DataPostgreSQL
   Poco::Net 
   Poco::NetSSL 
   Poco::Crypto
