@@ -1,15 +1,8 @@
 {
-    "env": {
-        "systempatch": "/usr/include",
-        "wxpath": "/usr/include/wx-3.0",
-        "wxpathdeps": "/usr/lib/x86_64-linux-gnu/wx/include/gtk2-unicode-3.0"
-    },
+
     "configurations": [{
         "name": "Linux",
         "includePath": [
-            "${systempatch}/*",
-            "${wxpath}/*",
-            "${wxpathdeps}/*",
             "${workspaceFolder}/Tools/Navigator/include/",
             "${workspaceFolder}/Server/include/"
         ],

@@ -14,33 +14,7 @@
 
 void LayoutBuilder::Initialize(WorkContext * context)
 {
-    if (_Document)
-        _Document->release();
 
-    _Document = new Poco::XML::Document;
-    _Html = _Document->createElement("html");
-    _Head = _Document->createElement("head");
-    _Body = _Document->createElement("body");
-
-    _Document->appendChild(_Html);
-    _Html->appendChild(_Head);
-    _Html->appendChild(_Body);
-
-    AddViewContent(context);
-
-}
-
-std::string LayoutBuilder::ReadAttribute(Poco::XML::Node * node, const std::string & name) const
-{
-    auto attributes = node->attributes();
-    auto attrib = attributes->getNamedItem(name);
-    if (!attrib) 
-        return std::string();
-    return attrib->getNodeValue();
-}
-
-void LayoutBuilder::AddViewContent(WorkContext * context)
-{
     Poco::XML::InputSource source(context->_Path.toString());    
     
     try{
@@ -48,8 +22,25 @@ void LayoutBuilder::AddViewContent(WorkContext * context)
         // parser.setFeature(Poco::XML::DOMParser::FEATURE_FILTER_WHITESPACE, false);
 	    // parser.setFeature(Poco::XML::XMLReader::FEATURE_NAMESPACE_PREFIXES, false);
 		Poco::AutoPtr<Poco::XML::Document> pDoc = parser.parse(&source);
+
+        auto partialViewNode = pDoc->documentElement();
+        auto title = ReadAttribute(partialViewNode, "title");
+        auto layoutName = ReadAttribute(partialViewNode, "layout");
+
+        if (layoutName.empty()) {
+            printf("Error LayoutBuilder::AddViewContent can\'t find attribute [layout]\n");
+            return;
+        }
+
+        auto layout = context->_LayoutTemplates->GetTemplate(layoutName);
+        if (layout.isNull()) {
+            printf("Error LayoutBuilder::AddViewContent layout with name [%s] undefined\n", layoutName.c_str());
+            return;
+        }
+
+        LoadLayout(layout);
 	
-        auto clonedNode = _Document->importNode(pDoc->documentElement(), true);   
+        auto clonedNode = _Document->importNode(partialViewNode, true);   
         auto rootNode = clonedNode->getNodeByPath("/");
         if (!rootNode) {
             printf("Error LayoutBuilder::AddViewContent partialView nodes not found\n");
@@ -57,20 +48,7 @@ void LayoutBuilder::AddViewContent(WorkContext * context)
         }
 
         if(rootNode->nodeName() != "partialView") {
-            printf("Error LayoutBuilder::AddViewContent the root node must have a name \'partialView\'");
-            return;
-        }
-
-        auto title = ReadAttribute(rootNode, "title");
-        auto layout = ReadAttribute(rootNode, "layout");
-
-        if (title.empty()) {
-            printf("Error LayoutBuilder::AddViewContent can\' find attribute [title]'");
-            return;
-        }
-
-        if (layout.empty()) {
-            printf("Error LayoutBuilder::AddViewContent can\' find attribute [layout]'");
+            printf("Error LayoutBuilder::AddViewContent the root node must have a name \'partialView\'\n");
             return;
         }
 
@@ -88,7 +66,43 @@ void LayoutBuilder::AddViewContent(WorkContext * context)
         return;
     }
 
-    //_Body->appendChild(contentNode);
+}
+
+std::string LayoutBuilder::ReadAttribute(Poco::XML::Node * node, const std::string & name) const
+{
+    auto attributes = node->attributes();
+    auto attrib = attributes->getNamedItem(name);
+    if (!attrib) 
+        return std::string();
+    return attrib->getNodeValue();
+}
+
+void LayoutBuilder::LoadLayout(Poco::AutoPtr<Poco::XML::Document> pDoc)
+{
+    if (_Document)
+        _Document->release();
+
+    _Document = new Poco::XML::Document;
+    _Html = _Document->createElement("html");
+    _Head = _Document->createElement("head");
+    _Body = _Document->createElement("body");
+
+    _Document->appendChild(_Html);
+    _Html->appendChild(_Head);
+    _Html->appendChild(_Body);
+
+    auto clonedNode = _Document->importNode(pDoc->documentElement(), true); 
+    auto rootNode = clonedNode->getNodeByPath("/");
+    if (!rootNode) {
+        printf("Error LayoutBuilder::AddViewContent partialView nodes not found\n");
+        return;
+    }
+
+    if(rootNode->nodeName() != "partialView") {
+        printf("Error LayoutBuilder::AddViewContent the root node must have a name \'partialView\'\n");
+        return;
+    }
+    
 }
 
 void LayoutBuilder::AddTag(const XString & name, const AttributeList & attributes)

@@ -31,9 +31,10 @@ public:
     void AddScriptLink(const XString & relativePath);
     void AddScriptText(const XString & text);
     void AddCSSLink(const XString & relativePath);
-    void AddViewContent(WorkContext * context);
 
+private:
     std::string ReadAttribute(Poco::XML::Node * node, const std::string & name) const;
+    void LoadLayout(Poco::AutoPtr<Poco::XML::Document> pDoc);
 
 public:
     void WriteStream(XOStream & ostream) const;
