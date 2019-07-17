@@ -17,9 +17,9 @@ void LayoutTemplate::Initialize()
     for (Poco::DirectoryIterator it(Poco::Path("Web/Layout")), _end; it != _end; it ++ ){
         Poco::Path pathinfo(it->path());
         Poco::XML::InputSource source(it->path());    
+        Poco::XML::DOMParser parser;
 
-        try{
-            Poco::XML::DOMParser parser;
+        try {            
             _Templates[pathinfo.getBaseName()] = parser.parse(&source);
         }
         catch(Poco::Exception & exception) {

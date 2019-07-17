@@ -82,7 +82,7 @@ WorkContext * RouteMap::GetWorkContext(
         // перезагрузить данные можно только если контекст никемне занят
         if (routeIterator->second->_UseCount == 0) {
             if (routeIterator->second->_Layout && routeIterator->second->_ReadTime < lastFileModified) {
-                routeIterator->second->_Layout->Initialize(routeIterator->second);
+                routeIterator->second->_Layout->Initialize(routeIterator->second, &_LayoutTemplates);
             }
         }
         routeIterator->second->_UseCount ++;
@@ -93,12 +93,10 @@ WorkContext * RouteMap::GetWorkContext(
     context->_Path = pathinfo;
     context->_ReadTime = lastFileModified;
     context->_Layout = nullptr;
-    context->_LayoutTemplates = nullptr;
     context->_UseCount = 1;
     if (isAreaView) {
         context->_Layout = new LayoutBuilder;
-        context->_Layout->Initialize(context);
-        context->_LayoutTemplates = &_LayoutTemplates;
+        context->_Layout->Initialize(context, &_LayoutTemplates);
     }
 
     auto contentTypeIterator = _ContentTypesByExtensions.find(extension);

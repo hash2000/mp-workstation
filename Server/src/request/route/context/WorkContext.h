@@ -2,7 +2,6 @@
 #define __WORKCONTEXT_H__
 
 #include "../../layout/LayoutBuilder.h"
-#include "../../layout/LayoutTemplate.h"
 
 #include <Poco/Path.h>
 #include <Poco/LocalDateTime.h>
@@ -17,7 +16,6 @@ class WorkContext
 {
 public:
     LayoutBuilder * _Layout;
-    LayoutTemplate * _LayoutTemplates;    
     std::vector<char> _Buffer;
     std::string _ContentType;
     std::atomic_uint32_t _UseCount;
