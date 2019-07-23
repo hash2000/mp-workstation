@@ -12,6 +12,7 @@
 #include <Poco/DOM/DOMParser.h>
 #include <Poco/DOM/TreeWalker.h>
 #include <Poco/DOM/NodeFilter.h>
+#include <Poco/DOM/NodeList.h>
 #include <Poco/XML/XMLWriter.h>
 #include <Poco/SAX/InputSource.h>
 

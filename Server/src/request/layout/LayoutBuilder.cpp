@@ -3,14 +3,11 @@
 #include "LayoutTemplate.h"
 #include "../route/context/WorkContext.h"
 
-#include <Poco/UnicodeConverter.h>
-
 void LayoutBuilder::Initialize(WorkContext * context, const LayoutTemplate* layouts)
 {
     ResetDocument();
 
     Poco::XML::InputSource source(context->_Path.toString());    
-    source.setEncoding("UTF8");
     Poco::XML::DOMParser parser;
     DocPtr partialViewDocument = parser.parse(&source);
 
@@ -38,10 +35,8 @@ void LayoutBuilder::Initialize(WorkContext * context, const LayoutTemplate* layo
     }
 
     if (!title.empty()) {
-        std::string convTitle;
-        Poco::UnicodeConverter::convert(title, convTitle);
         auto titleElement = _Document->createElement("title");
-        auto titleElementText = _Document->createTextNode(convTitle);
+        auto titleElementText = _Document->createTextNode(title);
         titleElement->appendChild(titleElementText);
         _Head->appendChild(titleElement);
     }
@@ -56,5 +51,11 @@ void LayoutBuilder::Initialize(WorkContext * context, const LayoutTemplate* layo
         }
     }
 
+    Poco::AutoPtr<Poco::XML::NodeList> partialViewNodeList = partialViewNode->childNodes();
+    for (unsigned long i = 0, __end = partialViewNodeList->length(); i < __end; i++) {
+        auto node = partialViewNodeList->item(i);
+        if (node && node->nodeType() == Poco::XML::Node::ELEMENT_NODE)
+            _Body->appendChild(node);
+    }
 }
 
