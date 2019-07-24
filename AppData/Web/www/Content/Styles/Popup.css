@@ -1,0 +1,42 @@
+﻿/*Popup*/
+#msg-div {
+    position: absolute;
+    left: 40%;
+    top: 0px;
+    width: 400px;
+    z-index: 20000;
+}
+
+#msg-div div {
+    border-radius: 4px;
+    margin-top: 1px;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    border-width: 1px;
+    border-style: solid;
+}
+
+#msg-div .red {
+    background-color: #FAA;
+    border-color: #A55;
+    color: #900;
+}
+
+#msg-div .green {
+    background-color: #9E9;
+    border-color: #0C0;
+    color: #050;
+}
+
+#msg-div .blue {
+    background-color: #ABC7EC;
+    border-color: #79C;
+    color: #222;
+}
+
+#msg-div div h3 {
+    margin: 0 0 2px;
+    font-weight: bold;
+    font-size: 14px;
+}
+/*Popup*/

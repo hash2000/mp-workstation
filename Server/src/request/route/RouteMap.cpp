@@ -33,6 +33,8 @@ void RouteMap::InitializeContentTypes()
     _ContentTypesByExtensions["jpeg"] = "image/jpeg";
     _ContentTypesByExtensions["png"] = "image/png";
     _ContentTypesByExtensions["svg"] = "image/svg+xml";
+    _ContentTypesByExtensions["js"] = "application/javascript";
+    _ContentTypesByExtensions["json"] = "application/json";
 }
 
 WorkContext * RouteMap::GetWorkContext(
@@ -94,9 +96,19 @@ WorkContext * RouteMap::GetWorkContext(
     context->_ReadTime = lastFileModified;
     context->_Layout = nullptr;
     context->_UseCount = 1;
+
     if (isAreaView) {
+        // если isAreaView, значит это шаблон контента, который встаивается в Layout
         context->_Layout = new LayoutBuilder;
         context->_Layout->Initialize(context, &_LayoutTemplates);
+    }
+    else {
+        // иначе это файл который нужно отправить 
+        context->_FileStream.open(context->_Path.toString(), std::ios::in);
+        context->_FileStreamSize = fileinfo.getSize();
+        if (context->_FileStream.bad()) {
+            printf("Warning: Bad file %s\n", context->_Path.toString().c_str());
+        }
     }
 
     auto contentTypeIterator = _ContentTypesByExtensions.find(extension);

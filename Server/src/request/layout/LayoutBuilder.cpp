@@ -26,11 +26,17 @@ void LayoutBuilder::Initialize(WorkContext * context, const LayoutTemplate* layo
     
     auto layoutHead = _Document->importNode(layoutDocument->getNodeByPath("//layout/head"), true);
     if (layoutHead) {
-        Poco::XML::TreeWalker walker(layoutHead, Poco::XML::NodeFilter::SHOW_ELEMENT);
-		Poco::XML::Node* node = walker.currentNode();
-        while(node) {
-            _Head->appendChild(node);
-            node = walker.nextNode();
+        // Poco::XML::TreeWalker walker(layoutHead, Poco::XML::NodeFilter::SHOW_ELEMENT);
+		// auto node = walker.currentNode();
+        // while(node) {
+        //     _Head->appendChild(node);
+        //     node = walker.nextNode();
+        // }
+        Poco::AutoPtr<Poco::XML::NodeList> layoutHeadList = layoutHead->childNodes();
+        for (unsigned long i = 0, __end = layoutHeadList->length(); i < __end; i++) {
+            auto node = layoutHeadList->item(i);
+            if (node && node->nodeType() == Poco::XML::Node::ELEMENT_NODE)
+                _Head->appendChild(node);
         }
     }
 
@@ -43,11 +49,18 @@ void LayoutBuilder::Initialize(WorkContext * context, const LayoutTemplate* layo
 
     auto layoutBody = _Document->importNode(layoutDocument->getNodeByPath("//layout/body"), true);
     if (layoutBody) {
-        Poco::XML::TreeWalker walker(layoutBody, Poco::XML::NodeFilter::SHOW_ELEMENT);
-		Poco::XML::Node* node = walker.currentNode();
-        while(node) {
-            _Body->appendChild(node);
-            node = walker.nextNode();
+        // Poco::XML::TreeWalker walker(layoutBody, Poco::XML::NodeFilter::SHOW_ELEMENT);
+		// auto node = walker.currentNode();
+        // while(node) {
+        //     auto t = static_cast<Poco::XML::Element*>(node)->nodeName();
+        //     _Body->appendChild(node);
+        //     node = walker.nextNode();
+        // }
+        Poco::AutoPtr<Poco::XML::NodeList> layoutBodyList = layoutBody->childNodes();
+        for (unsigned long i = 0, __end = layoutBodyList->length(); i < __end; i++) {
+            auto node = layoutBodyList->item(i);
+            if (node && node->nodeType() == Poco::XML::Node::ELEMENT_NODE)
+                _Body->appendChild(node);
         }
     }
 

@@ -33,6 +33,7 @@ void WorkContextController::handleRequest(
     }
 
     response.setContentType(contentType);
+    
     auto &responseStream = response.send();
 
     if (_Context->_Layout)
@@ -41,5 +42,12 @@ void WorkContextController::handleRequest(
         return;
     }
 
-    response.sendFile(_Context->_Path.toString(), contentType);
+    response.setChunkedTransferEncoding(false);
+  #if defined(POCO_HAVE_INT64)	
+	response.setContentLength64(_Context->_FileStreamSize);
+#else
+	response.setContentLength(static_cast<int>(_Context->_FileStreamSize));
+#endif  
+    
+    Poco::StreamCopier::copyStream(_Context->_FileStream, responseStream);
 }
