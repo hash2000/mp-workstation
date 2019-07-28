@@ -2,6 +2,8 @@
 #include <Poco/Net/HTTPServerRequest.h>
 #include <Poco/Net/HTTPServerResponse.h>
 #include <Poco/StreamCopier.h>
+#include <Poco/DateTimeFormat.h>
+#include <Poco/DateTimeFormatter.h>
 
 #include "WorkContextController.h"
 #include "../route/context/WorkContext.h"
@@ -42,6 +44,8 @@ void WorkContextController::handleRequest(
         return;
     }
 
+    response.set("Last-Modified", Poco::DateTimeFormatter::format(_Context->_ReadTime, 
+        Poco::DateTimeFormat::HTTP_FORMAT));
     response.setChunkedTransferEncoding(false);
   #if defined(POCO_HAVE_INT64)	
 	response.setContentLength64(_Context->_FileStreamSize);

@@ -72,6 +72,8 @@ WorkContext * RouteMap::GetWorkContext(
 
     Poco::File fileinfo(pathinfo);
     if (!fileinfo.exists()) {
+        printf("Error: RouteMap::GetWorkContext %s file not found\n", 
+            pathinfo.toString().c_str());
         return nullptr;
     }
 
@@ -116,6 +118,7 @@ WorkContext * RouteMap::GetWorkContext(
 	    context->_ContentType = contentTypeIterator->second;
     }
 
+    _Routes[route] = context;
     return context;
 }
 
