@@ -51,9 +51,11 @@ int WorkstationServerApp::main(const std::vector<std::string> &args)
     auto port = (unsigned short)config().getInt("WorkstationServer.port", 9980);
     auto threadCount = (int)config().getInt("WorkstationServer.thread.count", 6);
     auto parameters = new Poco::Net::HTTPServerParams;
-
     parameters->setKeepAlive(true);
     parameters->setMaxThreads(threadCount);
+
+    logger().information(
+        "Start server on port " + std::to_string(port));
 
     _RouteMap = new RouteMap; 
     _RouteMap->Initialize();
@@ -71,6 +73,7 @@ int WorkstationServerApp::main(const std::vector<std::string> &args)
     // Остановка сервера
     server.stop();
 
+    logger().information("Stop server");
 
     delete _RouteMap;
 

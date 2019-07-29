@@ -23,35 +23,44 @@ void WorkContextController::handleRequest(
     Poco::Net::HTTPServerRequest &request,
     Poco::Net::HTTPServerResponse &response)
 {
-    if (request.getChunkedTransferEncoding())
-        response.setChunkedTransferEncoding(true);
-    else if (request.getContentLength() != Poco::Net::HTTPMessage::UNKNOWN_CONTENT_LENGTH)
-        response.setContentLength(request.getContentLength());
+    try {
 
-    auto contentType = request.getContentType();
-    if (contentType.empty())
-    {
-        contentType = _Context->_ContentType;
-    }
+        if (request.getChunkedTransferEncoding())
+            response.setChunkedTransferEncoding(true);
+        else if (request.getContentLength() != Poco::Net::HTTPMessage::UNKNOWN_CONTENT_LENGTH)
+            response.setContentLength(request.getContentLength());
 
-    response.setContentType(contentType);
-    
-    auto &responseStream = response.send();
+        auto contentType = request.getContentType();
+        if (contentType.empty()) {
+            contentType = _Context->_ContentType;
+        }
 
-    if (_Context->_Layout)
-    {
-        _Context->_Layout->WriteStream(responseStream);
-        return;
-    }
+        response.setContentType(contentType);    
+        auto &responseStream = response.send();
 
-    response.set("Last-Modified", Poco::DateTimeFormatter::format(_Context->_ReadTime, 
-        Poco::DateTimeFormat::HTTP_FORMAT));
-    response.setChunkedTransferEncoding(false);
-  #if defined(POCO_HAVE_INT64)	
-	response.setContentLength64(_Context->_FileStreamSize);
+        if (_Context->_Layout) {
+            _Context->_Layout->WriteStream(responseStream);
+            return;
+        }
+
+        if (_Context->_FileStream.bad()) {
+            return;
+        }
+
+        response.set("Last-Modified", Poco::DateTimeFormatter::format(_Context->_ReadTime, 
+            Poco::DateTimeFormat::HTTP_FORMAT));
+        response.setChunkedTransferEncoding(false);
+#if defined(POCO_HAVE_INT64)	
+        response.setContentLength64(_Context->_FileStreamSize);
 #else
-	response.setContentLength(static_cast<int>(_Context->_FileStreamSize));
+        response.setContentLength(static_cast<int>(_Context->_FileStreamSize));
 #endif  
-    
-    Poco::StreamCopier::copyStream(_Context->_FileStream, responseStream);
+        
+        Poco::StreamCopier::copyStream(_Context->_FileStream, responseStream);
+    }
+    catch (Poco::Exception & exception) {
+        auto & app = Poco::Util::Application::instance();
+        app.logger().error("WorkContextController::handleRequest:exception " +
+            exception.message());
+    }
 }

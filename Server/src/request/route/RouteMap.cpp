@@ -7,6 +7,7 @@
 #include <Poco/DirectoryIterator.h>
 
 #include "RouteMap.h"
+#include "RouteMapStatistic.h"
 
 #include <list>
 #include <string>
@@ -42,6 +43,7 @@ WorkContext * RouteMap::GetWorkContext(
     const std::string & method)
 {
     Poco::Mutex::ScopedLock lockScope(_RoutesLock);
+    RouteMapStatistic statistic;
 
     // Параметр context->_UseCount, при создании должен быть равен 1, или 
     //  при повторном использовании должен быть увеличен на единицу.
@@ -70,28 +72,37 @@ WorkContext * RouteMap::GetWorkContext(
         isAreaView = true;
     }
 
+    statistic.SetRoute(route);
+    statistic.IsAreaView(isAreaView);
+    
     Poco::File fileinfo(pathinfo);
     if (!fileinfo.exists()) {
-        printf("Error: RouteMap::GetWorkContext %s file not found\n", 
-            pathinfo.toString().c_str());
+        statistic.AppendErrorMessage(pathinfo.toString());
+        statistic.AppendErrorMessage("file not found");
         return nullptr;
     }
 
     Poco::LocalDateTime lastFileModified(fileinfo.getLastModified());
+    statistic.SetSourceModifiedDate(lastFileModified);
 
     // если файл найден и дата его обновления больше чем при последнем чтении
     //  тогда его требуется перезагрузить
     auto routeIterator = _Routes.find(route);
     if (routeIterator != _Routes.end()) {
+        statistic.SetCacheState(RouteMapStatistic::CacheUse);
         // перезагрузить данные можно только если контекст никемне занят
         if (routeIterator->second->_UseCount == 0) {
             if (routeIterator->second->_Layout && routeIterator->second->_ReadTime < lastFileModified) {
                 routeIterator->second->_Layout->Initialize(routeIterator->second, &_LayoutTemplates);
+                statistic.SetCacheState(RouteMapStatistic::CacheUpdate);
             }
         }
+
         routeIterator->second->_UseCount ++;
         return routeIterator->second;
     }
+
+    statistic.SetCacheState(RouteMapStatistic::CacheLoad);
 
     auto context = new WorkContext;
     context->_Path = pathinfo;
@@ -109,7 +120,8 @@ WorkContext * RouteMap::GetWorkContext(
         context->_FileStream.open(context->_Path.toString(), std::ios::in);
         context->_FileStreamSize = fileinfo.getSize();
         if (context->_FileStream.bad()) {
-            printf("Warning: Bad file %s\n", context->_Path.toString().c_str());
+            statistic.AppendErrorMessage(pathinfo.toString());
+            statistic.AppendErrorMessage("bad file");
         }
     }
 
