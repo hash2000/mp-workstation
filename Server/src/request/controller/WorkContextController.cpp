@@ -43,7 +43,7 @@ void WorkContextController::handleRequest(
             return;
         }
 
-        if (_Context->_FileStream.bad()) {
+        if (_Context->_FileBuffer.empty()) {
             return;
         }
 
@@ -51,12 +51,22 @@ void WorkContextController::handleRequest(
             Poco::DateTimeFormat::HTTP_FORMAT));
         response.setChunkedTransferEncoding(false);
 #if defined(POCO_HAVE_INT64)	
-        response.setContentLength64(_Context->_FileStreamSize);
+        response.setContentLength64(_Context->_FileBufferSize);
 #else
-        response.setContentLength(static_cast<int>(_Context->_FileStreamSize));
+        response.setContentLength(static_cast<int>(_Context->_FileBufferSize));
 #endif  
+
+        responseStream << _Context->_FileBuffer;
         
-        Poco::StreamCopier::copyStream(_Context->_FileStream, responseStream);
+        // auto copySize = Poco::StreamCopier::copyStream(_Context->_FileBuffer, 
+        //     responseStream);
+        // if (copySize != _Context->_FileBufferSize) {
+        //     auto & app = Poco::Util::Application::instance();
+        //     app.logger().warning("Filestream for source " +
+        //         _Context->_Path.toString() + " read " +
+        //         std::to_string(copySize) + " instead " + 
+        //         std::to_string(_Context->_FileBufferSize));
+        // }
     }
     catch (Poco::Exception & exception) {
         auto & app = Poco::Util::Application::instance();

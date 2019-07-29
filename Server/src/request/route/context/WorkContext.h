@@ -5,7 +5,6 @@
 
 #include <Poco/Path.h>
 #include <Poco/LocalDateTime.h>
-#include <Poco/FileStream.h>
 #include <Poco/File.h>
 
 #include <functional>
@@ -19,10 +18,10 @@ class WorkContext
 public:
     LayoutBuilder * _Layout;
     std::string _ContentType;
+    std::string _FileBuffer;
     std::atomic_uint32_t _UseCount;
     Poco::Path _Path;
-    Poco::FileInputStream _FileStream;
-    Poco::File::FileSize _FileStreamSize;
+    Poco::File::FileSize _FileBufferSize;
     Poco::LocalDateTime _ReadTime;
 };
 

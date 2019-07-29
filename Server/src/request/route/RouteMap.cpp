@@ -3,6 +3,7 @@
 #include <Poco/Path.h>
 #include <Poco/File.h>
 #include <Poco/StringTokenizer.h>
+#include <Poco/StreamCopier.h>
 #include <Poco/FileStream.h>
 #include <Poco/DirectoryIterator.h>
 
@@ -92,12 +93,14 @@ WorkContext * RouteMap::GetWorkContext(
         statistic.SetCacheState(RouteMapStatistic::CacheUse);
         // перезагрузить данные можно только если контекст никемне занят
         if (routeIterator->second->_UseCount == 0) {
-            if (routeIterator->second->_Layout && routeIterator->second->_ReadTime < lastFileModified) {
-                routeIterator->second->_Layout->Initialize(routeIterator->second, &_LayoutTemplates);
+            if (routeIterator->second->_ReadTime < lastFileModified) {
                 statistic.SetCacheState(RouteMapStatistic::CacheUpdate);
+                if (routeIterator->second->_Layout) {
+                    routeIterator->second->_Layout->Initialize(routeIterator->second, &_LayoutTemplates);
+                }
             }
         }
-
+        
         routeIterator->second->_UseCount ++;
         return routeIterator->second;
     }
@@ -117,11 +120,15 @@ WorkContext * RouteMap::GetWorkContext(
     }
     else {
         // иначе это файл который нужно отправить 
-        context->_FileStream.open(context->_Path.toString(), std::ios::in);
-        context->_FileStreamSize = fileinfo.getSize();
-        if (context->_FileStream.bad()) {
+        Poco::FileInputStream stream;
+        stream.open(context->_Path.toString(), std::ios::in);
+        if (stream.bad()) {
             statistic.AppendErrorMessage(pathinfo.toString());
             statistic.AppendErrorMessage("bad file");
+        }    
+        else {
+            context->_FileBufferSize = fileinfo.getSize();
+            Poco::StreamCopier::copyToString(stream, context->_FileBuffer);
         }
     }
 
