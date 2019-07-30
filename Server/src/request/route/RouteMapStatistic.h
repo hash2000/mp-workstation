@@ -31,6 +31,10 @@ public:
         _SourceModifiedDate = date;
     }
 
+    void SetCacheModifiedDate(const Poco::LocalDateTime & date) {
+        _CacheModifiedDate = date;
+    }
+
     void AppendErrorMessage(const std::string & message) {
         _ErrorMessage += message + " ";
     }
@@ -39,11 +43,17 @@ public:
         _IsAreaView = isAreaView;
     }
 
+    void SetUseCount(unsigned int count) {
+        _UseCount = count;
+    }
+
 private:
     std::string _Route;
     std::string _ErrorMessage;
     Poco::LocalDateTime _SourceModifiedDate;
+    Poco::LocalDateTime _CacheModifiedDate;
     CacheState _CacheState = CacheUnknown;
+    unsigned int _UseCount = 0;
     bool _IsAreaView = false;
 };
 

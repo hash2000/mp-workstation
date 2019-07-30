@@ -2,15 +2,15 @@ Ext.define('HomePage.view.Viewport', {
     extend: 'Ext.container.Viewport',
     xtype: 'HomePageViewport',
     
-    contentItems: [{
+    layout: 'border',
+    cls: 'unselectable borderview',
 
-        layout: 'border',
+    viewModel: {
+        type: 'HomePageModel',
+        name: 'HomePageModel'
+    },
 
-        viewModel: {
-            type: 'HomePageModel',
-            name: 'HomePageModel'
-        },
-
-        items: []
+    items: [{
+        xtype: 'panel'
     }]
 });

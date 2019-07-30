@@ -37,7 +37,9 @@ void RouteMap::InitializeContentTypes()
     _ContentTypesByExtensions["svg"] = "image/svg+xml";
     _ContentTypesByExtensions["js"] = "application/javascript";
     _ContentTypesByExtensions["json"] = "application/json";
+    _ContentTypesByExtensions["css"] = "text/css";
 }
+
 
 WorkContext * RouteMap::GetWorkContext(
     const std::string & uri,
@@ -91,13 +93,30 @@ WorkContext * RouteMap::GetWorkContext(
     auto routeIterator = _Routes.find(route);
     if (routeIterator != _Routes.end()) {
         statistic.SetCacheState(RouteMapStatistic::CacheUse);
+        statistic.SetCacheModifiedDate(routeIterator->second->_ReadTime);
+        statistic.SetUseCount(routeIterator->second->_UseCount);
         // перезагрузить данные можно только если контекст никемне занят
         if (routeIterator->second->_UseCount == 0) {
             if (routeIterator->second->_ReadTime < lastFileModified) {
                 statistic.SetCacheState(RouteMapStatistic::CacheUpdate);
+
                 if (routeIterator->second->_Layout) {
                     routeIterator->second->_Layout->Initialize(routeIterator->second, &_LayoutTemplates);
                 }
+                else {
+                    Poco::FileInputStream stream;
+                    stream.open(routeIterator->second->_Path.toString(), std::ios::in);
+                    if (stream.bad()) {
+                        statistic.AppendErrorMessage(pathinfo.toString());
+                        statistic.AppendErrorMessage("bad file");
+                    }    
+                    else {
+                        routeIterator->second->_FileBufferSize = fileinfo.getSize();
+                        routeIterator->second->_ReadTime = lastFileModified;
+                        routeIterator->second->_FileBuffer.clear();
+                        Poco::StreamCopier::copyToString(stream, routeIterator->second->_FileBuffer);
+                    }                   
+                }                
             }
         }
         
