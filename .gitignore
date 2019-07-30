@@ -40,7 +40,7 @@ CMakeCache.txt
 CMakeFiles/*
 AppData/Database/*
 AppData/Web/www/Content/Scripts/Libs/*
-AppData/Web/www/Content/Scripts/Common/*
-AppData/Web/www/Content/Scripts/CommonReports/*
-AppData/Web/www/Content/Scripts/Ext/*
+AppData/Web/www/Content/Scripts/__depricated/Common/*
+AppData/Web/www/Content/Scripts/__depricated/CommonReports/*
+AppData/Web/www/Content/Scripts/__depricated/Ext/*
 __pycache__
