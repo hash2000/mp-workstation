@@ -1,5 +1,5 @@
 Ext.define('HomePage.view.Viewport', {
-    extend: 'Common.view.BorderViewport',
+    extend: 'Ext.container.Viewport',
     xtype: 'HomePageViewport',
     
     contentItems: [{
