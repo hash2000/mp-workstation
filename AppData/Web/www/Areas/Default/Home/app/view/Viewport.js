@@ -5,12 +5,19 @@ Ext.define('HomePage.view.Viewport', {
     layout: 'border',
     cls: 'unselectable borderview',
 
+    requires: [
+        'HomePage.view.Model'
+    ],
+
     viewModel: {
         type: 'HomePageModel',
         name: 'HomePageModel'
     },
 
     items: [{
-        xtype: 'panel'
+        xtype: 'panel',
+        region: 'center',
+        html: 'test'xtype: 'container',
+        region: 'center',
     }]
 });
