@@ -2,6 +2,7 @@
 #define __ROUTEMAP_H__
 
 #include <Poco/Mutex.h>
+#include <Poco/Util/PropertyFileConfiguration.h>
 
 #include <string>
 #include <map>
@@ -22,13 +23,10 @@ public:
         const std::string & method);     
 
 private:
-    void InitializeContentTypes();
-
-private:
     Poco::Mutex _RoutesLock;
     LayoutTemplate _LayoutTemplates;
     std::map<std::string, WorkContext*> _Routes;
-    std::map<std::string, std::string> _ContentTypesByExtensions;
+    Poco::AutoPtr<Poco::Util::PropertyFileConfiguration> _MimeTypes;
     std::string _DefaultRoute;
 };
 

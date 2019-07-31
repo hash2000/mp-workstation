@@ -7,6 +7,7 @@
 #include <Poco/FileStream.h>
 #include <Poco/DirectoryIterator.h>
 
+
 #include "RouteMap.h"
 #include "RouteMapStatistic.h"
 
@@ -21,23 +22,10 @@ void RouteMap::Initialize()
     Poco::Mutex::ScopedLock lockScope(_RoutesLock);
 
     _DefaultRoute = "/Areas/Default/Home/Index";
+    _MimeTypes = new Poco::Util::PropertyFileConfiguration(
+        "Web/MIME/types.properties");
 
     _LayoutTemplates.Initialize();
-
-    InitializeContentTypes();
-
-}
-
-void RouteMap::InitializeContentTypes()
-{
-    _ContentTypesByExtensions["ico"] = "image/x-icon";
-    _ContentTypesByExtensions["gif"] = "image/gif";
-    _ContentTypesByExtensions["jpeg"] = "image/jpeg";
-    _ContentTypesByExtensions["png"] = "image/png";
-    _ContentTypesByExtensions["svg"] = "image/svg+xml";
-    _ContentTypesByExtensions["js"] = "application/javascript";
-    _ContentTypesByExtensions["json"] = "application/json";
-    _ContentTypesByExtensions["css"] = "text/css";
 }
 
 
@@ -151,12 +139,10 @@ WorkContext * RouteMap::GetWorkContext(
         }
     }
 
-    auto contentTypeIterator = _ContentTypesByExtensions.find(extension);
-    if (contentTypeIterator != _ContentTypesByExtensions.end()) {
-	    context->_ContentType = contentTypeIterator->second;
-    }
+    context->_ContentType = _MimeTypes->getString("extension." + extension, "");
 
     _Routes[route] = context;
+
     return context;
 }
 
