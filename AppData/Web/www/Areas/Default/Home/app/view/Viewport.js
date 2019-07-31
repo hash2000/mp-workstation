@@ -16,8 +16,12 @@ Ext.define('HomePage.view.Viewport', {
 
     items: [{
         xtype: 'panel',
-        region: 'center',
-        html: 'test',
+        height: 300,
+        region: 'north',
+        expandable: true,
+        split: true
+    }, {
+        xtype: 'panel',
         region: 'center',
     }]
 });
