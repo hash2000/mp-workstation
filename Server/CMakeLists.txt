@@ -11,8 +11,9 @@ include_directories(
 file(GLOB SOURCE_FILES
   ${PROJECT_SOURCE_DIR}/src/Server.cpp
 
-  ${PROJECT_SOURCE_DIR}/src/db/model/*.cpp
   ${PROJECT_SOURCE_DIR}/src/db/log/*.cpp
+  ${PROJECT_SOURCE_DIR}/src/db/manager/*.cpp
+  ${PROJECT_SOURCE_DIR}/src/db/model/*.cpp
 
   ${PROJECT_SOURCE_DIR}/src/request/*.cpp
   ${PROJECT_SOURCE_DIR}/src/request/controller/*.cpp

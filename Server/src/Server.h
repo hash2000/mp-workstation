@@ -3,6 +3,7 @@
 
 #include <Poco/Util/ServerApplication.h>
 #include "request/route/RouteMap.h"
+#include "db/manager/DatabaseManager.h"
 
 
 class WorkstationServerApp: public Poco::Util::ServerApplication
@@ -21,6 +22,7 @@ protected:
 
 private:
 	RouteMap * _RouteMap;
+	DatabaseManager * _DbManager;
 };
 
 

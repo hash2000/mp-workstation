@@ -7,8 +7,10 @@
 #include "controller/WorkContextController.h"
 
 
-WorkServerRequestFactory::WorkServerRequestFactory(RouteMap * routeMap) 
-    : _RouteMap(routeMap) {
+WorkServerRequestFactory::WorkServerRequestFactory(RouteMap * routeMap,
+                DatabaseManager * dbManager) 
+    : _RouteMap(routeMap)
+    , _DbManager(dbManager) {
 }
 
 Poco::Net::HTTPRequestHandler* WorkServerRequestFactory::createRequestHandler(
@@ -20,6 +22,8 @@ Poco::Net::HTTPRequestHandler* WorkServerRequestFactory::createRequestHandler(
     if (!context) {
         return nullptr;
     }
+
+    context->_DbManager = _DbManager;
 
     return new WorkContextController(context);
 }

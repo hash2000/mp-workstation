@@ -57,13 +57,17 @@ int WorkstationServerApp::main(const std::vector<std::string> &args)
     logger().information(
         "Start server on port " + std::to_string(port));
 
+    _DbManager = new DatabaseManager;
+    _DbManager->Initialize();
+    
     _RouteMap = new RouteMap; 
     _RouteMap->Initialize();
+
 
     // Создание незащищённого сокета для прослушивания подключений
     Poco::Net::ServerSocket srvSocket(port);
     // Создание сервера
-    Poco::Net::HTTPServer server(new WorkServerRequestFactory(_RouteMap),
+    Poco::Net::HTTPServer server(new WorkServerRequestFactory(_RouteMap, _DbManager),
         srvSocket, parameters);
 
     // Запуск сервера
@@ -75,8 +79,8 @@ int WorkstationServerApp::main(const std::vector<std::string> &args)
 
     logger().information("Stop server");
 
+    delete _DbManager;
     delete _RouteMap;
-
 
     return Application::EXIT_OK;
 }

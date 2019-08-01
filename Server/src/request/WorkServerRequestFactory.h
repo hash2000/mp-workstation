@@ -5,15 +5,18 @@
 
 
 class RouteMap;
+class DatabaseManager;
 
 class WorkServerRequestFactory: public Poco::Net::HTTPRequestHandlerFactory
 {
 public:
-        WorkServerRequestFactory(RouteMap * routeMap);
+        WorkServerRequestFactory(RouteMap * routeMap,
+                DatabaseManager * dbManager);
         Poco::Net::HTTPRequestHandler* createRequestHandler(
                 const Poco::Net::HTTPServerRequest& request) override;
 private:
         RouteMap * _RouteMap;
+        DatabaseManager * _DbManager;
 };
 
 
