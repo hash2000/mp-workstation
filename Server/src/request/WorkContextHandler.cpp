@@ -5,21 +5,21 @@
 #include <Poco/DateTimeFormat.h>
 #include <Poco/DateTimeFormatter.h>
 
-#include "WorkContextController.h"
-#include "../route/context/WorkContext.h"
+#include "WorkContextHandler.h"
+#include "route/context/WorkContext.h"
 
-WorkContextController::WorkContextController(WorkContext *context)
+WorkContextHandler::WorkContextHandler(WorkContext *context)
     : _Context(context)
 {
 }
 
-WorkContextController::~WorkContextController()
+WorkContextHandler::~WorkContextHandler()
 {
     if (_Context->_UseCount > 0)
         _Context->_UseCount --;
 }
 
-void WorkContextController::handleRequest(
+void WorkContextHandler::handleRequest(
     Poco::Net::HTTPServerRequest &request,
     Poco::Net::HTTPServerResponse &response)
 {
@@ -70,7 +70,7 @@ void WorkContextController::handleRequest(
     }
     catch (Poco::Exception & exception) {
         auto & app = Poco::Util::Application::instance();
-        app.logger().error("WorkContextController::handleRequest:exception " +
+        app.logger().error("WorkContextHandler::handleRequest:exception " +
             exception.message());
     }
 }

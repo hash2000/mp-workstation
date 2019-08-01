@@ -2,9 +2,9 @@
 #include <Poco/Net/HTTPServerRequest.h>
 
 #include "WorkServerRequestFactory.h"
+#include "WorkContextHandler.h"
 
 #include "route/RouteMap.h"
-#include "controller/WorkContextController.h"
 
 
 WorkServerRequestFactory::WorkServerRequestFactory(RouteMap * routeMap,
@@ -25,5 +25,5 @@ Poco::Net::HTTPRequestHandler* WorkServerRequestFactory::createRequestHandler(
 
     context->_DbManager = _DbManager;
 
-    return new WorkContextController(context);
+    return new WorkContextHandler(context);
 }
