@@ -2,8 +2,7 @@
 #define __WORKCONTEXT_H__
 
 #include "../../layout/LayoutBuilder.h"
-#include "../../../db/manager/DatabaseManager.h"
-
+#include "../../controller/interface/IBaseController.h"
 
 #include <Poco/Path.h>
 #include <Poco/LocalDateTime.h>
@@ -19,7 +18,7 @@ class WorkContext
 {
 public:
     LayoutBuilder * _Layout;
-    DatabaseManager * _DbManager;
+    IBaseController * _Controller;
     std::string _ContentType;
     std::string _FileBuffer;
     std::atomic_uint32_t _UseCount;

@@ -23,7 +23,5 @@ Poco::Net::HTTPRequestHandler* WorkServerRequestFactory::createRequestHandler(
         return nullptr;
     }
 
-    context->_DbManager = _DbManager;
-
-    return new WorkContextHandler(context);
+    return new WorkContextHandler(context, _DbManager);
 }

@@ -118,6 +118,7 @@ WorkContext * RouteMap::GetWorkContext(
     context->_Path = pathinfo;
     context->_ReadTime = lastFileModified;
     context->_Layout = nullptr;
+    context->_Controller = nullptr;
     context->_UseCount = 1;
 
     if (isAreaView) {

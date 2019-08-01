@@ -4,11 +4,14 @@
 #include <Poco/Net/HTTPRequestHandler.h>
 
 class WorkContext;
+class DatabaseManager;
+
 
 class WorkContextHandler: public Poco::Net::HTTPRequestHandler
 {
 public:
-    WorkContextHandler(WorkContext * context);
+    WorkContextHandler(WorkContext * context,
+        DatabaseManager * dbManager);
     virtual ~WorkContextHandler() ;
 
     void handleRequest(
@@ -17,6 +20,7 @@ public:
 
 protected:
     WorkContext * _Context;
+    DatabaseManager * _DbManager;
 };
 
 #endif // !__WORKCONTEXTHANDLER_H__
