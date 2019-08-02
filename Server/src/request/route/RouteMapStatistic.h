@@ -10,6 +10,7 @@ class RouteMapStatistic
 public:
     enum CacheState {
         CacheUnknown,
+        CacheController,
         CacheUpdate,
         CacheLoad,
         CacheUse

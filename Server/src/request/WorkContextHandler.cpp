@@ -4,6 +4,7 @@
 #include <Poco/StreamCopier.h>
 #include <Poco/DateTimeFormat.h>
 #include <Poco/DateTimeFormatter.h>
+#include <Poco/JSON/Stringifier.h>
 
 #include "WorkContextHandler.h"
 #include "route/context/WorkContext.h"
@@ -37,12 +38,13 @@ void WorkContextHandler::handleRequest(
         if (_Context->_Controller) {
             Poco::JSON::Object::Ptr arguments;
 
+            response.setContentType("application/json");
             auto result = _Context->_Controller->HandleRequest(_DbManager,
                 arguments);
 
-            if (!result.isNull()) {
-                response.setContentType("application/json");
-                result->stringify(responseStream);
+            if (!result.isNull()) {                
+                Poco::JSON::Stringifier::stringify(result,
+                    responseStream);
             }
         }
         else if (_Context->_Layout) {

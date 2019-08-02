@@ -9,7 +9,7 @@
 
 #include "context/WorkContext.h"
 #include "../layout/LayoutTemplate.h"
-
+#include "../controller/interface/IBaseController.h"
 
 class RouteMap
 {
@@ -21,6 +21,18 @@ public:
     WorkContext * GetWorkContext(
         const std::string & uri, 
         const std::string & method);     
+
+    void RegisterRoute(
+        const std::string & uri, 
+        const std::string & method, 
+        IBaseController * controller);
+
+private:
+    void RegisterRouteUnsafe(
+        const std::string & uri, 
+        const std::string & method, 
+        IBaseController * controller);
+
 
 private:
     Poco::Mutex _RoutesLock;

@@ -6,10 +6,12 @@
 #include <Poco/StreamCopier.h>
 #include <Poco/FileStream.h>
 #include <Poco/DirectoryIterator.h>
-
+#include <Poco/Net/HTTPRequest.h>
 
 #include "RouteMap.h"
 #include "RouteMapStatistic.h"
+
+#include "../controller/admin/UserController.h"
 
 #include <list>
 #include <string>
@@ -25,7 +27,42 @@ void RouteMap::Initialize()
     _MimeTypes = new Poco::Util::PropertyFileConfiguration(
         "Web/MIME/types.properties");
 
+    RegisterRouteUnsafe("/Admin/Users/Get", 
+        Poco::Net::HTTPRequest::HTTP_GET, new UserController);
+
     _LayoutTemplates.Initialize();
+}
+
+void RouteMap::RegisterRoute(
+    const std::string & uri, 
+    const std::string & method, 
+    IBaseController * controller) 
+{
+    Poco::Mutex::ScopedLock lockScope(_RoutesLock);
+    RegisterRouteUnsafe(uri, method, controller);
+}
+
+void RouteMap::RegisterRouteUnsafe(
+    const std::string & uri, 
+    const std::string & method, 
+    IBaseController * controller)
+{
+    std::string route = method + ":" + uri; 
+
+    auto & app = Poco::Util::Application::instance();
+    auto found = _Routes.find(route);
+    if (found != _Routes.end()) {
+        app.logger().error("RouteMap::RegisterRoute: Route [" + route + 
+            "] allready registered");
+        return;
+    }
+
+    app.logger().information("RouteMap::RegisterRoute: Route [" + route + 
+        "] registered");
+
+    auto context = new WorkContext; 
+    context->_Controller = controller;
+    _Routes[route] = context;
 }
 
 
@@ -52,6 +89,21 @@ WorkContext * RouteMap::GetWorkContext(
     }
 
     route += routeUri;
+    statistic.SetRoute(route);
+
+
+    auto routeIterator = _Routes.find(route);
+    if (routeIterator != _Routes.end()) {
+        // если это предварительно зарегистрированный котроллер,
+        //  тогда нужно сразу вернуть этот контекст
+        if (routeIterator->second->_Controller) {
+            // возможно для контроллеров не нужно считать ссылки
+            //  дальше будет видно
+            // routeIterator->second->_UseCount ++;
+            statistic.SetCacheState(RouteMapStatistic::CacheController);
+            return routeIterator->second;   
+        }
+    }
 
     Poco::Path pathinfo("Web/www" + routeUri);
     pathinfo = pathinfo.makeAbsolute();
@@ -63,7 +115,6 @@ WorkContext * RouteMap::GetWorkContext(
         isAreaView = true;
     }
 
-    statistic.SetRoute(route);
     statistic.IsAreaView(isAreaView);
     
     Poco::File fileinfo(pathinfo);
@@ -76,15 +127,15 @@ WorkContext * RouteMap::GetWorkContext(
     Poco::LocalDateTime lastFileModified(fileinfo.getLastModified());
     statistic.SetSourceModifiedDate(lastFileModified);
 
-    // если файл найден и дата его обновления больше чем при последнем чтении
-    //  тогда его требуется перезагрузить
-    auto routeIterator = _Routes.find(route);
     if (routeIterator != _Routes.end()) {
         statistic.SetCacheState(RouteMapStatistic::CacheUse);
         statistic.SetCacheModifiedDate(routeIterator->second->_ReadTime);
         statistic.SetUseCount(routeIterator->second->_UseCount);
-        // перезагрузить данные можно только если контекст никемне занят
+        // перезагрузить данные можно только если контекст никем не занят
         if (routeIterator->second->_UseCount == 0) {
+
+            // если файл найден и дата его обновления больше чем при последнем чтении
+            //  тогда его требуется перезагрузить
             if (routeIterator->second->_ReadTime < lastFileModified) {
                 statistic.SetCacheState(RouteMapStatistic::CacheUpdate);
 

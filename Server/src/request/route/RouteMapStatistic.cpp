@@ -22,6 +22,9 @@ RouteMapStatistic::~RouteMapStatistic()
     if (_CacheState == CacheUnknown) {
         message += "(cache unknown)";
     }
+    else if (_CacheState == CacheController) {
+        message += "(registered controller)";
+    }
     else if (_CacheState == CacheUpdate) {
         message += "(cache update)";
     }
