@@ -4,5 +4,5 @@
 
 void DatabaseManager::Initialize()
 {
-    
+    _System.Initialize("AppData/Data/Stores/System");
 }

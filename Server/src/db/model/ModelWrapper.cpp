@@ -7,6 +7,8 @@ ModelWrapper::~ModelWrapper()
 
 bool ModelWrapper::Initialize(const std::string &path)
 {
+    auto & app = Poco::Util::Application::instance();
+    
     leveldb::Options opt;
     opt.create_if_missing = true;
     //opt.error_if_exists = true;
@@ -16,11 +18,15 @@ bool ModelWrapper::Initialize(const std::string &path)
     leveldb::Status status = leveldb::DB::Open(opt, path, &initStore);
     if (!status.ok())
     {
-        printf("Error ModelWrapper::Initialize: %s\n", status.ToString().c_str());
+        app.logger().error("ModelWrapper::Initialize from path " + 
+            path + " status " + status.ToString());
         return false;
     }
 
     _store.reset(initStore);
+
+    app.logger().information("ModelWrapper::Initialize from path " + 
+        path);
 
     return true;
 }
