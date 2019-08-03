@@ -38,7 +38,7 @@ packages/*
 build/*
 CMakeCache.txt
 CMakeFiles/*
-AppData/Database/*
+AppData/Data/*
 AppData/Web/www/Content/Scripts/Libs/*
 AppData/Web/www/Content/Scripts/__depricated/Common/*
 AppData/Web/www/Content/Scripts/__depricated/CommonReports/*

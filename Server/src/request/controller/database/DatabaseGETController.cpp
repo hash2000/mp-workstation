@@ -1,7 +1,7 @@
 #include <stdafx.h>
-#include "UserController.h"
+#include "DatabaseGETController.h"
 
-Poco::JSON::Object::Ptr UserController::HandleRequest(DatabaseManager* dbManager,
+Poco::JSON::Object::Ptr DatabaseGETController::HandleRequest(DatabaseManager* dbManager,
         Poco::JSON::Object::Ptr arguments)
 {
     Poco::JSON::Object::Ptr json = new Poco::JSON::Object();

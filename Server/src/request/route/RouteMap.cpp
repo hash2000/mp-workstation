@@ -11,7 +11,8 @@
 #include "RouteMap.h"
 #include "RouteMapStatistic.h"
 
-#include "../controller/admin/UserController.h"
+#include "../controller/admin/UserGETController.h"
+#include "../controller/database/DatabaseGETController.h"
 
 #include <list>
 #include <string>
@@ -28,7 +29,10 @@ void RouteMap::Initialize()
         "Web/MIME/types.properties");
 
     RegisterRouteUnsafe("/Admin/Users/Get", 
-        Poco::Net::HTTPRequest::HTTP_GET, new UserController);
+        Poco::Net::HTTPRequest::HTTP_GET, new UserGETController);
+
+    RegisterRouteUnsafe("/Database/Database/Get", 
+        Poco::Net::HTTPRequest::HTTP_GET, new DatabaseGETController);
 
     _LayoutTemplates.Initialize();
 }
