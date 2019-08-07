@@ -1,5 +1,5 @@
-#ifndef __DATABASEMANAGER_H__
-#define __DATABASEMANAGER_H__
+#ifndef __DatabaseManager_H__
+#define __DatabaseManager_H__
 
 #include "../model/system/SystemObjectsModel.h"
 
@@ -12,4 +12,4 @@ public:
     SystemObjectsModel _SystemObjectsModel;
 };
 
-#endif // !__DATABASEMANAGER_H__
+#endif // !__DatabaseManager_H__

@@ -1,5 +1,5 @@
-#ifndef __SERVER_H__
-#define __SERVER_H__
+#ifndef __Server_H__
+#define __Server_H__
 
 #include <Poco/Util/ServerApplication.h>
 #include "request/route/RouteMap.h"
@@ -27,4 +27,4 @@ private:
 
 
 
-#endif
+#endif // !__Server_H__

@@ -1,5 +1,5 @@
-#ifndef __MODELWRAPPER_H__
-#define __MODELWRAPPER_H__
+#ifndef __ModelWrapper_H__
+#define __ModelWrapper_H__
 
 #include <leveldb/db.h>
 #include <leveldb/write_batch.h>
@@ -19,4 +19,4 @@ protected:
     std::shared_ptr<leveldb::DB> _store;
 };
 
-#endif
+#endif // !__ModelWrapper_H__

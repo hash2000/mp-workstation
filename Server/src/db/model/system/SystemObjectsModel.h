@@ -1,5 +1,5 @@
-#ifndef __SYSTEMOBJECTSMODEL_H__
-#define __SYSTEMOBJECTSMODEL_H__
+#ifndef __SystemObjectsModel_H__
+#define __SystemObjectsModel_H__
 
 #include "../ModelWrapper.h"
 
@@ -10,4 +10,4 @@ public:
 };
 
 
-#endif // !__SYSTEMOBJECTSMODEL_H__
+#endif // !__SystemObjectsModel_H__

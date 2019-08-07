@@ -1,5 +1,5 @@
-#ifndef __LAYOUTBUILDER_H__
-#define __LAYOUTBUILDER_H__
+#ifndef __LayoutBuilder_H__
+#define __LayoutBuilder_H__
 
 #include "html/HtmlLayout.h"
 
@@ -16,4 +16,4 @@ public:
 
 
 
-#endif // !__LAYOUTBUILDER_H__
+#endif // !__LayoutBuilder_H__

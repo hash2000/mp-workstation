@@ -1,5 +1,5 @@
-#ifndef __ROUTEMAP_H__
-#define __ROUTEMAP_H__
+#ifndef __RouteMap_H__
+#define __RouteMap_H__
 
 #include <Poco/Mutex.h>
 #include <Poco/Util/PropertyFileConfiguration.h>
@@ -42,4 +42,4 @@ private:
     std::string _DefaultRoute;
 };
 
-#endif // !__ROUTEMAP_H__
+#endif // !__RouteMap_H__

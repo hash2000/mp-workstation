@@ -1,5 +1,5 @@
-#ifndef __ROUTEMAPSTATISTIC_H__
-#define __ROUTEMAPSTATISTIC_H__
+#ifndef __RouteMapStatistic_H__
+#define __RouteMapStatistic_H__
 
 #include <Poco/LocalDateTime.h>
 
@@ -59,4 +59,4 @@ private:
 };
 
 
-#endif // !__ROUTEMAPSTATISTIC_H__
+#endif // !__RouteMapStatistic_H__

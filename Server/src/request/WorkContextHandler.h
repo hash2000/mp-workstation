@@ -1,5 +1,5 @@
-#ifndef __WORKCONTEXTHANDLER_H__
-#define __WORKCONTEXTHANDLER_H__
+#ifndef __WorkContextHandler_H__
+#define __WorkContextHandler_H__
 
 #include <Poco/Net/HTTPRequestHandler.h>
 
@@ -23,4 +23,4 @@ protected:
     DatabaseManager * _DbManager;
 };
 
-#endif // !__WORKCONTEXTHANDLER_H__
+#endif // !__WorkContextHandler_H__

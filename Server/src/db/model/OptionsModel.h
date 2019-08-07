@@ -1,5 +1,5 @@
-#ifndef __OPTIONSMODEL_H__
-#define __OPTIONSMODEL_H__
+#ifndef __OptionsModel_H__
+#define __OptionsModel_H__
 
 #include "ModelWrapper.h"
 #include <string>
@@ -19,4 +19,4 @@ public:
     double GetDouble(const std::string & name, double defaultValue = 0.) const;
 };
 
-#endif // !__OPTIONSMODEL_H__
+#endif // !__OptionsModel_H__

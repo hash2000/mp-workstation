@@ -1,5 +1,5 @@
-#ifndef __LISTMODEL_H__
-#define __LISTMODEL_H__
+#ifndef __ListModel_H__
+#define __ListModel_H__
 
 #include "ModelWrapper.h"
 
@@ -17,4 +17,4 @@ protected:
     std::atomic<std::size_t> _identity;
 };
 
-#endif // !__LISTMODEL_H__
+#endif // !__ListModel_H__

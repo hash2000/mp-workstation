@@ -1,5 +1,5 @@
-#ifndef __WORKCONTEXT_H__
-#define __WORKCONTEXT_H__
+#ifndef __WorkContext_H__
+#define __WorkContext_H__
 
 #include "../../layout/LayoutBuilder.h"
 #include "../../controller/interface/IBaseController.h"
@@ -28,4 +28,4 @@ public:
 };
 
 
-#endif // !__WORKCONTEXT_H__
+#endif // !__WorkContext_H__

@@ -1,5 +1,5 @@
-#ifndef __USERGETCONTROLLER_H__
-#define __USERGETCONTROLLER_H__
+#ifndef __UserGETController_H__
+#define __UserGETController_H__
 
 #include "../interface/IBaseController.h"
 
@@ -10,4 +10,4 @@ public:
         Poco::JSON::Object::Ptr arguments) override;
 };
 
-#endif // !__USERGETCONTROLLER_H__
+#endif // !__UserGETController_H__

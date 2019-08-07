@@ -1,5 +1,5 @@
-#ifndef __WORKSERVERREQUESTFACTORY_H__
-#define __WORKSERVERREQUESTFACTORY_H__
+#ifndef __WorkServerRequestFactory_H__
+#define __WorkServerRequestFactory_H__
 
 #include <Poco/Net/HTTPRequestHandlerFactory.h>
 
@@ -21,4 +21,4 @@ private:
 
 
 
-#endif // !__WORKSERVERREQUESTFACTORY_H__
+#endif // !__WorkServerRequestFactory_H__

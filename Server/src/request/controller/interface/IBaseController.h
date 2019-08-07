@@ -1,5 +1,5 @@
-#ifndef __IBASECONTROLLER_H__
-#define __IBASECONTROLLER_H__
+#ifndef __IBaseController_H__
+#define __IBaseController_H__
 
 #include <Poco/JSON/JSON.h>
 #include <Poco/JSON/Object.h>
@@ -21,4 +21,4 @@ public:
 };
 
 
-#endif // !__IBASECONTROLLER_H__
+#endif // !__IBaseController_H__

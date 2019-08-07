@@ -1,5 +1,5 @@
-#ifndef __LAYOUTTEMPLATE_H__
-#define __LAYOUTTEMPLATE_H__ 
+#ifndef __LayoutTemplate_H__
+#define __LayoutTemplate_H__ 
 
 #include <Poco/DOM/Document.h>
 #include <Poco/AutoPtr.h>
@@ -18,4 +18,4 @@ private:
         _Templates;
 };
 
-#endif // !__LAYOUTTEMPLATE_H__
+#endif // !__LayoutTemplate_H__

@@ -1,5 +1,5 @@
-#ifndef __DATABASELOGGER_H__
-#define __DATABASELOGGER_H__
+#ifndef __DatabaseLogger_H__
+#define __DatabaseLogger_H__
 
 #include <leveldb/db.h>
 #include <leveldb/env.h>
@@ -13,4 +13,4 @@
 // };
 
 
-#endif // !__DATABASELOGGER_H__
+#endif // !__DatabaseLogger_H__

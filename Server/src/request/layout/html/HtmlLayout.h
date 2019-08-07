@@ -1,5 +1,5 @@
-#ifndef __HTMLLAYOUT_H__
-#define __HTMLLAYOUT_H__
+#ifndef __HtmlLayout_H__
+#define __HtmlLayout_H__
 
 
 #include <Poco/DOM/Document.h>
@@ -44,4 +44,4 @@ protected:
 };
 
 
-#endif // !__HTMLLAYOUT_H__
+#endif // !__HtmlLayout_H__
