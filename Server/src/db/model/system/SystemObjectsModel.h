@@ -6,7 +6,7 @@
 class SystemObjectsModel : public ModelWrapper
 {
 public:
-    
+    //std::shared_ptr<leveldb::Iterator> Get();
 };
 
 
