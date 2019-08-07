@@ -4,5 +4,5 @@
 
 void DatabaseManager::Initialize()
 {
-    _System.Initialize("Data/Stores/System");
+    _SystemObjectsModel.Initialize("Data/Stores/System/Objects");
 }

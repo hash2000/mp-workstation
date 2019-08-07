@@ -1,7 +1,7 @@
 #ifndef __DATABASEMANAGER_H__
 #define __DATABASEMANAGER_H__
 
-#include "../model/system/SystemModel.h"
+#include "../model/system/SystemObjectsModel.h"
 
 class DatabaseManager
 {
@@ -9,7 +9,7 @@ public:
     void Initialize();
 
 public:
-    SystemModel _System;
+    SystemObjectsModel _SystemObjectsModel;
 };
 
 #endif // !__DATABASEMANAGER_H__

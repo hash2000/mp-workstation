@@ -12,7 +12,7 @@
 #include "RouteMapStatistic.h"
 
 #include "../controller/admin/UserGETController.h"
-#include "../controller/database/DatabaseGETController.h"
+#include "../controller/system/objects/ObjectsGETController.h"
 
 #include <list>
 #include <string>
@@ -31,8 +31,8 @@ void RouteMap::Initialize()
     RegisterRouteUnsafe("/Admin/Users/Get", 
         Poco::Net::HTTPRequest::HTTP_GET, new UserGETController);
 
-    RegisterRouteUnsafe("/Database/Database/Get", 
-        Poco::Net::HTTPRequest::HTTP_GET, new DatabaseGETController);
+    RegisterRouteUnsafe("/System/Objects/Get", 
+        Poco::Net::HTTPRequest::HTTP_GET, new ObjectsGETController);
 
     _LayoutTemplates.Initialize();
 }

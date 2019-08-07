@@ -19,7 +19,8 @@ file(GLOB SOURCE_FILES
   ${PROJECT_SOURCE_DIR}/src/request/*.cpp
   ${PROJECT_SOURCE_DIR}/src/request/controller/*.cpp
   ${PROJECT_SOURCE_DIR}/src/request/controller/admin/*.cpp
-  ${PROJECT_SOURCE_DIR}/src/request/controller/database/*.cpp
+  ${PROJECT_SOURCE_DIR}/src/request/controller/system/objects/*.cpp
+
   ${PROJECT_SOURCE_DIR}/src/request/layout/*.cpp
   ${PROJECT_SOURCE_DIR}/src/request/layout/html/*.cpp
   ${PROJECT_SOURCE_DIR}/src/request/route/*.cpp
