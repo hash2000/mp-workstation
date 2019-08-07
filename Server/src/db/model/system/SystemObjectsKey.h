@@ -2,6 +2,18 @@
 #define __SystemObjectsKey_H__
 
 
+enum class SystemObjectType : int
+{
+    Undefined = 0,
+};
+
+
+struct SystemObjectsKey
+{
+    int Id;
+    int ParentId;
+    SystemObjectType Type;
+};
 
 
 
