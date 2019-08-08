@@ -1,14 +1,10 @@
 #include <stdafx.h>
-#include "ListModel.h"
+#include "IncrementIdentity.h"
 
-bool ListModel::Initialize(const std::string &path,
-        leveldb::Comparator * comparator)
+bool IncrementIdentity::ReloadIdentities(std::shared_ptr<leveldb::DB> store)
 {
-    if (!ModelWrapper::Initialize(path, comparator))
-        return false;
-
     std::unique_ptr<leveldb::Iterator> it(
-        _store->NewIterator(leveldb::ReadOptions()));
+        store->NewIterator(leveldb::ReadOptions()));
         
     for (it->SeekToFirst(); it->Valid(); it->Next())
     {
@@ -19,4 +15,8 @@ bool ListModel::Initialize(const std::string &path,
     }
 
     return true;
+}
+
+std::size_t IncrementIdentity::NewIdentity() {
+    return _identity.fetch_add(1);
 }
