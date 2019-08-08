@@ -11,8 +11,8 @@
 #include "RouteMap.h"
 #include "RouteMapStatistic.h"
 
-#include "../controller/admin/UserGETController.h"
-#include "../controller/system/objects/ObjectsGETController.h"
+#include "../controller/Admin/UserGETController.h"
+#include "../controller/System/Objects/ObjectsGETController.h"
 
 #include <list>
 #include <string>
