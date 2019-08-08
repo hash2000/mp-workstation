@@ -9,7 +9,7 @@
 
 #include "context/WorkContext.h"
 #include "../layout/LayoutTemplate.h"
-#include "../controller/interface/IBaseController.h"
+#include "../controller/IBaseController.h"
 
 class RouteMap
 {

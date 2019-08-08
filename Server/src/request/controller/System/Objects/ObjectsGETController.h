@@ -1,7 +1,7 @@
 #ifndef __ObjectsGETController_H__
 #define __ObjectsGETController_H__
 
-#include "../../interface/IBaseController.h"
+#include "../../IBaseController.h"
 
 class ObjectsGETController : public IBaseController
 {

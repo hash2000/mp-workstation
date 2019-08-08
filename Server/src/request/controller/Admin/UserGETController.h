@@ -1,7 +1,7 @@
 #ifndef __UserGETController_H__
 #define __UserGETController_H__
 
-#include "../interface/IBaseController.h"
+#include "../IBaseController.h"
 
 class UserGETController : public IBaseController
 {

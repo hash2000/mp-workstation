@@ -2,7 +2,7 @@
 #define __WorkContext_H__
 
 #include "../../layout/LayoutBuilder.h"
-#include "../../controller/interface/IBaseController.h"
+#include "../../controller/IBaseController.h"
 
 #include <Poco/Path.h>
 #include <Poco/LocalDateTime.h>
