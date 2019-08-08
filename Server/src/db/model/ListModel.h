@@ -11,7 +11,8 @@ public:
     virtual ~ListModel() {
     }  
     
-    virtual bool Initialize(const std::string &path) override;
+    virtual bool Initialize(const std::string &path,
+        leveldb::Comparator * comparator = nullptr) override;
 
 protected:
     std::atomic<std::size_t> _identity;

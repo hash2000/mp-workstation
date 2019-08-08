@@ -1,9 +1,10 @@
 #include <stdafx.h>
 #include "ListModel.h"
 
-bool ListModel::Initialize(const std::string &path)
+bool ListModel::Initialize(const std::string &path,
+        leveldb::Comparator * comparator)
 {
-    if (!ModelWrapper::Initialize(path))
+    if (!ModelWrapper::Initialize(path, comparator))
         return false;
 
     std::unique_ptr<leveldb::Iterator> it(

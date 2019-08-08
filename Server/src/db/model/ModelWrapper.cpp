@@ -5,7 +5,8 @@ ModelWrapper::~ModelWrapper()
 {
 }
 
-bool ModelWrapper::Initialize(const std::string &path)
+bool ModelWrapper::Initialize(const std::string &path,
+        leveldb::Comparator * comparator)
 {
     auto & app = Poco::Util::Application::instance();
     
@@ -13,6 +14,12 @@ bool ModelWrapper::Initialize(const std::string &path)
     opt.create_if_missing = true;
     //opt.error_if_exists = true;
     //opt.compression = leveldb::kNoCompression;
+
+    if (comparator) {
+        opt.comparator = comparator;
+        _comparator = std::shared_ptr<leveldb::Comparator>(
+            comparator);
+    }
 
     leveldb::DB *initStore;
     leveldb::Status status = leveldb::DB::Open(opt, path, &initStore);
