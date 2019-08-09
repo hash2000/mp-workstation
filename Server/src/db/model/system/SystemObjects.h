@@ -11,35 +11,34 @@ enum class SystemObjectType : int
 };
 
 
-struct SystemObjectKey
+struct SystemObjectData
 {
-    int Id;
     int ParentId;
     SystemObjectType Type;
     int NameLength;
 };
 
-class SystemObject : public SystemObjectKey
+class SystemObject : public SystemObjectData
 {
 public:
     SystemObject() {
     }
     
-    SystemObject(const SystemObjectKey * key) {
-        CopyFromKey(key);
+    SystemObject(const SystemObjectData * value, std::size_t id) 
+        : Id(id) {
+        CopyFromKey(value);
     }
 
-    void CopyFromKey(const SystemObjectKey * key) {
-        Id = key->Id;
-        ParentId = key->ParentId;
-        Type = key->Type;
-        NameLength = key->NameLength;
-        ReadTypeName(key);
-        ReadKeyName(key);
+    void CopyFromKey(const SystemObjectData * value) {
+        ParentId = value->ParentId;
+        Type = value->Type;
+        NameLength = value->NameLength;
+        ReadTypeName(value);
+        ReadKeyName(value);
     }
 
-    void ReadTypeName(const SystemObjectKey * key) {
-        switch (key->Type) {
+    void ReadTypeName(const SystemObjectData * value) {
+        switch (value->Type) {
             case SystemObjectType::Directory:
                 TypeName = "Directory";
                 break;
@@ -54,13 +53,14 @@ public:
         TypeName = "Undefined";
     }
 
-    void ReadKeyName(const SystemObjectKey * key) {
-        auto namePtr = reinterpret_cast<const char*>(key) + sizeof(SystemObjectKey);
+    void ReadKeyName(const SystemObjectData * value) {
+        auto namePtr = reinterpret_cast<const char*>(value) + sizeof(SystemObjectData);
         Name.clear();
-        Name.append(namePtr, key->NameLength);
+        Name.append(namePtr, value->NameLength);
     }
 
 public:
+    std::size_t Id;
     std::string TypeName;
     std::string Name;
 };

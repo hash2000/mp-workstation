@@ -5,12 +5,12 @@ int SystemObjectsComparator::Compare(
     const leveldb::Slice& a,
     const leveldb::Slice& b) const
 {
-    const auto left = reinterpret_cast<const SystemObjectKey*>(a.data());
-    const auto right = reinterpret_cast<const SystemObjectKey*>(b.data());
-    if (left->Id < right->Id)
-        return -1;
-    if (left->Id > right->Id)
-        return 1;        
+    // const auto left = reinterpret_cast<const SystemObjectKey*>(a.data());
+    // const auto right = reinterpret_cast<const SystemObjectKey*>(b.data());
+    // if (left->Id < right->Id)
+    //     return -1;
+    // if (left->Id > right->Id)
+    //     return 1;        
     return 0;
 }
 
