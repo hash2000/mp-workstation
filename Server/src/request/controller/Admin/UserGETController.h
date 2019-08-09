@@ -6,8 +6,8 @@
 class UserGETController : public IBaseController
 {
 public:
-    Poco::JSON::Object::Ptr HandleRequest(DatabaseManager* dbManager,
-        Poco::JSON::Object::Ptr arguments) override;
+    Poco::JSON::Object::Ptr HandleRequest(DatabaseManager* db,
+        Poco::Dynamic::Var arguments) override;
 };
 
 #endif // !__UserGETController_H__

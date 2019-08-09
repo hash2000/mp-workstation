@@ -10,14 +10,15 @@
 #include <Poco/JSON/ParseHandler.h>
 #include <Poco/JSON/PrintHandler.h>
 #include <Poco/JSON/Template.h>
+#include <Poco/Dynamic/Var.h>
 
 class DatabaseManager;
 
 class IBaseController
 {
 public:
-    virtual Poco::JSON::Object::Ptr HandleRequest(DatabaseManager* dbManager,
-        Poco::JSON::Object::Ptr arguments) = 0;
+    virtual Poco::JSON::Object::Ptr HandleRequest(DatabaseManager* db,
+        Poco::Dynamic::Var arguments) = 0;
 };
 
 

@@ -5,6 +5,7 @@
 #include <Poco/DateTimeFormat.h>
 #include <Poco/DateTimeFormatter.h>
 #include <Poco/JSON/Stringifier.h>
+#include <Poco/JSON/Parser.h>
 
 #include "WorkContextHandler.h"
 #include "route/context/WorkContext.h"
@@ -36,8 +37,10 @@ void WorkContextHandler::handleRequest(
         auto &responseStream = response.send();
 
         if (_Context->_Controller) {
-            Poco::JSON::Object::Ptr arguments;
-
+            Poco::JSON::Parser parser;
+            std::istringstream istr;
+            request.read(istr);
+            Poco::Dynamic::Var arguments = parser.parse(istr);
             response.setContentType("application/json");
             auto result = _Context->_Controller->HandleRequest(_DbManager,
                 arguments);
