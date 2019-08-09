@@ -5,7 +5,7 @@
 #include "SystemObjects.h"
 
 #include <atomic>
-#include <list>
+#include <set>
 #include <map>
 
 class SystemObjectsModel : public ModelWrapper
@@ -20,12 +20,17 @@ public:
     std::shared_ptr<SystemObject> Add(std::size_t parentId, SystemObjectType type, 
         const std::string & name);
 
+    // Обновить данные элемента по идентификатору (id)
     std::shared_ptr<SystemObject> Update(std::size_t id, std::size_t parentId, SystemObjectType type, 
         const std::string & name);
 
-    // Прочитать элемент
+    // Удалить элемент
+    void Delete(std::size_t id);
+
+    // Прочитать описатель элемента
     SystemObjectData* GetItemData(std::size_t id);
 
+    // Прочитать элемент
     std::shared_ptr<SystemObject> GetItem(std::size_t id);
 
     // Вернуть набор элеметнов, у которых родительский узел
@@ -36,14 +41,18 @@ public:
 private:
 
     // Добавить элемент в индекс IX_ParentId
-    void IndexTo_IX_ParentId(
+    void AddIndexTo_IX_ParentId(
+        std::size_t id, std::size_t parentId);
+
+    // Удалить элемент из индекса IX_ParentId
+    void DeleteIndexFrom_IX_ParentId(
         std::size_t id, std::size_t parentId);
 
 private:
     std::atomic<std::size_t> _identity;
     
     // Индексатор по ParentId
-    std::map<std::size_t, std::list<std::size_t>> _IX_ParentId;
+    std::map<std::size_t, std::set<std::size_t>> _IX_ParentId;
 
 };
 

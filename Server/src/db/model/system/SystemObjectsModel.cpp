@@ -23,27 +23,38 @@ bool SystemObjectsModel::Initialize(const std::string &path,
         auto dataBuffer = valueSlice.data();
         auto data = reinterpret_cast<const SystemObjectData*>(dataBuffer);
 
-        IndexTo_IX_ParentId(*id, data->ParentId);
+        AddIndexTo_IX_ParentId(*id, data->ParentId);
     }
 
     return true;
 }
 
-void SystemObjectsModel::IndexTo_IX_ParentId(
+void SystemObjectsModel::AddIndexTo_IX_ParentId(
         std::size_t id, std::size_t parentId)
 {
     auto index_ParentId = _IX_ParentId.insert(std::make_pair(parentId, 
-        std::list<std::size_t>()));
-    index_ParentId.first->second.push_back(id);
+        std::set<std::size_t>()));
+    index_ParentId.first->second.insert(id);
 }
 
+void SystemObjectsModel::DeleteIndexFrom_IX_ParentId(
+        std::size_t id, std::size_t parentId)
+{
+    auto index_ParentId = _IX_ParentId.find(parentId);
+    if (index_ParentId != _IX_ParentId.end()) {
+        index_ParentId->second.erase(index_ParentId->second.find(id));
+    }
+
+}
 
 std::shared_ptr<SystemObject> SystemObjectsModel::Add(std::size_t parentId, SystemObjectType type, 
         const std::string & name)
 {
     auto id = _identity.fetch_add(1);
     auto dataSize = sizeof(SystemObjectData) + name.length();
-    auto dataBuffer = new char[dataSize];
+    std::string value;
+    value.resize(dataSize);
+    auto dataBuffer = &value.front();
     auto data = reinterpret_cast<SystemObjectData*>(dataBuffer);
     data->ParentId = parentId;
     data->Type = type;
@@ -57,7 +68,7 @@ std::shared_ptr<SystemObject> SystemObjectsModel::Add(std::size_t parentId, Syst
     if (!status.ok())
         return std::shared_ptr<SystemObject>();
 
-    IndexTo_IX_ParentId(id, data->ParentId);
+    AddIndexTo_IX_ParentId(id, data->ParentId);
 
     auto result = new SystemObject(data, id);
     return std::shared_ptr<SystemObject>(result);
@@ -66,8 +77,62 @@ std::shared_ptr<SystemObject> SystemObjectsModel::Add(std::size_t parentId, Syst
 std::shared_ptr<SystemObject> SystemObjectsModel::Update(std::size_t id, std::size_t parentId, SystemObjectType type, 
     const std::string & name)
 {
+    leveldb::WriteBatch batch;
+    leveldb::Slice key(reinterpret_cast<const char*>(&id), sizeof(id));
 
-    return std::shared_ptr<SystemObject>();
+    std::string value;
+    auto status = _store->Get(leveldb::ReadOptions(), key, &value);
+    if (!status.ok())
+        return std::shared_ptr<SystemObject>();
+
+
+    // обновление информации об элементе
+    auto dataSize = sizeof(SystemObjectData) + name.length();
+    value.resize(dataSize);
+    auto dataBuffer = &value.front();
+    auto data = reinterpret_cast<SystemObjectData*>(dataBuffer);
+    auto prevParentId = data->ParentId;
+    data->ParentId = parentId;
+    data->Type = type;
+    data->NameLength = (int)name.length();
+    auto nameBuffer = dataBuffer + sizeof(SystemObjectData);
+    std::copy(name.begin(), name.end(), nameBuffer);    
+
+    // удаление предыдущего значения 
+    batch.Delete(key);
+
+    // добавление элемента обратно
+    batch.Put(key, leveldb::Slice(dataBuffer, dataSize));
+    
+    // применение изменений
+    status = _store->Write(leveldb::WriteOptions(), &batch);
+    if (!status.ok()) 
+        return std::shared_ptr<SystemObject>();
+
+    // Если изменился ParentId
+    if (prevParentId != parentId) {    
+        // удалить предыдущий индекс
+        DeleteIndexFrom_IX_ParentId(id, prevParentId);
+        // добавить новый индекс
+        AddIndexTo_IX_ParentId(id, parentId);
+    }
+
+    auto result = new SystemObject(data, id);
+    return std::shared_ptr<SystemObject>(result);
+}
+
+void SystemObjectsModel::Delete(std::size_t id)
+{
+    auto data = GetItemData(id);
+    if (!data) 
+        return;
+
+    DeleteIndexFrom_IX_ParentId(id, data->ParentId);
+
+    leveldb::Slice key(reinterpret_cast<const char*>(&id), 
+        sizeof(id));
+    _store->Delete(leveldb::WriteOptions(), 
+        key);
 }
 
 SystemObjectData* SystemObjectsModel::GetItemData(std::size_t id)
