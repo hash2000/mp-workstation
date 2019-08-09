@@ -6,6 +6,8 @@ Ext.define('SystemObjects.view.Viewport', {
     cls: 'unselectable borderview',
 
     requires: [
+        'SystemCommon.panel.ObjectsTree',
+
         'SystemObjects.view.Model'
     ],
 
@@ -15,13 +17,12 @@ Ext.define('SystemObjects.view.Viewport', {
     },
 
     items: [{
-        xtype: 'panel',
-        height: 300,
-        region: 'north',
-        expandable: true,
-        split: true
-    }, {
-        xtype: 'panel',
+        xtype: 'ObjectsTree',
+        bind: {
+            store: '{Objects}'
+        },
+        title: 'Объекты',
         region: 'center',
+        rootVisible: true
     }]
 });
