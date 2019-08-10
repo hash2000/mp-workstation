@@ -71,8 +71,7 @@ void RouteMap::RegisterRouteUnsafe(
 
 
 WorkContext * RouteMap::GetWorkContext(
-    const Poco::URI & uri,
-    const std::string & method)
+    const Poco::Net::HTTPServerRequest& request)
 {
     Poco::Mutex::ScopedLock lockScope(_RoutesLock);
     RouteMapStatistic statistic;
@@ -81,6 +80,8 @@ WorkContext * RouteMap::GetWorkContext(
     //  при повторном использовании должен быть увеличен на единицу.
     // Это нужно сделать внутри критической секции, а уменьшение счётчика,
     //  можно вызвать за вне критической секции
+    Poco::URI uri(request.getURI());
+    std::string method = request.getMethod(); 
     std::string path = uri.getPath();
     std::string route = method + ":";
     std::string routeUri;
@@ -176,7 +177,8 @@ WorkContext * RouteMap::GetWorkContext(
     context->_Controller = nullptr;
     context->_UseCount = 1;
 
-    
+    // чтение параметров запроса
+    // context->_RequestParameters = 
 
     if (isAreaView) {
         // если isAreaView, значит это шаблон контента, который встаивается в Layout

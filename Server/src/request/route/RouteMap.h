@@ -4,6 +4,7 @@
 #include <Poco/Mutex.h>
 #include <Poco/URI.h>
 #include <Poco/Util/PropertyFileConfiguration.h>
+#include <Poco/Net/HTTPServerRequest.h>
 
 #include <string>
 #include <map>
@@ -20,8 +21,7 @@ public:
     void Initialize();
 
     WorkContext * GetWorkContext(
-        const Poco::URI & uri, 
-        const std::string & method);     
+        const Poco::Net::HTTPServerRequest& request);     
 
     void RegisterRoute(
         const std::string & path, 

@@ -17,9 +17,7 @@ WorkServerRequestFactory::WorkServerRequestFactory(RouteMap * routeMap,
 Poco::Net::HTTPRequestHandler* WorkServerRequestFactory::createRequestHandler(
     const Poco::Net::HTTPServerRequest& request)
 {   
-    auto uri = Poco::URI(request.getURI());
-    auto method = request.getMethod();
-    auto context = _RouteMap->GetWorkContext(uri, method);
+    auto context = _RouteMap->GetWorkContext(request);
     if (!context) {
         return nullptr;
     }
