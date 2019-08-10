@@ -1,5 +1,6 @@
 #include <stdafx.h>
 #include <Poco/Net/HTTPServerRequest.h>
+#include <Poco/URI.h>
 
 #include "WorkServerRequestFactory.h"
 #include "WorkContextHandler.h"
@@ -15,8 +16,8 @@ WorkServerRequestFactory::WorkServerRequestFactory(RouteMap * routeMap,
 
 Poco::Net::HTTPRequestHandler* WorkServerRequestFactory::createRequestHandler(
     const Poco::Net::HTTPServerRequest& request)
-{    
-    auto uri = request.getURI();
+{   
+    auto uri = Poco::URI(request.getURI());
     auto method = request.getMethod();
     auto context = _RouteMap->GetWorkContext(uri, method);
     if (!context) {

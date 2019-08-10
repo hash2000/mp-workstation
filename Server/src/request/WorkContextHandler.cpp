@@ -37,13 +37,8 @@ void WorkContextHandler::handleRequest(
         auto &responseStream = response.send();
 
         if (_Context->_Controller) {
-            Poco::JSON::Parser parser;
-            std::istringstream istr;
-            request.read(istr);
-            Poco::Dynamic::Var arguments = parser.parse(istr);
-            response.setContentType("application/json");
             auto result = _Context->_Controller->HandleRequest(_DbManager,
-                arguments);
+                _Context->_RequestParameters);
 
             if (!result.isNull()) {                
                 Poco::JSON::Stringifier::stringify(result,

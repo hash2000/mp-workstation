@@ -38,20 +38,20 @@ void RouteMap::Initialize()
 }
 
 void RouteMap::RegisterRoute(
-    const std::string & uri, 
+    const std::string & path, 
     const std::string & method, 
     IBaseController * controller) 
 {
     Poco::Mutex::ScopedLock lockScope(_RoutesLock);
-    RegisterRouteUnsafe(uri, method, controller);
+    RegisterRouteUnsafe(path, method, controller);
 }
 
 void RouteMap::RegisterRouteUnsafe(
-    const std::string & uri, 
+    const std::string & path, 
     const std::string & method, 
     IBaseController * controller)
 {
-    std::string route = method + ":" + uri; 
+    std::string route = method + ":" + path; 
 
     auto & app = Poco::Util::Application::instance();
     auto found = _Routes.find(route);
@@ -71,7 +71,7 @@ void RouteMap::RegisterRouteUnsafe(
 
 
 WorkContext * RouteMap::GetWorkContext(
-    const std::string & uri,
+    const Poco::URI & uri,
     const std::string & method)
 {
     Poco::Mutex::ScopedLock lockScope(_RoutesLock);
@@ -81,15 +81,15 @@ WorkContext * RouteMap::GetWorkContext(
     //  при повторном использовании должен быть увеличен на единицу.
     // Это нужно сделать внутри критической секции, а уменьшение счётчика,
     //  можно вызвать за вне критической секции
-    
+    std::string path = uri.getPath();
     std::string route = method + ":";
     std::string routeUri;
 
-    if (uri.empty() || uri == "/") {
+    if (path.empty() || path == "/") {
         routeUri = _DefaultRoute; 
     }
     else {
-        routeUri = uri;
+        routeUri = path;
     }
 
     route += routeUri;
@@ -175,6 +175,8 @@ WorkContext * RouteMap::GetWorkContext(
     context->_Layout = nullptr;
     context->_Controller = nullptr;
     context->_UseCount = 1;
+
+    
 
     if (isAreaView) {
         // если isAreaView, значит это шаблон контента, который встаивается в Layout

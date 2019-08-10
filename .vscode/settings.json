@@ -50,7 +50,16 @@
         "typeinfo": "cpp",
         "utility": "cpp",
         "cinttypes": "cpp",
-        "shared_mutex": "cpp"
+        "shared_mutex": "cpp",
+        "algorithm": "cpp",
+        "iterator": "cpp",
+        "map": "cpp",
+        "memory_resource": "cpp",
+        "numeric": "cpp",
+        "random": "cpp",
+        "set": "cpp",
+        "string": "cpp",
+        "cfenv": "cpp"
     },
     "C_Cpp.configurationWarnings": "Disabled",
     "C_Cpp.errorSquiggles": "Disabled",

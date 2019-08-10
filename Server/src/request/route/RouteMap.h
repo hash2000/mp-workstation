@@ -2,6 +2,7 @@
 #define __RouteMap_H__
 
 #include <Poco/Mutex.h>
+#include <Poco/URI.h>
 #include <Poco/Util/PropertyFileConfiguration.h>
 
 #include <string>
@@ -19,17 +20,17 @@ public:
     void Initialize();
 
     WorkContext * GetWorkContext(
-        const std::string & uri, 
+        const Poco::URI & uri, 
         const std::string & method);     
 
     void RegisterRoute(
-        const std::string & uri, 
+        const std::string & path, 
         const std::string & method, 
         IBaseController * controller);
 
 private:
     void RegisterRouteUnsafe(
-        const std::string & uri, 
+        const std::string & path, 
         const std::string & method, 
         IBaseController * controller);
 
