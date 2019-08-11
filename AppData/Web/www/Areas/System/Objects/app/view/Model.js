@@ -6,6 +6,20 @@ Ext.define('SystemObjects.view.Model', {
         'SystemCommon.model.Object'
     ],
 
+    data: {
+        // Для копирования
+        ItemCopy: null
+    },
+
+    formulas: {
+        Item: {
+            bind: '{ObjectsTree.selection}',
+            get: function (value) {
+                return value;
+            }
+        }
+    },
+
     stores: {
         
         Objects: {
