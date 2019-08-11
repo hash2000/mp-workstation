@@ -161,6 +161,9 @@ void SystemObjectsModel::GetNode(std::list<std::shared_ptr<SystemObject>> & resu
         std::size_t id)
 {
     auto index = _IX_ParentId.find(id);    
+    if (index == _IX_ParentId.end())
+        return;
+
     for (auto 
         begin = index->second.begin(), end = index->second.end();
         begin != end; begin ++) {

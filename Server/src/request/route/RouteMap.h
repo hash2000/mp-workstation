@@ -34,7 +34,9 @@ private:
         const std::string & method, 
         IBaseController * controller);
 
-
+    void ReadRequestParameters(
+        WorkContext * context,
+        const Poco::Net::HTTPServerRequest & request);
 private:
     Poco::Mutex _RoutesLock;
     LayoutTemplate _LayoutTemplates;

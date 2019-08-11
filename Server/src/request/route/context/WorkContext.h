@@ -7,7 +7,7 @@
 #include <Poco/Path.h>
 #include <Poco/LocalDateTime.h>
 #include <Poco/File.h>
-#include <Poco/Dynamic/Var.h>
+#include <Poco/JSON/Object.h>
 
 #include <functional>
 #include <string>
@@ -52,7 +52,7 @@ public:
     Poco::Path _Path;
 
     // Параметры клиентского запроса 
-    Poco::Dynamic::Var _RequestParameters;
+    Poco::JSON::Object _RequestParameters;
 };
 
 

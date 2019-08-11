@@ -69,6 +69,36 @@ void RouteMap::RegisterRouteUnsafe(
     _Routes[route] = context;
 }
 
+void RouteMap::ReadRequestParameters(
+        WorkContext * context,
+        const Poco::Net::HTTPServerRequest & request)
+{
+    context->_RequestParameters.clear();
+    if (request.getMethod() == Poco::Net::HTTPRequest::HTTP_GET) {
+        Poco::URI uri(request.getURI());
+        auto requestQuery = uri.getQuery();
+        
+        // Обработка запроса
+        Poco::StringTokenizer paramTokens(requestQuery, "&");
+        for (auto paramIt = paramTokens.begin(), paramEnd = paramTokens.end();
+            paramIt != paramEnd; paramIt ++) 
+        {
+            Poco::StringTokenizer keyValueTokens(*paramIt, "=");
+            if (keyValueTokens.count() != 2) {            
+                continue;
+            }
+            
+            auto key = keyValueTokens[0];
+            auto value = keyValueTokens[1];
+            context->_RequestParameters.set(key, value);
+        }
+
+    }
+    else {
+        
+    }   
+
+}
 
 WorkContext * RouteMap::GetWorkContext(
     const Poco::Net::HTTPServerRequest& request)
@@ -99,6 +129,9 @@ WorkContext * RouteMap::GetWorkContext(
 
     auto routeIterator = _Routes.find(route);
     if (routeIterator != _Routes.end()) {
+
+        ReadRequestParameters(routeIterator->second, request);
+
         // если это предварительно зарегистрированный котроллер,
         //  тогда нужно сразу вернуть этот контекст
         if (routeIterator->second->_Controller) {
@@ -177,8 +210,7 @@ WorkContext * RouteMap::GetWorkContext(
     context->_Controller = nullptr;
     context->_UseCount = 1;
 
-    // чтение параметров запроса
-    // context->_RequestParameters = 
+    ReadRequestParameters(context, request);
 
     if (isAreaView) {
         // если isAreaView, значит это шаблон контента, который встаивается в Layout
