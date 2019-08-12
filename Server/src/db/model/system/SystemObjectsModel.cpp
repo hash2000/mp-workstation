@@ -50,6 +50,7 @@ void SystemObjectsModel::DeleteIndexFrom_IX_ParentId(
 std::shared_ptr<SystemObject> SystemObjectsModel::Add(std::size_t parentId, SystemObjectType type, 
         const std::string & name)
 {
+    Poco::Timestamp now;
     auto id = _identity.fetch_add(1);
     auto dataSize = sizeof(SystemObjectData) + name.length();
     std::string value;
@@ -59,6 +60,7 @@ std::shared_ptr<SystemObject> SystemObjectsModel::Add(std::size_t parentId, Syst
     data->ParentId = parentId;
     data->Type = type;
     data->NameLength = (int)name.length();
+    data->ModifiedDate = now;
     auto nameBuffer = dataBuffer + sizeof(SystemObjectData);
     std::copy(name.begin(), name.end(), nameBuffer);
 
@@ -85,7 +87,7 @@ std::shared_ptr<SystemObject> SystemObjectsModel::Update(std::size_t id, std::si
     if (!status.ok())
         return std::shared_ptr<SystemObject>();
 
-
+    Poco::Timestamp now;
     // обновление информации об элементе
     auto dataSize = sizeof(SystemObjectData) + name.length();
     value.resize(dataSize);
@@ -95,6 +97,7 @@ std::shared_ptr<SystemObject> SystemObjectsModel::Update(std::size_t id, std::si
     data->ParentId = parentId;
     data->Type = type;
     data->NameLength = (int)name.length();
+    data->ModifiedDate = now;
     auto nameBuffer = dataBuffer + sizeof(SystemObjectData);
     std::copy(name.begin(), name.end(), nameBuffer);    
 

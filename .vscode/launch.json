@@ -1,6 +1,7 @@
 {
     "version": "0.2.0",
     "configurations": [
+    
         {
             "name": "Navigator Debug (gdb)",
             "type": "cppdbg",
@@ -31,7 +32,7 @@
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/AppData",
             "environment": [],
-            "externalConsole": true,
+            "externalConsole": false,
             "MIMode": "gdb",
             "miDebuggerPath": "/usr/bin/gdb",
             "setupCommands": [

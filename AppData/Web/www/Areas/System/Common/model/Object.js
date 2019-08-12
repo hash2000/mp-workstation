@@ -6,7 +6,11 @@ Ext.define('SystemCommon.model.Object', {
     fields: [
         'Name',
         'TypeId',
-        'TypeName'
+        'TypeName', {
+            name: 'ModifiedDate',
+            type: 'date',
+            dateFormat: 'c'
+        }
     ],
 
     proxy: {

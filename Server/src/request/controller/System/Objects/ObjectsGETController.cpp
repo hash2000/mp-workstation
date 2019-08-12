@@ -45,6 +45,7 @@ Poco::JSON::Object::Ptr ObjectsGETController::HandleRequest(DatabaseManager* db,
         ds["Name"] = model->Name;
         ds["TypeId"] = model->Type;
         ds["TypeName"] = model->TypeName;
+        ds["ModifiedDate"] = model->ModifiedDate;
 
         items->add(ds);
     }

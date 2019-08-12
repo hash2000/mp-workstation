@@ -13,6 +13,7 @@
 
 #include "../controller/Admin/UserGETController.h"
 #include "../controller/System/Objects/ObjectsGETController.h"
+#include "../controller/System/Objects/ObjectsPOSTController.h"
 
 #include <list>
 #include <string>
@@ -33,6 +34,8 @@ void RouteMap::Initialize()
 
     RegisterRouteUnsafe("/System/Objects/Get", 
         Poco::Net::HTTPRequest::HTTP_GET, new ObjectsGETController);
+    RegisterRouteUnsafe("/System/Objects/Add", 
+        Poco::Net::HTTPRequest::HTTP_POST, new ObjectsPOSTController);
 
     _LayoutTemplates.Initialize();
 }
@@ -95,7 +98,7 @@ void RouteMap::ReadRequestParameters(
 
     }
     else {
-        
+        //request.
     }   
 
 }

@@ -1,6 +1,8 @@
 #ifndef __SystemObjects_H__
 #define __SystemObjects_H__
 
+#include <Poco/Timestamp.h>
+
 #include <string>
 
 enum class SystemObjectType : int
@@ -16,6 +18,7 @@ struct SystemObjectData
     int ParentId;
     SystemObjectType Type;
     int NameLength;
+    Poco::Timestamp ModifiedDate;
 };
 
 class SystemObject : public SystemObjectData
@@ -33,6 +36,7 @@ public:
         ParentId = value->ParentId;
         Type = value->Type;
         NameLength = value->NameLength;
+        ModifiedDate = value->ModifiedDate;
         ReadTypeName(value);
         ReadKeyName(value);
     }
