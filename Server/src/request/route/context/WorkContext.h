@@ -52,7 +52,7 @@ public:
     Poco::Path _Path;
 
     // Параметры клиентского запроса 
-    Poco::JSON::Object _RequestParameters;
+    Poco::JSON::Object::Ptr _RequestParameters;
 };
 
 

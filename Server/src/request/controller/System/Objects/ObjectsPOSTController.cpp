@@ -13,11 +13,11 @@ Poco::JSON::Object::Ptr ObjectsPOSTController::HandleRequest(DatabaseManager* db
 {
     Poco::JSON::Object::Ptr json = new Poco::JSON::Object();
 
-    if (arguments.type() != typeid(Poco::JSON::Object))
+    if (arguments.type() != typeid(Poco::JSON::Object::Ptr))
         return json;
     
     auto argumentsObject = arguments
-        .extract<Poco::JSON::Object>();
+        .extract<Poco::JSON::Object::Ptr>();
 
     
 

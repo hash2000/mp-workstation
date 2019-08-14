@@ -76,12 +76,16 @@ void RouteMap::ReadRequestParameters(
         WorkContext * context,
         Poco::Net::HTTPServerRequest & request)
 {
-    context->_RequestParameters.clear();
+    
+    context->_RequestParameters.reset();
+
     if (request.getMethod() == Poco::Net::HTTPRequest::HTTP_GET) {
         Poco::URI uri(request.getURI());
         auto requestQuery = uri.getQuery();
+
+        context->_RequestParameters.reset(new Poco::JSON::Object);
         
-        // Обработка запроса
+        // Обработка запроса        
         Poco::StringTokenizer paramTokens(requestQuery, "&");
         for (auto paramIt = paramTokens.begin(), paramEnd = paramTokens.end();
             paramIt != paramEnd; paramIt ++) 
@@ -93,14 +97,19 @@ void RouteMap::ReadRequestParameters(
             
             auto key = keyValueTokens[0];
             auto value = keyValueTokens[1];
-            context->_RequestParameters.set(key, value);
+            context->_RequestParameters->set(key, value);
         }
 
     }
     else {
-        
-        Poco::JSON::Parser pareser;
-        pareser.parse(request.stream());
+
+        if (request.getContentType() == "application/json") {
+            Poco::JSON::Parser pareser;
+            auto result = pareser.parse(request.stream());
+            if (result.type() == typeid(Poco::JSON::Object::Ptr)) {
+                context->_RequestParameters.reset(result.extract<Poco::JSON::Object::Ptr>());
+            }
+        }
     }   
 
 }

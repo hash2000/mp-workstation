@@ -13,15 +13,17 @@ Poco::JSON::Object::Ptr ObjectsGETController::HandleRequest(DatabaseManager* db,
 {
     Poco::JSON::Object::Ptr json = new Poco::JSON::Object();
 
-    if (arguments.type() != typeid(Poco::JSON::Object))
+    if (arguments.type() != typeid(Poco::JSON::Object::Ptr))
         return json;
     
     auto argumentsObject = arguments
-        .extract<Poco::JSON::Object>();
+        .extract<Poco::JSON::Object::Ptr>();
+    if (argumentsObject.isNull())
+        return json;
 
     std::size_t id = 0;
-    if (!argumentsObject.isNull("node")) {
-        auto idVar = argumentsObject.get("node");
+    if (!argumentsObject->isNull("node")) {
+        auto idVar = argumentsObject->get("node");
         if (!idVar.isEmpty() && idVar.type() == typeid(std::size_t)) {           
             id = idVar;
         }
