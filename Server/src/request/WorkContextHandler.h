@@ -3,6 +3,7 @@
 
 #include <Poco/Net/HTTPRequestHandler.h>
 
+class RouteMap;
 class WorkContext;
 class DatabaseManager;
 
@@ -10,7 +11,7 @@ class DatabaseManager;
 class WorkContextHandler: public Poco::Net::HTTPRequestHandler
 {
 public:
-    WorkContextHandler(WorkContext * context,
+    WorkContextHandler(RouteMap * routeMap, 
         DatabaseManager * dbManager);
     virtual ~WorkContextHandler() ;
 
@@ -19,7 +20,8 @@ public:
         Poco::Net::HTTPServerResponse& response) override;
 
 protected:
-    WorkContext * _Context;
+    WorkContext * _Context = nullptr;
+    RouteMap * _RouteMap;
     DatabaseManager * _DbManager;
 };
 

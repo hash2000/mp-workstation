@@ -21,7 +21,7 @@ public:
     void Initialize();
 
     WorkContext * GetWorkContext(
-        const Poco::Net::HTTPServerRequest& request);     
+        Poco::Net::HTTPServerRequest& request);     
 
     void RegisterRoute(
         const std::string & path, 
@@ -36,7 +36,7 @@ private:
 
     void ReadRequestParameters(
         WorkContext * context,
-        const Poco::Net::HTTPServerRequest & request);
+        Poco::Net::HTTPServerRequest & request);
 private:
     Poco::Mutex _RoutesLock;
     LayoutTemplate _LayoutTemplates;

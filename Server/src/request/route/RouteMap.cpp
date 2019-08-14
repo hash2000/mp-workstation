@@ -74,7 +74,7 @@ void RouteMap::RegisterRouteUnsafe(
 
 void RouteMap::ReadRequestParameters(
         WorkContext * context,
-        const Poco::Net::HTTPServerRequest & request)
+        Poco::Net::HTTPServerRequest & request)
 {
     context->_RequestParameters.clear();
     if (request.getMethod() == Poco::Net::HTTPRequest::HTTP_GET) {
@@ -98,13 +98,15 @@ void RouteMap::ReadRequestParameters(
 
     }
     else {
-        //request.
+        
+        Poco::JSON::Parser pareser;
+        pareser.parse(request.stream());
     }   
 
 }
 
 WorkContext * RouteMap::GetWorkContext(
-    const Poco::Net::HTTPServerRequest& request)
+    Poco::Net::HTTPServerRequest& request)
 {
     Poco::Mutex::ScopedLock lockScope(_RoutesLock);
     RouteMapStatistic statistic;

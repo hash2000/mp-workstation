@@ -8,18 +8,21 @@
 #include <Poco/JSON/Parser.h>
 
 #include "WorkContextHandler.h"
-#include "route/context/WorkContext.h"
 
-WorkContextHandler::WorkContextHandler(WorkContext *context,
+#include "route/context/WorkContext.h"
+#include "route/RouteMap.h"
+
+
+WorkContextHandler::WorkContextHandler(RouteMap * routeMap,
         DatabaseManager * dbManager)
-    : _Context(context)
+    : _RouteMap(routeMap)
     , _DbManager(dbManager)
 {
 }
 
 WorkContextHandler::~WorkContextHandler()
 {
-    if (_Context->_UseCount > 0)
+    if (_Context && _Context->_UseCount > 0)
         _Context->_UseCount --;
 }
 
@@ -27,6 +30,12 @@ void WorkContextHandler::handleRequest(
     Poco::Net::HTTPServerRequest &request,
     Poco::Net::HTTPServerResponse &response)
 {
+
+    _Context = _RouteMap->GetWorkContext(request);
+    if (!_Context) {
+        return;
+    }
+  
     try {
 
         if (request.getChunkedTransferEncoding())
