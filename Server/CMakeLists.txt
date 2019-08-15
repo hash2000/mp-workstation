@@ -20,7 +20,8 @@ file(GLOB SOURCE_FILES
   ${PROJECT_SOURCE_DIR}/src/request/controller/*.cpp
   ${PROJECT_SOURCE_DIR}/src/request/controller/Admin/*.cpp
   ${PROJECT_SOURCE_DIR}/src/request/controller/System/Objects/*.cpp
-
+  ${PROJECT_SOURCE_DIR}/src/request/controller/System/ObjectTypes/*.cpp
+  
   ${PROJECT_SOURCE_DIR}/src/request/layout/*.cpp
   ${PROJECT_SOURCE_DIR}/src/request/layout/html/*.cpp
   ${PROJECT_SOURCE_DIR}/src/request/route/*.cpp

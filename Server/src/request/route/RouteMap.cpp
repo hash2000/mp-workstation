@@ -14,6 +14,7 @@
 #include "../controller/Admin/UserGETController.h"
 #include "../controller/System/Objects/ObjectsGETController.h"
 #include "../controller/System/Objects/ObjectsPOSTController.h"
+#include "../controller/System/ObjectTypes/ObjectTypesGETController.h"
 
 #include <list>
 #include <string>
@@ -31,6 +32,9 @@ void RouteMap::Initialize()
 
     RegisterRouteUnsafe("/Admin/Users/Get", 
         Poco::Net::HTTPRequest::HTTP_GET, new UserGETController);
+
+    RegisterRouteUnsafe("/System/ObjectTypes/Get", 
+        Poco::Net::HTTPRequest::HTTP_GET, new ObjectTypesGETController);
 
     RegisterRouteUnsafe("/System/Objects/Get", 
         Poco::Net::HTTPRequest::HTTP_GET, new ObjectsGETController);
@@ -87,9 +91,7 @@ void RouteMap::ReadRequestParameters(
         
         // Обработка запроса        
         Poco::StringTokenizer paramTokens(requestQuery, "&");
-        for (auto paramIt = paramTokens.begin(), paramEnd = paramTokens.end();
-            paramIt != paramEnd; paramIt ++) 
-        {
+        for (auto paramIt = paramTokens.begin(), paramEnd = paramTokens.end(); paramIt != paramEnd; paramIt ++) {
             Poco::StringTokenizer keyValueTokens(*paramIt, "=");
             if (keyValueTokens.count() != 2) {            
                 continue;
