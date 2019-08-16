@@ -75,12 +75,10 @@ Ext.define('SystemCommon.window.ObjectWindow', {
                     readOnly: '{itemIsReadOnly}'
                 }
             }, {
-                xtype: 'combo',
+                xtype: 'combobox',
                 fieldLabel: 'Тип',
                 displayField: 'Name',
                 valueField: 'Id',
-                minPickerHeight: 400,
-                pickerWidth: 600,
                 editable: false,
                 allowBlank: false,
                 bind: {

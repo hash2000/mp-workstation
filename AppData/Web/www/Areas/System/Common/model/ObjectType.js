@@ -2,7 +2,7 @@
     Описатель объекта
 */
 Ext.define('SystemCommon.model.ObjectType', {
-    extend: 'Ext.data.TreeModel',
+    extend: 'Ext.data.Model',
     idProperty: 'Id',
     fields: [
         'Name'
@@ -10,15 +10,8 @@ Ext.define('SystemCommon.model.ObjectType', {
 
     proxy: {
         type: 'defaultrest',
-
         api: {
             read: 'System/ObjectTypes/Get'
-        },
-
-        reader: {
-            type: 'json',
-            rootProperty: 'children',
-            messageProperty: 'message'
         }
     }
 });

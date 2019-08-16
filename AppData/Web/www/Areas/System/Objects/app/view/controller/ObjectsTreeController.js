@@ -39,6 +39,8 @@ Ext.define('SystemObjects.view.controller.ObjectsTreeController', {
 
         var newItem = new SystemCommon.model.Object({
             parentId: parent.get('id'),
+            // Тип по умолчанию - Directory
+            TypeId: 1,
             ViewOrder: 2147483647
         });
 
