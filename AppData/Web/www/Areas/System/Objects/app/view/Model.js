@@ -3,7 +3,8 @@ Ext.define('SystemObjects.view.Model', {
     alias: 'viewmodel.SystemObjectsModel',
 
     requires: [
-        'SystemCommon.model.Object'
+        'SystemCommon.model.Object',
+        'SystemCommon.model.ObjectType'
     ],
 
     data: {
@@ -22,7 +23,7 @@ Ext.define('SystemObjects.view.Model', {
 
     stores: {
         
-        Objects: {
+        Items: {
             type: 'tree',
             model: 'SystemCommon.model.Object',
             autoLoad: false,
@@ -37,7 +38,6 @@ Ext.define('SystemObjects.view.Model', {
                 Name: 'Все Объекты',
                 expanded: true
             }
-
         }
 
     }

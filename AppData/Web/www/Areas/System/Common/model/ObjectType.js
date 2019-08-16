@@ -3,6 +3,7 @@
 */
 Ext.define('SystemCommon.model.ObjectType', {
     extend: 'Ext.data.TreeModel',
+    idProperty: 'Id',
     fields: [
         'Name'
     ],

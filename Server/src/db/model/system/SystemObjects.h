@@ -7,7 +7,7 @@
 
 enum class SystemObjectType : int
 {
-    Directory = 0,
+    Directory = 1,
     Dimension,
     DimensionAttribute,
 };

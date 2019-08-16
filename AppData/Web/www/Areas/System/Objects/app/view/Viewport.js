@@ -77,7 +77,7 @@ Ext.define('SystemObjects.view.Viewport', {
         xtype: 'ObjectsTree',
         reference: 'ObjectsTree',
         bind: {
-            store: '{Objects}'
+            store: '{Items}'
         },
         title: 'Объекты',
         region: 'center',

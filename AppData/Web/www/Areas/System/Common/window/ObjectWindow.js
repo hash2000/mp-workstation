@@ -8,6 +8,10 @@ Ext.define('SystemCommon.window.ObjectWindow', {
     layout: 'fit',
     defaultListenerScope: true,
 
+    requires: [
+        'SystemCommon.model.ObjectType'
+    ],
+
     config: {
         item: null,
         itemIsReadOnly: false
@@ -18,7 +22,20 @@ Ext.define('SystemCommon.window.ObjectWindow', {
         'itemIsReadOnly'
     ],
 
-    viewModel: true,
+    viewModel: {
+        stores: {
+            ObjectTypes: {
+                model: 'SystemCommon.model.ObjectType',
+                autoLoad: true,
+                autoSync: false,
+                remoteFilter: false,
+                sorters: [{
+                    property: 'Name',
+                    direction: 'ASC'
+                }]
+            }
+        }
+    },
 
     items: [{
         xtype: 'form',
@@ -55,6 +72,20 @@ Ext.define('SystemCommon.window.ObjectWindow', {
                 fieldLabel: 'Описание',
                 bind: {
                     value: '{item.Description}',
+                    readOnly: '{itemIsReadOnly}'
+                }
+            }, {
+                xtype: 'combo',
+                fieldLabel: 'Тип',
+                displayField: 'Name',
+                valueField: 'Id',
+                minPickerHeight: 400,
+                pickerWidth: 600,
+                editable: false,
+                allowBlank: false,
+                bind: {
+                    value: '{item.TypeId}',
+                    store: '{ObjectTypes}',
                     readOnly: '{itemIsReadOnly}'
                 }
             }, {

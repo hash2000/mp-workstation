@@ -16,41 +16,29 @@ Poco::JSON::Object::Ptr ObjectTypesGETController::HandleRequest(DatabaseManager*
     if (arguments.type() != typeid(Poco::JSON::Object::Ptr))
         return json;
     
-    auto argumentsObject = arguments
-        .extract<Poco::JSON::Object::Ptr>();
-    if (argumentsObject.isNull())
-        return json;
-
-    std::size_t id = 0;
-    if (!argumentsObject->isNull("node")) {
-        auto idVar = argumentsObject->get("node");
-        if (!idVar.isEmpty() && idVar.type() == typeid(std::size_t)) {           
-            id = idVar;
-        }
-    }
-
     json->set("total", 0);
     json->set("success", true);    
 
     if (_Items->size() == 0) {
         _Items->add(Poco::DynamicStruct( {
-                { "id", SystemObjectType::Directory },
+                { "Id", (int)SystemObjectType::Directory },
                 { "Name", "Directory" }
             })
         );
         _Items->add(Poco::DynamicStruct( {
-                { "id", SystemObjectType::Dimension },
+                { "Id", (int)SystemObjectType::Dimension },
                 { "Name", "Dimension" }
             })
         );
         _Items->add(Poco::DynamicStruct( {
-                { "id", SystemObjectType::DimensionAttribute },
+                { "Id", (int)SystemObjectType::DimensionAttribute },
                 { "Name", "DimensionAttribute" }
             })
         );
     }
 
     json->set("items", _Items);
+    json->set("total", _Items->size());
 
     return json;
 }
