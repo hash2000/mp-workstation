@@ -1,5 +1,5 @@
 #include <stdafx.h>
-#include "ObjectTypesGETController.h"
+#include "ObjectTypesGetController.h"
 
 #include "../../../../db/manager/DatabaseManager.h"
 #include "../../../../db/model/system/SystemObjects.h"
@@ -8,7 +8,7 @@
 
 #include <list>
 
-Poco::JSON::Object::Ptr ObjectTypesGETController::HandleRequest(DatabaseManager* db,
+Poco::JSON::Object::Ptr ObjectTypesGetController::HandleRequest(DatabaseManager* db,
         Poco::Dynamic::Var arguments)
 {
     Poco::JSON::Object::Ptr json = new Poco::JSON::Object();

@@ -12,9 +12,9 @@
 #include "RouteMapStatistic.h"
 
 #include "../controller/Admin/UserGETController.h"
-#include "../controller/System/Objects/ObjectsGETController.h"
-#include "../controller/System/Objects/ObjectsPOSTController.h"
-#include "../controller/System/ObjectTypes/ObjectTypesGETController.h"
+#include "../controller/System/Objects/ObjectsGetController.h"
+#include "../controller/System/Objects/ObjectsAddController.h"
+#include "../controller/System/ObjectTypes/ObjectTypesGetController.h"
 
 #include <list>
 #include <string>
@@ -34,12 +34,12 @@ void RouteMap::Initialize()
         Poco::Net::HTTPRequest::HTTP_GET, new UserGETController);
 
     RegisterRouteUnsafe("/System/ObjectTypes/Get", 
-        Poco::Net::HTTPRequest::HTTP_GET, new ObjectTypesGETController);
+        Poco::Net::HTTPRequest::HTTP_GET, new ObjectTypesGetController);
 
     RegisterRouteUnsafe("/System/Objects/Get", 
-        Poco::Net::HTTPRequest::HTTP_GET, new ObjectsGETController);
+        Poco::Net::HTTPRequest::HTTP_GET, new ObjectsGetController);
     RegisterRouteUnsafe("/System/Objects/Add", 
-        Poco::Net::HTTPRequest::HTTP_POST, new ObjectsPOSTController);
+        Poco::Net::HTTPRequest::HTTP_POST, new ObjectsAddController);
 
     _LayoutTemplates.Initialize();
 }

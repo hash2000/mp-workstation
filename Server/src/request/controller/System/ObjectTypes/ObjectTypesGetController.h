@@ -1,9 +1,9 @@
-#ifndef __ObjectTypesGETController_H__
-#define __ObjectTypesGETController_H__
+#ifndef __ObjectTypesGetController_H__
+#define __ObjectTypesGetController_H__
 
 #include "../../IBaseController.h"
 
-class ObjectTypesGETController : public IBaseController
+class ObjectTypesGetController : public IBaseController
 {
 public:
     Poco::JSON::Object::Ptr HandleRequest(DatabaseManager* db,
@@ -12,4 +12,4 @@ private:
     Poco::JSON::Array::Ptr _Items = new Poco::JSON::Array();
 };
 
-#endif // !__ObjectTypesGETController_H__
+#endif // !__ObjectTypesGetController_H__
