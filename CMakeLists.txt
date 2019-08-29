@@ -52,7 +52,7 @@ message("PostgreSQL Lib Dirs = " ${PostgreSQL_LIBRARY_DIRS})
 message("PostgreSQL Libs = " ${PostgreSQL_LIBRARIES})
 
 # Поиск библиотек wxWidgets
-find_package(wxWidgets REQUIRED net gl core base adv aui) 
+find_package(wxWidgets REQUIRED net gl core base adv aui xrc) 
 set(wxWidgets_CONFIG_OPTIONS --toolkit=gtk2 --version=3.0 --unicode=yes --static=no)
 message("wxWidgets Files = " ${wxWidgets_USE_FILE})
 message("wxWidgets Libs = " ${wxWidgets_LIBRARIES})

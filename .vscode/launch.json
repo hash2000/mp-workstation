@@ -10,9 +10,9 @@
             "preLaunchTask": "Build C++ project",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/AppData",
+            "cwd": "${workspaceFolder}/AppData.Navigator",
             "environment": [],
-            "externalConsole": true,
+            "externalConsole": false,
             "MIMode": "gdb",
             "miDebuggerPath": "/usr/bin/gdb",
             "setupCommands": [

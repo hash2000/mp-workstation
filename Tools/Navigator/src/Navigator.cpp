@@ -3,6 +3,10 @@
 //#include "stdafx.h"
 #include <wx/cmdline.h>
 #include <wx/dir.h>
+#include <wx/fs_zip.h>
+#include <wx/fs_mem.h>
+
+
 
 #include "../images/ex_merge.pngc"
 #include "../images/box-open.pngc"
@@ -33,13 +37,7 @@ void mpNavigator::OnInitCmdLine(wxCmdLineParser& parser)
 
 bool mpNavigator::OnCmdLineParsed(wxCmdLineParser& parser)
 {
-	for (int i = 0, __end = parser.GetParamCount(); i < __end; i++) {
-		auto param = parser.GetParam(i);
-        if(param == wxT("ContentPath")) {
-            _ContentPath = param;
-            _ContentPath.Normalize();
-        }
-	}
+	
 
 	// auto arguments = parser.GetArguments();
 	// for (auto i = arguments.begin(), __end = arguments.end(); i != __end; i++) {
@@ -85,10 +83,19 @@ static void TestDllListLoaded()
 
 bool mpNavigator::OnInit()
 {
-	::wxInitAllImageHandlers();
+
 
 	wxLog *seLog = new wxLogStderr();
 	wxLog::SetActiveTarget(seLog);
+
+
+    wxFileSystem::AddHandler(new wxZipFSHandler);
+    wxFileSystem::AddHandler(new wxMemoryFSHandler);
+    // wxXmlResource::Get()->InsertHandler(new wxToolBarAddOnXmlHandler);
+    // wxXmlResource::Get()->InsertHandler(new wxScrollingDialogXmlHandler);
+    wxInitAllImageHandlers();
+    wxXmlResource::Get()->InitAllHandlers();
+
 
 	if (!wxApp::OnInit())
 		return false;
@@ -130,11 +137,9 @@ bool mpNavigator::OnInit()
 		msgAppContentPath;
 
 	msgAppVersion << wxT("# ") << APP_NAME << wxT(" Version ") << APP_VERSION_STRING << wxT(" Startup");
-	msgAppContentPath << wxT("# Content path: ") << _ContentPath.GetLongPath();
 
 	wxLogInfo(wxT("####"));
 	wxLogInfo(wxT("%s"), msgAppVersion.c_str());
-	wxLogInfo(wxT("%s"), msgAppContentPath.c_str());
 	wxLogInfo(wxT("####"));
 
 #ifdef _DEBUG

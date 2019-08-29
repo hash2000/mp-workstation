@@ -28,7 +28,7 @@ private:
 
 private:
 	wxNotebook * _Notebook;
-	std::list<std::auto_ptr<BaseLogView>> _Views;
+	std::list<std::shared_ptr<BaseLogView>> _Views;
 	BaseLogView * _ViewInfo = nullptr;
 };
 

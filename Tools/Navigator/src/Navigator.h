@@ -21,7 +21,6 @@ public:
 public:
 	MainFrm * _MainFrame = nullptr;
 	TaskbarManager * _TaskbarManager = nullptr;
-	wxFileName _ContentPath;
 };
 
 DECLARE_APP(mpNavigator)
