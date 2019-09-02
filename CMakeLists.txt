@@ -83,7 +83,8 @@ include_directories(
 )
 
 # Добавление конфигураций проектов
-
-add_subdirectory(Tools/Navigator)
 add_subdirectory(Server)
+add_subdirectory(Database)
+add_subdirectory(Tools/Navigator)
+add_subdirectory(Tools/DatabaseCmd)
 

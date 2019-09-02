@@ -1,6 +1,6 @@
 
 project(NavigatorServer)
-message("Generate project ${PROJECT_NAME}...")
+message("Generate project ${PROJECT_NAME} from ${PROJECT_SOURCE_DIR}...")
 
 include_directories(
   ${PROJECT_SOURCE_DIR}/include/
