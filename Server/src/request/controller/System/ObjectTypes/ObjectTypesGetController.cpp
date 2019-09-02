@@ -15,12 +15,9 @@ Poco::JSON::Object::Ptr ObjectTypesGetController::HandleRequest(DatabaseManager*
 
     if (arguments.type() != typeid(Poco::JSON::Object::Ptr))
         return json;
-    
-    json->set("total", 0);
-    json->set("success", true);    
 
     if (_Items->size() == 0) {
-        _Items->add(Poco::DynamicStruct( {
+        _Items->add(Poco::DynamicStruct({
                 { "Id", (int)SystemObjectType::Directory },
                 { "Name", "Directory" }
             })
@@ -39,6 +36,7 @@ Poco::JSON::Object::Ptr ObjectTypesGetController::HandleRequest(DatabaseManager*
 
     json->set("items", _Items);
     json->set("total", _Items->size());
+    json->set("success", true);    
 
     return json;
 }
