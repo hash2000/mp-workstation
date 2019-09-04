@@ -4,14 +4,14 @@ message("Generate project ${PROJECT_NAME} from ${PROJECT_SOURCE_DIR}...")
 
 include_directories(
   ${PROJECT_SOURCE_DIR}/include/
+  PRIVATE ${PROJECT_SOURCE_DIR}/../../Database/src/
   PRIVATE ${PostgreSQL_INCLUDE_DIRS}
   PRIVATE ${LevelDB_INCLUDE}
 )
- 
+
+
 file(GLOB SOURCE_FILES
   ${PROJECT_SOURCE_DIR}/src/DatabaseCmd.cpp
-
-
 
 )
 
@@ -31,6 +31,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
   OpenSSL::Crypto
   ${LevelDB_LIBRARY}
   snappy
+  mp::Database
 )
 
 message("Generate project ${PROJECT_NAME} Done")

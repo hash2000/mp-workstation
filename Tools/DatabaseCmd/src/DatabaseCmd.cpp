@@ -1,13 +1,14 @@
 #include <stdafx.h>
 #include "DatabaseCmd.h"
 
+#include <Database.h>
 
-#include "Poco/Util/Application.h"
-#include "Poco/Util/Option.h"
-#include "Poco/Util/OptionSet.h"
-#include "Poco/Util/HelpFormatter.h"
-#include "Poco/Util/AbstractConfiguration.h"
-#include "Poco/AutoPtr.h"
+#include <Poco/Util/Application.h>
+#include <Poco/Util/Option.h>
+#include <Poco/Util/OptionSet.h>
+#include <Poco/Util/HelpFormatter.h>
+#include <Poco/Util/AbstractConfiguration.h>
+#include <Poco/AutoPtr.h>
 #include <iostream>
 #include <sstream>
 
@@ -23,6 +24,9 @@ using Poco::AutoPtr;
 
 class DatbaseCmdApp: public Application
 {
+private:
+
+
 public:
 	DatbaseCmdApp()
         : _helpRequested(false)
@@ -125,23 +129,23 @@ protected:
 
 	int main(const ArgVec& args)
 	{
-		if (!_helpRequested)
-		{
-			logger().information("Command line:");
-			std::ostringstream ostr;
-			for (ArgVec::const_iterator it = argv().begin(); it != argv().end(); ++it)
-			{
-				ostr << *it << ' ';
-			}
-			logger().information(ostr.str());
-			logger().information("Arguments to main():");
-			for (ArgVec::const_iterator it = args.begin(); it != args.end(); ++it)
-			{
-				logger().information(*it);
-			}
-			logger().information("Application properties:");
-			printProperties("");
-		}
+		// if (!_helpRequested)
+		// {
+		// 	logger().information("Command line:");
+		// 	std::ostringstream ostr;
+		// 	for (ArgVec::const_iterator it = argv().begin(); it != argv().end(); ++it)
+		// 	{
+		// 		ostr << *it << ' ';
+		// 	}
+		// 	logger().information(ostr.str());
+		// 	logger().information("Arguments to main():");
+		// 	for (ArgVec::const_iterator it = args.begin(); it != args.end(); ++it)
+		// 	{
+		// 		logger().information(*it);
+		// 	}
+		// 	logger().information("Application properties:");
+		// 	printProperties("");
+		// }
 		return Application::EXIT_OK;
 	}
 	
